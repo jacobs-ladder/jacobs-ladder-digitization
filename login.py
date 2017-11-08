@@ -10,6 +10,8 @@ app.config.update(
     SECRET_KEY = 'secret_xxx'
 )
 
+app.view_functions['static'] = login_required(app.send_static_file)
+
 # flask-login
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -19,34 +21,30 @@ login_manager.login_view = "login"
 # silly user model
 class User(UserMixin):
 
-    def __init__(self, id):
+    def __init__(self, id, name):
         self.id = id
-        self.name = "user" + str(id)
+        self.name = name
         
     def __repr__(self):
         return "%d/%s/%s" % (self.id, self.name)
-
-
-# create some users with ids 1 to 20       
-users = [User(id) for id in range(1, 21)]
 
 
 # some protected url
 @app.route('/')
 @login_required
 def home():
-    return Response("Hello World!")
-
+    return app.send_static_file('index.html')
  
 # somewhere to login
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == 'POST':
         username = request.form['username']
-        password = request.form['password']        
+        password = request.form['password']    
+        # TODO Check the database for real login    
         if password == username + "_secret":
             id = username.split('user')[1]
-            user = User(id)
+            user = load_user(id)
             login_user(user)
             return redirect(request.args.get("next"))
         else:
@@ -72,7 +70,8 @@ def page_not_found(e):
 # callback to reload the user object        
 @login_manager.user_loader
 def load_user(userid):
-    return User(userid)
+    #TODO Return user object from user id #
+    return User(userid, 'user' + str(userid))
     
 
 if __name__ == "__main__":
