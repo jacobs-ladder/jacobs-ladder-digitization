@@ -1,0 +1,31 @@
+INSERT INTO tb_entity
+(
+    username,
+    password,
+    first_name,
+    last_name,
+    email_address
+)
+VALUES
+(
+    'nathan',
+    'password',
+    'nathan',
+    'weiskirch',
+    'nathan@nathan.com'
+),
+(
+    'eleanor',
+    'password',
+    'eleanor',
+    'eason',
+    'eleanor@eleanor.com'
+),
+(
+    'dacorvyn',
+    'password',
+    'dacorvyn',
+    'young',
+    'dacorvyn@dacorvyn.com'
+);
+
