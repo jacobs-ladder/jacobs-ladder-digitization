@@ -1,13 +1,12 @@
 from flask import Flask, Response, redirect, url_for, request, session, abort
-from flask.ext.login import LoginManager, UserMixin, \
+from flask_login import LoginManager, UserMixin, \
                                 login_required, login_user, logout_user 
 
 app = Flask(__name__)
 
 # config
 app.config.update(
-    DEBUG = True,
-    SECRET_KEY = 'secret_xxx'
+    SECRET_KEY = 'ef9936ee-6454-4ca7-bcd0-15b079140840'
 )
 
 app.view_functions['static'] = login_required(app.send_static_file)
@@ -29,11 +28,10 @@ class User(UserMixin):
         return "%d/%s/%s" % (self.id, self.name)
 
 
-# some protected url
 @app.route('/')
 @login_required
 def home():
-    return app.send_static_file('index.html')
+   return app.send_static_file('index.html')
  
 # somewhere to login
 @app.route("/login", methods=["GET", "POST"])
