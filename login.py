@@ -1,4 +1,4 @@
-from flask import Flask, Response, redirect, url_for, request, session, abort
+from flask import Flask, Response, redirect, url_for, request, session, abort, send_from_directory
 from flask_login import LoginManager, UserMixin, \
                                 login_required, login_user, logout_user 
 
@@ -32,6 +32,11 @@ class User(UserMixin):
 @login_required
 def home():
    return app.send_static_file('index.html')
+
+@app.route('/js/<path:path>')
+@login_required
+def send_js(path):
+    return send_from_directory('js', path)
  
 # somewhere to login
 @app.route("/login", methods=["GET", "POST"])
