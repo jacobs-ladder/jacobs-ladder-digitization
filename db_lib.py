@@ -6,7 +6,10 @@ import psycopg2
 def authenticate(username, password):
     return True # TODO temp
 
-def get_user(user_id):
+def get_user_by_id(user_id):
+    pass # TODO temp
+
+def get_user_by_username(username):
     pass # TODO temp
 
 def get_user_id(username):
