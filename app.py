@@ -1,5 +1,5 @@
 from flask import Flask, Response, redirect, url_for, request, session, abort, send_from_directory
-from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user 
+from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user
 import db_lib
 
 app = Flask(__name__)
@@ -23,7 +23,7 @@ class User(UserMixin):
     def __init__(self, id, name):
         self.id = id
         self.name = name
-        
+
     def __repr__(self):
         return "%d/%s/%s" % (self.id, self.name)
 
@@ -37,14 +37,14 @@ def home():
 @login_required
 def send_js(path):
     return send_from_directory('js', path)
- 
+
 # somewhere to login
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == 'POST':
         username = request.form['username']
-        password = request.form['password']    
-        # TODO Check the database for real login    
+        password = request.form['password']
+        # TODO Check the database for real login
         if db_lib.authenticate(username, password):
             id = db_lib.get_user_id(username)
             user = load_user(id)
@@ -68,14 +68,14 @@ def logout():
 @app.errorhandler(401)
 def page_not_found(e):
     return Response('<p>Login failed</p>')
-    
-    
-# callback to reload the user object        
+
+
+# callback to reload the user object
 @login_manager.user_loader
 def load_user(userid):
     #TODO Return user object from user id #
     return User(userid, 'user' + str(userid))
-    
+
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0')
