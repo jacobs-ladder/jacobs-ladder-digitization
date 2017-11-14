@@ -29,9 +29,6 @@ done < $order_of_alters_full_file_name
 
 # check for errors when applying the alters
 
-# TODO testing
-cat $temp_database_alters_output_full_file_name
-
 if grep -q ERROR $temp_database_alters_output_full_file_name
 then
 
