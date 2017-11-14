@@ -1,6 +1,6 @@
 from flask import Flask, Response, redirect, url_for, request, session, abort, send_from_directory
-from flask_login import LoginManager, UserMixin, \
-                                login_required, login_user, logout_user 
+from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user 
+import db_lib
 
 app = Flask(__name__)
 
@@ -45,8 +45,8 @@ def login():
         username = request.form['username']
         password = request.form['password']    
         # TODO Check the database for real login    
-        if password == username + "_secret":
-            id = username.split('user')[1]
+        if db_lib.authenticate(username, password):
+            id = db_lib.get_user_id(username)
             user = load_user(id)
             login_user(user)
             return redirect(request.args.get("next"))
