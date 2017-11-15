@@ -36,7 +36,15 @@ def home():
 @app.route('/js/<path:path>')
 @login_required
 def send_js(path):
+    if '..' in path:
+        return abort(401)
     return send_from_directory('js', path)
+
+@app.route('/css/<path:path>')
+def send_css(path):
+    if '..' in path:
+        return abort(401)
+    return send_from_directory('css', path)
 
 # somewhere to login
 @app.route("/login", methods=["GET", "POST"])
