@@ -45,12 +45,8 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        # TODO testing
-        print "username: %s, password: %s" % (username, password)
-
         # TODO Check the database for real login
         if db_lib.authenticate(username, password):
-            # TODO i dont think this works with the db
             id = db_lib.get_user_id(username)
             user = load_user(id)
             login_user(user)

@@ -37,12 +37,11 @@ def authenticate(username, password):
     query = '''
         SELECT e.entity
           FROM tb_entity e
-         WHERE e.username = %s
-           AND e.password = %s
+         WHERE e.username = %(username)s
+           AND e.password = %(password)s
     '''
 
-    # TODO find out if this protects from SQL injection or not
-    cursor.execute(query, (username, password))
+    cursor.execute(query, {"username":username, "password":password})
     rows = cursor.fetchall()
 
     if len(rows) > 1:
@@ -50,9 +49,29 @@ def authenticate(username, password):
 
     return len(rows) > 0
 
+
 def get_user(user_id):
     pass # TODO temp
     return user_name;
 
 def get_user_id(username):
-    return username.split('user')[1] # TODO temp
+
+    db_conn = get_db_connection()
+    cursor = db_conn.cursor()
+
+    query = '''
+        SELECT e.entity
+          FROM tb_entity e
+         WHERE e.username = %(username)s
+    '''
+
+    cursor.execute(query, {"username":username})
+    rows = cursor.fetchall()
+
+    if len(rows) > 1:
+        raise ValueError, "Usernames are not unique (this shouldn't be allowed by the schema)"
+
+    if len(rows) < 1:
+        raise ValueError, "User with that username does not exist: %s" % (username)
+
+    return rows[0][0]
