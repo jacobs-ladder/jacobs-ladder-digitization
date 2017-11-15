@@ -46,7 +46,7 @@ def login():
     print "got inside login method!"
 
     # TODO testing
-    db_conn = get_db_connection()
+    db_conn = db_lib.get_db_connection()
 
     if request.method == 'POST':
         username = request.form['username']

@@ -21,15 +21,19 @@ def get_db_connection():
         raise IOError, "Could not get the DATABASE_URL config variable"
 
     # parse the DATABASE_URL into the host, port, db_name, and db_user
-    # the url looks like this: postgres://db_username:db_host_name.com:port/name_of_db_itself
-    p = "^postgres://(.*):(.*):(\d*)/(.*)$"
-    db_user = re.match(p, db_url).group(1)
-    db_host = re.match(p, db_url).group(2)
-    db_port = re.match(p, db_url).group(3)
-    db_name = re.match(p, db_url).group(4)
+    # the url looks like this: postgres://db_username:db_password@db_host_name:port/name_of_db_itself
+    p = "^postgres://(.*):(.*)@(.*):(\d*)/(.*)$"
+    db_user     = re.match(p, db_url).group(1)
+    db_password = re.match(p, db_url).group(2)
+    db_host     = re.match(p, db_url).group(3)
+    db_port     = re.match(p, db_url).group(4)
+    db_name     = re.match(p, db_url).group(5)
+
+    # TODO testing
+    print "db_user: %s, db_password: %s, db_host: %s, db_port: %s, db_name: %s" % (db_user, db_password, db_host, db_port, db_name)
 
     # get the db_connection
-    return psycopg2.connect("dbname='%s' user='%s' host='%s' password='%s'" % (db_name, db_user, db_host, db_port))
+    return psycopg2.connect("dbname='%s' user='%s' host='%s' port='%s' password='%s'" % (db_name, db_user, db_host, db_port, db_password))
 
 
 #user_name, user_password
