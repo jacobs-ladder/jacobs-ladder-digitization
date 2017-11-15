@@ -75,7 +75,7 @@ def page_not_found(e):
 # callback to reload the user object
 @login_manager.user_loader
 def load_user(userid):
-    #TODO Return user object from user id #
+    # TODO Return user object from user id #
     return User(userid, 'user' + str(userid))
 
 
