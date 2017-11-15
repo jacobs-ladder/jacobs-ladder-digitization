@@ -1,9 +1,18 @@
+
+###################
+##### Imports #####
+###################
+
 import psycopg2
 import os
 import re
 
-#https://www.tutorialspoint.com/postgresql/postgresql_python.htm
 
+#####################################
+##### General Library Functions #####
+#####################################
+
+# returns a db_connection object using the DATABASE_URL config var
 def get_db_connection():
 
     # grab the DATABASE_URL config var
@@ -27,6 +36,11 @@ def get_db_connection():
     return psycopg2.connect("dbname='%s' user='%s' host='%s' port='%s' password='%s'" % (db_name, db_user, db_host, db_port, db_password))
 
 
+
+###########################
+##### Query Functions #####
+###########################
+
 # checks if this user exists and this is their password
 def authenticate(db_conn, username, password):
 
@@ -49,10 +63,7 @@ def authenticate(db_conn, username, password):
     return len(rows) > 0
 
 
-def get_user(user_id):
-    pass # TODO temp
-    return user_name;
-
+# returns the user_id of the user with the parameter username
 def get_user_id(db_conn, username):
 
     cursor = db_conn.cursor()
