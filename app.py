@@ -45,9 +45,10 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        # TODO Check the database for real login
-        if db_lib.authenticate(username, password):
-            id = db_lib.get_user_id(username)
+        db_conn = db_lib.get_db_connection()
+
+        if db_lib.authenticate(db_conn, username, password):
+            id = db_lib.get_user_id(db_conn, username)
             user = load_user(id)
             login_user(user)
             return redirect(request.args.get("next"))

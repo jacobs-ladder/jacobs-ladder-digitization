@@ -28,9 +28,8 @@ def get_db_connection():
 
 
 # checks if this user exists and this is their password
-def authenticate(username, password):
+def authenticate(db_conn, username, password):
 
-    db_conn = get_db_connection()
     cursor = db_conn.cursor()
 
     # TODO implement password hash rather than just direct comparison
@@ -54,9 +53,8 @@ def get_user(user_id):
     pass # TODO temp
     return user_name;
 
-def get_user_id(username):
+def get_user_id(db_conn, username):
 
-    db_conn = get_db_connection()
     cursor = db_conn.cursor()
 
     query = '''
