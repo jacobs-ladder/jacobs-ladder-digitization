@@ -6,14 +6,8 @@ import re
 
 def get_db_connection():
 
-    # TODO testing
-    print "got inside get_db_connection function!"
-
     # grab the DATABASE_URL config var
     db_url = os.environ.get('DATABASE_URL')
-
-    # TODO testing
-    print "db_url: %s" % db_url
 
     # make sure that we got the DATABASE_URL
     if db_url is None:
@@ -29,19 +23,32 @@ def get_db_connection():
     db_port     = re.match(p, db_url).group(4)
     db_name     = re.match(p, db_url).group(5)
 
-    # TODO testing
-    print "db_user: %s, db_password: %s, db_host: %s, db_port: %s, db_name: %s" % (db_user, db_password, db_host, db_port, db_name)
-
     # get the db_connection
     return psycopg2.connect("dbname='%s' user='%s' host='%s' port='%s' password='%s'" % (db_name, db_user, db_host, db_port, db_password))
 
 
-#user_name, user_password
+# checks if this user exists and this is their password
 def authenticate(username, password):
 
-    pass # TODO temp
+    db_conn = get_db_connection()
+    cursor = db_conn.cursor()
 
-    return user_name == username and user_password == password;
+    # TODO implement password hash rather than just direct comparison
+    query = '''
+        SELECT e.entity
+          FROM tb_entity e
+         WHERE e.username = %s
+           AND e.password = %s
+    '''
+
+    # TODO find out if this protects from SQL injection or not
+    cursor.execute(query, (username, password))
+    rows = cursor.fetchall()
+
+    if len(rows) > 1:
+        raise ValueError, "Usernames are not unique (this shouldn't be allowed by the schema)"
+
+    return len(rows) > 0
 
 def get_user(user_id):
     pass # TODO temp
