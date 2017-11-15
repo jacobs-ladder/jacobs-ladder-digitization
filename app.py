@@ -41,6 +41,10 @@ def send_js(path):
 # somewhere to login
 @app.route("/login", methods=["GET", "POST"])
 def login():
+
+    # TODO testing
+    db_conn = get_db_connection()
+
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
