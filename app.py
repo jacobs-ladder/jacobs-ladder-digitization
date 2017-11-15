@@ -43,6 +43,9 @@ def send_js(path):
 def login():
 
     # TODO testing
+    print "got inside login method!"
+
+    # TODO testing
     db_conn = get_db_connection()
 
     if request.method == 'POST':

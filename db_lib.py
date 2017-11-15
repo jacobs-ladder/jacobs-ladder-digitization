@@ -6,8 +6,14 @@ import re
 
 def get_db_connection():
 
+    # TODO testing
+    print "got inside get_db_connection function!"
+
     # grab the DATABASE_URL config var
     db_url = os.environ.get('DATABASE_URL')
+
+    # TODO testing
+    print "db_url: %s" % db_url
 
     # make sure that we got the DATABASE_URL
     if db_url is None:
