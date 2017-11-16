@@ -4,6 +4,8 @@
 # AND IF THERE IS AN ERROR WHILE APPLYING ALTERS THEN THERE WILL BE
 # A FILE CALLED database_alters_output.txt WITH THE ERROR CODE OUTPUT
 
+# NOTE: this script needs to be executed from the webroot
+
 # This version of the script only works on the remote heroku database. It destroys the database before rebuilding so if alters fail to apply then the database will not work until you run this script without failures
 
 # drop the current schema
@@ -27,5 +29,5 @@ while read line; do
 done < $order_of_alters_full_file_name
 
 # repopulate data
-./repopulate_data_remote.sh
+./database_scripts/repopulate_data_remote.sh
 
