@@ -46,12 +46,8 @@ def authenticate(db_conn, username, password):
 
     cursor = db_conn.cursor()
 
-    # TODO implement password hash rather than just direct comparison
     query = '''
-        SELECT e.entity
-          FROM tb_entity e
-         WHERE e.username = %(username)s
-           AND e.password = %(password)s
+        SELECT fn_check_entity_password(%(username)s, %(password)s)
     '''
 
     cursor.execute(query, {"username":username, "password":password})
@@ -60,7 +56,7 @@ def authenticate(db_conn, username, password):
     if len(rows) > 1:
         raise ValueError, "Usernames are not unique (this shouldn't be allowed by the schema)"
 
-    return len(rows) > 0
+    return rows[0][0]
 
 
 # returns the user_id of the user with the parameter username
