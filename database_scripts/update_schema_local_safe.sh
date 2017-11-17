@@ -4,16 +4,14 @@
 # AND IF THERE IS AN ERROR WHILE APPLYING ALTERS THEN THERE WILL BE
 # A FILE CALLED database_alters_output.txt WITH THE ERROR CODE OUTPUT
 
-# TODO the way that this script updates the database should probably be
-# changed once we have the database hosted somewhere and we aren't running
-# 6 separate local instances
+# This version of the script only works on the local database and it doesnt change the database unless all the alters apply correctly
 
 # create temp database
 
 database_user="postgres"
 temp_database_name="jacobs_ladder_digitization_temp"
 
-psql -U $database_user -1 -c "CREATE DATABASE $temp_database_name" &> /dev/null
+psql -U $database_user -c "CREATE DATABASE $temp_database_name" &> /dev/null
 
 # fill temp database with new alters
 
@@ -48,14 +46,14 @@ else
 
     # drop original database
 
-    psql -U $database_user -1 -c "DROP DATABASE $original_database_name" &> /dev/null
+    psql -U $database_user -c "DROP DATABASE $original_database_name" &> /dev/null
 
     # rename temp to original name
 
-    psql -U $database_user -1 -c "ALTER DATABASE $temp_database_name RENAME TO $original_database_name" &> /dev/null
+    psql -U $database_user -c "ALTER DATABASE $temp_database_name RENAME TO $original_database_name" &> /dev/null
 
     # repopulate data
-    ./repopulate_data.sh
+    ./database_scripts/repopulate_data_local.sh
 
 fi
 

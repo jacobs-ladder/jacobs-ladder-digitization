@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# NOTE: this script needs to be executed from the webroot
+
 database_user="postgres"
 database_name="jacobs_ladder_digitization"
 

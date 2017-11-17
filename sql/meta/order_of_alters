@@ -1,1 +1,5 @@
 create_tb_entity.sql
+rename_password_column_to_password_hash.sql
+add_pgcrypto_extension.sql
+fn_create_entity.sql
+fn_check_entity_password.sql
