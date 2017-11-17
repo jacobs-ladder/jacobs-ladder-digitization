@@ -1,4 +1,5 @@
-CREATE OR REPLACE FUNCTION fn_create_entity(
+CREATE OR REPLACE FUNCTION fn_create_entity
+(
     my_username      VARCHAR,
     my_password      VARCHAR,
     my_first_name    VARCHAR,

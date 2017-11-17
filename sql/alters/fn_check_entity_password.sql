@@ -1,4 +1,5 @@
-CREATE OR REPLACE FUNCTION fn_check_entity_password(
+CREATE OR REPLACE FUNCTION fn_check_entity_password
+(
     my_username      VARCHAR,
     my_password      VARCHAR
 )
