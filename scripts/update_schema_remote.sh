@@ -29,5 +29,5 @@ while read line; do
 done < $order_of_alters_full_file_name
 
 # repopulate data
-./database_scripts/repopulate_data_remote.sh
+./scripts/repopulate_data_remote.sh
 

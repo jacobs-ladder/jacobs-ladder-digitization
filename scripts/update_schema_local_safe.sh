@@ -38,5 +38,5 @@ psql -U $database_user -c "DROP DATABASE $original_database_name" &> /dev/null
 psql -U $database_user -c "ALTER DATABASE $temp_database_name RENAME TO $original_database_name" &> /dev/null
 
 # repopulate data
-./database_scripts/repopulate_data_local.sh
+./scripts/repopulate_data_local.sh
 
