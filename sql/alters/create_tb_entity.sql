@@ -2,10 +2,10 @@ CREATE SEQUENCE sq_pk_entity;
 
 CREATE TABLE tb_entity
 (
-    entity        integer primary key default nextval('sq_pk_entity'),
-    username      varchar unique not null,
-    password      varchar not null,
-    first_name    varchar not null,
-    last_name     varchar not null,
-    email_address varchar not null
+    entity        INTEGER PRIMARY KEY DEFAULT nextval('sq_pk_entity'),
+    username      VARCHAR UNIQUE NOT NULL,
+    password      VARCHAR NOT NULL,
+    first_name    VARCHAR NOT NULL,
+    last_name     VARCHAR NOT NULL,
+    email_address VARCHAR NOT NULL
 );
