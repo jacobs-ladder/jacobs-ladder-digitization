@@ -37,13 +37,13 @@ def home():
 @login_required
 def send_js(path):
     if '..' in path:
-        return abort(401)
+        return abort(403)
     return send_from_directory('js', path)
 
 @app.route('/css/<path:path>')
 def send_css(path):
     if '..' in path:
-        return abort(401)
+        return abort(403)
     return send_from_directory('css', path)
 
 # somewhere to login
@@ -74,10 +74,17 @@ def logout():
     return Response('<p>Logged out</p>')
 
 
-# handle login failed
+@app.errorhandler(404)
+def not_found(e):
+    return Response('<p>Error 404: Page Not Found</p>')
+
 @app.errorhandler(401)
-def page_not_found(e):
-    return Response('<p>Login failed</p>')
+def unauthorized(e):
+    return Response('<p>Error 401: Unauthorized</p>')
+
+@app.errorhandler(403)
+def forbidden(e):
+    return Response('<p>Error 403: Forbidden</p>')
 
 
 # callback to reload the user object

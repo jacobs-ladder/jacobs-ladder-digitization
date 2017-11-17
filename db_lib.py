@@ -75,7 +75,6 @@ def get_user_id(db_conn, username):
 
     if len(rows) > 1:
         raise ValueError, "Usernames are not unique (this shouldn't be allowed by the schema)"
-
     if len(rows) < 1:
         raise ValueError, "User with that username does not exist: %s" % (username)
 
