@@ -4,13 +4,15 @@
 --    first_name
 --    last_name
 --    email_address
+--    role
 
 SELECT fn_create_entity(
     'nathan',
     'password',
     'nathan',
     'weiskirch',
-    'nathan@nathan.com'
+    'nathan@nathan.com',
+    'teacher'
 );
 
 SELECT fn_create_entity(
@@ -18,7 +20,8 @@ SELECT fn_create_entity(
     'password',
     'eleanor',
     'eason',
-    'eleanor@eleanor.com'
+    'eleanor@eleanor.com',
+    'evaluator'
 );
 
 SELECT fn_create_entity(
@@ -26,6 +29,7 @@ SELECT fn_create_entity(
     'password',
     'dacorvyn',
     'young',
-    'dacorvyn@dacorvyn.com'
+    'dacorvyn@dacorvyn.com',
+    'administrator'
 );
 
