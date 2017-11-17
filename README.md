@@ -37,9 +37,7 @@ Postgres Version 9.6.5
 
 Config details (in this case this is an actual heroku config var):
 
-DATABASE_URL: postgres://tqqxfhdckmjxsy:339f920df37b3c703c2d50f1e0ed432ef0c582139cb3ac8ef307e2b320847f82@ec2-54-225-70-53.compute-1.amazonaws.com:5432/d30om0loh8k9g5
-
-Layout:       postgres://username      :password                                                        @host                                    :port/db_name
+Layout:       postgres://username:password@host:port/db_name
 
 Running `./update_schema_remote.sh` will take the most recent schema changes and update the heroku db instance. It will also repopulate the database with the default test data. Running this script is dangerous if the alters are not guaranteed to run correctly because the database will be empty and without any tables if the alters do not apply correctly. The latest schema should be tested locally before it is applied to the remote database.
 
