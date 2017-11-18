@@ -4,3 +4,4 @@ add_pgcrypto_extension.sql
 fn_create_entity.sql
 fn_check_entity_password.sql
 create_tb_role.sql
+create_tb_activity.sql
