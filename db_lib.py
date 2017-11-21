@@ -3,9 +3,15 @@
 ##### Imports #####
 ###################
 
+# external libraries
 import psycopg2
-import os
 import re
+
+# for getting environment variables/config vars
+import os
+
+# other files we wrote
+import activity
 
 
 #####################################
@@ -79,3 +85,21 @@ def get_user_id(db_conn, username):
         raise ValueError, "User with that username does not exist: %s" % (username)
 
     return rows[0][0]
+
+
+# returns a list of all the activities in the db as activity objects
+def get_all_activites(db_conn):
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        SELECT a.title,
+               a.description
+          FROM tb_activity a
+    '''
+
+    cursor.execute(query)
+    rows = cursor.fetchall()
+
+    return activity.get_activity_objects(rows)
+

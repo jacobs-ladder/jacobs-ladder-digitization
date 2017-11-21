@@ -73,6 +73,30 @@ def logout():
     logout_user()
     return Response('<p>Logged out</p>')
 
+# get all activites
+@app.route("/activity", methods=["GET", "POST"])
+@login_required
+def activity():
+
+    db_conn = db_lib.get_db_connection()
+
+    if request.method == 'POST':
+        # TODO temp
+        pass
+    elif request.method == 'GET':
+
+        activites = db_lib.get_all_activites(db_conn)
+
+        # TODO temp
+        # this is just to display our results for testing
+        result_string = ""
+        for activity in activites:
+            result_string += "<p>" + activity.get_title() + ", " + activity.get_description() + "</p>"
+
+        return Response(result_string)
+
+
+
 
 @app.errorhandler(404)
 def not_found(e):
