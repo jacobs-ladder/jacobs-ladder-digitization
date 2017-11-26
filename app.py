@@ -37,6 +37,9 @@ class User(UserMixin):
 def home():
    return app.send_static_file('index.html')
 
+@app.route('/api/activity')
+@login_required
+
 @app.route('/js/<path:path>')
 @login_required
 def send_js(path):
@@ -78,7 +81,7 @@ def logout():
     return Response('<p>Logged out</p>')
 
 # get all activites
-@app.route("/activity", methods=["GET", "POST"])
+@app.route("/api/activity", methods=["GET", "POST"])
 @login_required
 def activity():
 
@@ -91,12 +94,11 @@ def activity():
 
         activites = db_lib.get_all_activites(db_conn)
 
-        # TODO temp
-        # this is just to display our results for testing
-        result_string = ""
+        result_string = '['
         for activity in activites:
-            result_string += "<p>" + activity.get_title() + ", " + activity.get_description() + "</p>"
-
+            result_string += '{"id": ' + activity.get_id() + ', "title": ' + activity.get_title()
+	    result_string += ', "Description": ' + activity.get_description() + "}\n"
+	result_string += ']'
         return Response(result_string)
 
 
