@@ -37,6 +37,11 @@ class User(UserMixin):
 def home():
    return app.send_static_file('index.html')
 
+@app.route('/admin')
+@login_required
+def admin():
+   return app.send_static_file('admin.html')
+
 @app.route('/js/<path:path>')
 @login_required
 def send_js(path):
