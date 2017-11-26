@@ -1,5 +1,9 @@
 from flask import Flask, Response, redirect, url_for, request, session, abort, send_from_directory
 from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user
+
+import sys
+sys.path.insert(0, 'inc')
+
 import db_lib
 
 app = Flask(__name__)
