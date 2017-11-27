@@ -101,6 +101,11 @@ def activity():
 	result_string += ']'
         return Response(result_string)
 
+@app.route("/admin")
+@login_required
+def admin_home():
+    return app.send_static_file('admin.html')
+
 
 
 
