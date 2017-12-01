@@ -37,9 +37,6 @@ class User(UserMixin):
 def home():
    return app.send_static_file('index.html')
 
-@app.route('/api/activity')
-@login_required
-
 @app.route('/js/<path:path>')
 @login_required
 def send_js(path):
@@ -66,6 +63,8 @@ def login():
             id = db_lib.get_user_id(db_conn, username)
             user = load_user(id)
             login_user(user)
+	    if request.args.get("next") == None:
+		return redirect("");
             return redirect(request.args.get("next"))
         else:
             return abort(401)
@@ -78,7 +77,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return Response('<p>Logged out</p>')
+    return app.send_static_file('logout.html')
 
 # get all activites
 @app.route("/api/activity", methods=["GET", "POST"])
