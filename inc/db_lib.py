@@ -93,7 +93,7 @@ def get_all_activites(db_conn):
     cursor = db_conn.cursor()
 
     query = '''
-        SELECT a.entity,
+        SELECT a.activity,
 	       a.title,
                a.description
           FROM tb_activity a

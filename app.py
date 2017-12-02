@@ -1,10 +1,12 @@
 from flask import Flask, Response, redirect, url_for, request, session, abort, send_from_directory
 from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user
+import json
 
 import sys
 sys.path.insert(0, 'inc')
 
 import db_lib
+from activity import get_activity_json
 
 app = Flask(__name__)
 
@@ -90,15 +92,8 @@ def activity():
         # TODO temp
         pass
     elif request.method == 'GET':
-
-        activites = db_lib.get_all_activites(db_conn)
-
-        result_string = '['
-        for activity in activites:
-            result_string += '{"id": ' + activity.get_id() + ', "title": ' + activity.get_title()
-	    result_string += ', "Description": ' + activity.get_description() + "}\n"
-	result_string += ']'
-        return Response(result_string)
+        activities = db_lib.get_all_activites(db_conn)
+        return Response(get_activity_json(activities))
 
 @app.route("/admin")
 @login_required
