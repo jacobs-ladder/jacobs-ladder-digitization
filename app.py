@@ -154,4 +154,11 @@ def load_user(userid):
 
 if __name__ == "__main__":
     from os import environ
-    app.run(host='0.0.0.0', port=environ.get("PORT", 5000))
+    debug_flag = False
+
+    # check for the debug flag
+    for sys_arg in sys.argv:
+        if sys_arg == 'debug':
+            debug_flag = True
+
+    app.run(host='0.0.0.0', port=int(environ.get("PORT", 5000)), debug=debug_flag)
