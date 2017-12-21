@@ -45,9 +45,9 @@ def get_activity_objects(db_rows):
 
     return activites
 
-def get_activity_json(activities):
+def get_activities_json(activities):
     return json.dumps(activities, cls=ActivityEncoder)
 
 class ActivityEncoder(JSONEncoder):
         def default(self, o):
-            return o.__dict__    
+            return o.__dict__

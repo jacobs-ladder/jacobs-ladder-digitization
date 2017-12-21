@@ -12,6 +12,7 @@ import os
 
 # other files we wrote
 import activity
+import user
 
 
 #####################################
@@ -66,7 +67,7 @@ def authenticate(db_conn, username, password):
 
 
 # returns the user_id of the user with the parameter username
-def get_user_id(db_conn, username):
+def get_user_id_by_username(db_conn, username):
 
     cursor = db_conn.cursor()
 
@@ -85,6 +86,82 @@ def get_user_id(db_conn, username):
         raise ValueError, "User with that username does not exist: %s" % (username)
 
     return rows[0][0]
+
+
+# returns a user object with the data of the user from the db with the parameter id
+def get_user_by_id(db_conn, id):
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        SELECT e.entity,
+	       e.username,
+               e.first_name,
+               e.last_name,
+               e.email_address
+          FROM tb_entity e
+         WHERE e.entity = %(id)s
+    '''
+
+    cursor.execute(query, {"id":id})
+    rows = cursor.fetchall()
+
+    if len(rows) > 1:
+        raise ValueError, "IDs are not unique (this shouldn't be allowed by the schema)"
+    if len(rows) < 1:
+        raise ValueError, "User with that id does not exist: %s" % (id)
+
+    return user.user(rows[0][0], rows[0][1], rows[0][2], rows[0][3], rows[0][4])
+
+
+# creates a user with the given information
+# returns the unique id of that user
+def create_user(db_conn, username, password, first_name, last_name, email_address, role_label):
+
+    cursor = db_conn.cursor()
+
+    # TODO having a nicer error message for when a username is taken might be nice
+
+    query = '''
+        SELECT fn_create_entity(
+                %(username)s,
+                %(password)s,
+                %(first_name)s,
+                %(last_name)s,
+                %(email_address)s,
+                %(role_label)s
+            )
+    '''
+
+    cursor.execute(query, {"username":username, "password":password, "first_name":first_name, "last_name":last_name, "email_address":email_address, "role_label":role_label})
+    rows = cursor.fetchall()
+    db_conn.commit()
+
+    if len(rows) < 1:
+        # this should never happen because the db function should stop it if there is a problem
+        raise ValueError, "Could not create user"
+
+    return rows[0][0]
+
+
+# returns a list of all the users in the db as user objects
+def get_all_users(db_conn):
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        SELECT e.entity,
+	       e.username,
+               e.first_name,
+               e.last_name,
+               e.email_address
+          FROM tb_entity e
+    '''
+
+    cursor.execute(query)
+    rows = cursor.fetchall()
+
+    return user.get_user_objects(rows)
 
 
 # returns a list of all the activities in the db as activity objects

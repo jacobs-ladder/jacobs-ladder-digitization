@@ -6,7 +6,8 @@ import sys
 sys.path.insert(0, 'inc')
 
 import db_lib
-from activity import get_activity_json
+from activity import get_activities_json
+from user import get_users_json
 
 app = Flask(__name__)
 
@@ -62,7 +63,7 @@ def login():
         db_conn = db_lib.get_db_connection()
 
         if db_lib.authenticate(db_conn, username, password):
-            id = db_lib.get_user_id(db_conn, username)
+            id = db_lib.get_user_id_by_username(db_conn, username)
             user = load_user(id)
             login_user(user)
 	    if request.args.get("next") == None:
@@ -93,7 +94,35 @@ def activity():
         pass
     elif request.method == 'GET':
         activities = db_lib.get_all_activites(db_conn)
-        return Response(get_activity_json(activities))
+        return Response(get_activities_json(activities))
+
+# route for users (creation and retrieval)
+@app.route("/api/user", methods=["GET", "POST"])
+@login_required
+def user():
+
+    db_conn = db_lib.get_db_connection()
+
+    if request.method == 'POST':
+        username      = request.args['username']
+        password      = request.args['password']
+        first_name    = request.args['first_name']
+        last_name     = request.args['last_name']
+        email_address = request.args['email_address']
+        role_label    = request.args['role_label']
+
+        created_user_id = db_lib.create_user(db_conn, username, password, first_name, last_name, email_address, role_label)
+
+        return Response('{created_user_id:' + str(created_user_id) + '}')
+    elif request.method == 'GET':
+        # check parameters to know if they want all users or a single user
+        if 'user' in request.args.keys():
+            user_to_be_returned = db_lib.get_user_by_id(db_conn, request.args['user'])
+            return Response(user_to_be_returned.toJSON())
+        else:
+            users = db_lib.get_all_users(db_conn)
+            return Response(get_users_json(users))
+
 
 @app.route("/admin")
 @login_required
