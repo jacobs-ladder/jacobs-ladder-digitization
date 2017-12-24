@@ -216,6 +216,83 @@ def get_all_activites(db_conn):
     return activity.get_activity_objects(rows)
 
 
+# returns a student object with the data of the student from the db with the parameter id
+# TODO waiting for dacorvyn's student class
+# as a result this function is not tested
+def get_student_by_id(db_conn, student_id):
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        SELECT s.student,
+               s.first_name,
+               s.last_name
+          FROM tb_student s
+         WHERE s.student = %(id)s
+    '''
+
+    cursor.execute(query, {"id":id})
+    rows = cursor.fetchall()
+
+    if len(rows) > 1:
+        raise ValueError, "IDs are not unique (this shouldn't be allowed by the schema)"
+    if len(rows) < 1:
+        raise ValueError, "Student with that id does not exist: %s" % (id)
+
+    return student.student(rows[0][0], rows[0][1], rows[0][2])
+
+
+# returns a list of all the students in the db as student objects
+# TODO waiting for dacorvyn's student class
+# as a result this function is not tested
+def get_all_students(db_conn):
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        SELECT s.entity,
+               s.first_name,
+               s.last_name,
+          FROM tb_student s
+    '''
+
+    cursor.execute(query)
+    rows = cursor.fetchall()
+
+    return student.get_student_objects(rows)
+
+
+# creates a student with the given information
+# returns the unique id of that student
+def create_student(db_conn, first_name, last_name):
+
+    cursor = db_conn.cursor()
+
+    query = '''
+            INSERT INTO tb_student
+            (
+                first_name,
+                last_name
+            )
+            VALUES
+            (
+                %(first_name)s,
+                %(last_name)s
+            ) RETURNING student
+    '''
+
+    cursor.execute(query, {"first_name":first_name, "last_name":last_name})
+    rows = cursor.fetchall()
+    db_conn.commit()
+
+    if len(rows) < 1:
+        # this should never happen because the db function should stop it if there is a problem
+        raise ValueError, "Could not create student"
+
+    return rows[0][0]
+
+
+# returns the data of a particular student's performance on a particular activity
 def get_activity_data_by_student_and_activity(db_conn, student_id, activity_id):
 
     cursor = db_conn.cursor()
