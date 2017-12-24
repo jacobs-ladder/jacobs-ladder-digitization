@@ -1,11 +1,12 @@
 import json
 from json import JSONEncoder
+from flask_login import UserMixin
 
 ################################
 ##### The Class Definition #####
 ################################
 
-class user:
+class user(UserMixin):
 
     # constructor
 

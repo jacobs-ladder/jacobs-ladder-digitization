@@ -1,5 +1,5 @@
 from flask import Flask, Response, redirect, url_for, request, session, abort, send_from_directory
-from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user
+from flask_login import LoginManager, login_required, login_user, logout_user
 import json
 
 import sys
@@ -25,20 +25,13 @@ login_manager.login_view = "login"
 
 # callback to reload the user object
 @login_manager.user_loader
-def load_user(userid):
-    # TODO Return user object from user id #
-    return User(userid, 'user' + str(userid))
+def load_user(user_id):
 
-# silly user model
-# TODO this class needs to be reconciled with our other user class
-class User(UserMixin):
+    db_conn = db_lib.get_db_connection()
+    user = db_lib.get_user_by_id(db_conn, user_id)
+    db_conn.close()
 
-    def __init__(self, id, name):
-        self.id = id
-        self.name = name
-
-    def __repr__(self):
-        return "%d/%s/%s" % (self.id, self.name)
+    return user
 
 
 ##################################################
