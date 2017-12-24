@@ -111,6 +111,9 @@ def admin_home():
 ##### API Routes (Data) #####
 #############################
 
+# TODO should probably switch from using ?key=value to using form[]
+# see here: http://flask.pocoo.org/docs/0.12/quickstart/
+
 # get all activites
 @app.route("/api/activity", methods=["GET", "POST"])
 @login_required
@@ -118,14 +121,7 @@ def activity():
 
     db_conn = db_lib.get_db_connection()
 
-    if request.method == 'POST':
-        title       = request.args['title']
-        description = request.args['description']
-
-        created_activity_id = db_lib.create_activity(db_conn, title, description)
-
-        return Response('{created_activity:' + str(created_activity_id) + '}')
-    elif request.method == 'GET':
+    if request.method == 'GET':
         # check parameters to know if they want all activities or a single activity
         if 'activity' in request.args.keys():
             activity_to_be_returned = db_lib.get_activity_by_id(db_conn, request.args['activity'])
@@ -133,6 +129,13 @@ def activity():
         else:
             activities = db_lib.get_all_activites(db_conn)
             return Response(get_activities_json(activities))
+    elif request.method == 'POST':
+        title       = request.args['title']
+        description = request.args['description']
+
+        created_activity_id = db_lib.create_activity(db_conn, title, description)
+
+        return Response('{created_activity:' + str(created_activity_id) + '}')
 
 
 # route for users (creation and retrieval)
@@ -142,7 +145,15 @@ def user():
 
     db_conn = db_lib.get_db_connection()
 
-    if request.method == 'POST':
+    if request.method == 'GET':
+        # check parameters to know if they want all users or a single user
+        if 'user' in request.args.keys():
+            user_to_be_returned = db_lib.get_user_by_id(db_conn, request.args['user'])
+            return Response(user_to_be_returned.toJSON())
+        else:
+            users = db_lib.get_all_users(db_conn)
+            return Response(get_users_json(users))
+    elif request.method == 'POST':
         username      = request.args['username']
         password      = request.args['password']
         first_name    = request.args['first_name']
@@ -153,14 +164,6 @@ def user():
         created_user_id = db_lib.create_user(db_conn, username, password, first_name, last_name, email_address, role_label)
 
         return Response('{created_user_id:' + str(created_user_id) + '}')
-    elif request.method == 'GET':
-        # check parameters to know if they want all users or a single user
-        if 'user' in request.args.keys():
-            user_to_be_returned = db_lib.get_user_by_id(db_conn, request.args['user'])
-            return Response(user_to_be_returned.toJSON())
-        else:
-            users = db_lib.get_all_users(db_conn)
-            return Response(get_users_json(users))
 
 
 # route for students (creation and retrieval)
@@ -170,14 +173,7 @@ def student():
 
     db_conn = db_lib.get_db_connection()
 
-    if request.method == 'POST':
-        first_name = request.args['first_name']
-        last_name  = request.args['last_name']
-
-        created_student_id = db_lib.create_student(db_conn, first_name, last_name)
-
-        return Response('{created_student:' + str(created_student_id) + '}')
-    elif request.method == 'GET':
+    if request.method == 'GET':
         # check parameters to know if they want all students or a single student
         # in the future they should be able to pass a parameter here that filters on teachers etc.
         if 'student' in request.args.keys():
@@ -186,6 +182,13 @@ def student():
         else:
             students = db_lib.get_all_students(db_conn)
             return Response(get_students_json(students))
+    elif request.method == 'POST':
+        first_name = request.args['first_name']
+        last_name  = request.args['last_name']
+
+        created_student_id = db_lib.create_student(db_conn, first_name, last_name)
+
+        return Response('{created_student:' + str(created_student_id) + '}')
 
 
 # route for the activity data of a particular student (creation and retrieval)
@@ -195,15 +198,15 @@ def student_activity():
 
     db_conn = db_lib.get_db_connection()
 
-    if request.method == 'POST':
-        # TODO temp
-        pass
-    elif request.method == 'GET':
+    if request.method == 'GET':
         student_id  = request.args['student']
         activity_id = request.args['activity']
 
         student_activity_data_aggregation = db_lib.get_activity_data_by_student_and_activity(db_conn, student_id, activity_id)
         return Response(student_activity_data_aggregation.toJSON())
+    elif request.method == 'POST':
+        # TODO temp
+        pass
 
 
 
