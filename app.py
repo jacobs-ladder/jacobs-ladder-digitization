@@ -23,8 +23,14 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
+# callback to reload the user object
+@login_manager.user_loader
+def load_user(userid):
+    # TODO Return user object from user id #
+    return User(userid, 'user' + str(userid))
 
 # silly user model
+# TODO this class needs to be reconciled with our other user class
 class User(UserMixin):
 
     def __init__(self, id, name):
@@ -35,10 +41,9 @@ class User(UserMixin):
         return "%d/%s/%s" % (self.id, self.name)
 
 
-@app.route('/')
-@login_required
-def home():
-   return app.send_static_file('admin.html')
+##################################################
+##### Delivering files to Client-Side Routes #####
+##################################################
 
 @app.route('/js/<path:path>')
 @login_required
@@ -52,6 +57,18 @@ def send_css(path):
     if '..' in path:
         return abort(403)
     return send_from_directory('css', path)
+
+
+
+#######################
+##### Page Routes #####
+#######################
+
+@app.route('/')
+@login_required
+def home():
+   return app.send_static_file('admin.html')
+
 
 # somewhere to login
 @app.route("/login", methods=["GET", "POST"])
@@ -81,6 +98,18 @@ def login():
 def logout():
     logout_user()
     return app.send_static_file('logout.html')
+
+# somewhere to admin
+@app.route("/admin")
+@login_required
+def admin_home():
+    return app.send_static_file('admin.html')
+
+
+
+#############################
+##### API Routes (Data) #####
+#############################
 
 # get all activites
 @app.route("/api/activity", methods=["GET", "POST"])
@@ -171,13 +200,10 @@ def student_activity():
         return Response(student_activity_data_aggregation.toJSON())
 
 
-@app.route("/admin")
-@login_required
-def admin_home():
-    return app.send_static_file('admin.html')
 
-
-
+#######################
+##### Error Pages #####
+#######################
 
 @app.errorhandler(404)
 def not_found(e):
@@ -192,12 +218,10 @@ def forbidden(e):
     return Response('<p>Error 403: Forbidden</p>')
 
 
-# callback to reload the user object
-@login_manager.user_loader
-def load_user(userid):
-    # TODO Return user object from user id #
-    return User(userid, 'user' + str(userid))
 
+########################
+##### Startup Code #####
+########################
 
 if __name__ == "__main__":
     from os import environ
