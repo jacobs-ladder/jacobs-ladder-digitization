@@ -124,6 +124,24 @@ def user():
             return Response(get_users_json(users))
 
 
+# route for the activity data of a particular student (creation and retrieval)
+@app.route("/api/student_activity", methods=["GET", "POST"])
+@login_required
+def student_activity():
+
+    db_conn = db_lib.get_db_connection()
+
+    if request.method == 'POST':
+        # TODO
+        pass
+    elif request.method == 'GET':
+        student_id  = request.args['student']
+        activity_id = request.args['activity']
+
+        student_activity_data_aggregation = db_lib.get_activity_data_by_student_and_activity(db_conn, student_id, activity_id)
+        return Response(student_activity_data_aggregation.toJSON())
+
+
 @app.route("/admin")
 @login_required
 def admin_home():

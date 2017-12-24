@@ -6,6 +6,7 @@
 # external libraries
 import psycopg2
 import re
+import datetime
 
 # for getting environment variables/config vars
 import os
@@ -13,6 +14,7 @@ import os
 # other files we wrote
 import activity
 import user
+import student_activity_data_aggregation
 
 
 #####################################
@@ -180,4 +182,37 @@ def get_all_activites(db_conn):
     rows = cursor.fetchall()
 
     return activity.get_activity_objects(rows)
+
+
+def get_activity_data_by_student_and_activity(db_conn, student_id, activity_id):
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        SELECT ar.number   AS row_num,
+               ar.title    AS row_title,
+               acol.number AS col_num,
+               acol.title  AS col_title,
+               acell.data  AS data,
+               dt.label    AS data_type
+          FROM tb_activity_cell acell
+    INNER JOIN tb_activity_row ar
+            ON acell.activity_row = ar.activity_row
+    INNER JOIN tb_activity_column acol
+            ON acell.activity_column = acol.activity_column
+    INNER JOIN tb_student_activity sa_row
+            ON ar.student_activity = sa_row.student_activity
+    INNER JOIN tb_student_activity sa_col -- this duplicate join is here to filter the cells based on columns as well as rows
+            ON acol.student_activity = sa_col.student_activity
+    INNER JOIN tb_data_type dt
+            ON acol.data_type = dt.data_type
+         WHERE sa_row.student  = %(student)s
+           AND sa_row.activity = %(activity)s
+      ORDER BY ar.number, acol.number
+    '''
+
+    cursor.execute(query, {"student":student_id, "activity":activity_id})
+    query_rows = cursor.fetchall()
+
+    return student_activity_data_aggregation.student_activity_data_aggregation(query_rows)
 
