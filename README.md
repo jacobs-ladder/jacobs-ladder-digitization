@@ -7,8 +7,7 @@ flask
 flask-login
 psycopg2
 
-## TODO how to run locally will be updated once heroku is installed on everyone's machines
-To Run
+To Run manually (not using heroku)
 python app.py
 go to http://127.0.0.1:5000/ in your browser
 
