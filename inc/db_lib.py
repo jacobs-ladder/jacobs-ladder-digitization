@@ -166,6 +166,30 @@ def get_all_users(db_conn):
     return user.get_user_objects(rows)
 
 
+# returns an activity object with the data of the activity from the db with the parameter id
+def get_activity_by_id(db_conn, id):
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        SELECT a.activity,
+	       a.title,
+               a.description
+          FROM tb_activity a
+         WHERE a.activity = %(id)s
+    '''
+
+    cursor.execute(query, {"id":id})
+    rows = cursor.fetchall()
+
+    if len(rows) > 1:
+        raise ValueError, "IDs are not unique (this shouldn't be allowed by the schema)"
+    if len(rows) < 1:
+        raise ValueError, "Activity with that id does not exist: %s" % (id)
+
+    return activity.activity(rows[0][0], rows[0][1], rows[0][2])
+
+
 # creates an activity with the given information
 # returns the unique id of that activity
 def create_activity(db_conn, title, description):

@@ -126,8 +126,14 @@ def activity():
 
         return Response('{created_activity:' + str(created_activity_id) + '}')
     elif request.method == 'GET':
-        activities = db_lib.get_all_activites(db_conn)
-        return Response(get_activities_json(activities))
+        # check parameters to know if they want all activities or a single activity
+        if 'activity' in request.args.keys():
+            activity_to_be_returned = db_lib.get_activity_by_id(db_conn, request.args['activity'])
+            return Response(activity_to_be_returned.toJSON())
+        else:
+            activities = db_lib.get_all_activites(db_conn)
+            return Response(get_activities_json(activities))
+
 
 # route for users (creation and retrieval)
 @app.route("/api/user", methods=["GET", "POST"])
