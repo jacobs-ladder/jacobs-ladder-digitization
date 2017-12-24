@@ -132,7 +132,7 @@ def student_activity():
     db_conn = db_lib.get_db_connection()
 
     if request.method == 'POST':
-        # TODO
+        # TODO temp
         pass
     elif request.method == 'GET':
         student_id  = request.args['student']
