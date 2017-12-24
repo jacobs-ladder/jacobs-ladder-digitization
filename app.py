@@ -90,8 +90,12 @@ def activity():
     db_conn = db_lib.get_db_connection()
 
     if request.method == 'POST':
-        # TODO temp
-        pass
+        title       = request.args['title']
+        description = request.args['description']
+
+        created_activity_id = db_lib.create_activity(db_conn, title, description)
+
+        return Response('{created_activity_id:' + str(created_activity_id) + '}')
     elif request.method == 'GET':
         activities = db_lib.get_all_activites(db_conn)
         return Response(get_activities_json(activities))
@@ -135,8 +139,8 @@ def student_activity():
         # TODO temp
         pass
     elif request.method == 'GET':
-        student_id  = request.args['student']
-        activity_id = request.args['activity']
+        student_id  = request.args['student_id']
+        activity_id = request.args['activity_id']
 
         student_activity_data_aggregation = db_lib.get_activity_data_by_student_and_activity(db_conn, student_id, activity_id)
         return Response(student_activity_data_aggregation.toJSON())

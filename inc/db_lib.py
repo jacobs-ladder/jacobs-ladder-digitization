@@ -166,6 +166,38 @@ def get_all_users(db_conn):
     return user.get_user_objects(rows)
 
 
+# creates an activity with the given information
+# returns the unique id of that activity
+def create_activity(db_conn, title, description):
+
+    cursor = db_conn.cursor()
+
+    # TODO having a nicer error message for when a title is taken might be nice
+
+    query = '''
+            INSERT INTO tb_activity
+            (
+                title,
+                description
+            )
+            VALUES
+            (
+                %(title)s,
+                %(description)s
+            ) RETURNING activity
+    '''
+
+    cursor.execute(query, {"title":title, "description":description})
+    rows = cursor.fetchall()
+    db_conn.commit()
+
+    if len(rows) < 1:
+        # this should never happen because the db function should stop it if there is a problem
+        raise ValueError, "Could not create activity"
+
+    return rows[0][0]
+
+
 # returns a list of all the activities in the db as activity objects
 def get_all_activites(db_conn):
 
