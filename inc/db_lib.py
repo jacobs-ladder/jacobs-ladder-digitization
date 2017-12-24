@@ -50,6 +50,94 @@ def get_db_connection():
 ##### Query Functions #####
 ###########################
 
+
+##########################
+##### User Functions #####
+##########################
+
+
+##### Create #####
+
+# creates a user with the given information
+# returns the unique id of that user
+def create_user(db_conn, username, password, first_name, last_name, email_address, role_label):
+
+    cursor = db_conn.cursor()
+
+    # TODO having a nicer error message for when a username is taken might be nice
+
+    query = '''
+        SELECT fn_create_entity(
+                %(username)s,
+                %(password)s,
+                %(first_name)s,
+                %(last_name)s,
+                %(email_address)s,
+                %(role_label)s
+            )
+    '''
+
+    cursor.execute(query, {"username":username, "password":password, "first_name":first_name, "last_name":last_name, "email_address":email_address, "role_label":role_label})
+    rows = cursor.fetchall()
+    db_conn.commit()
+
+    if len(rows) < 1:
+        # this should never happen because the db function should stop it if there is a problem
+        raise ValueError, "Could not create user"
+
+    return rows[0][0]
+
+
+##### Read #####
+
+# returns a user object with the data of the user from the db with the parameter id
+def get_user_by_id(db_conn, id):
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        SELECT e.entity,
+	       e.username,
+               e.first_name,
+               e.last_name,
+               e.email_address
+          FROM tb_entity e
+         WHERE e.entity = %(id)s
+    '''
+
+    cursor.execute(query, {"id":id})
+    rows = cursor.fetchall()
+
+    if len(rows) > 1:
+        raise ValueError, "IDs are not unique (this shouldn't be allowed by the schema)"
+    if len(rows) < 1:
+        raise ValueError, "User with that id does not exist: %s" % (id)
+
+    return user.user(rows[0][0], rows[0][1], rows[0][2], rows[0][3], rows[0][4])
+
+
+# returns a list of all the users in the db as user objects
+def get_all_users(db_conn):
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        SELECT e.entity,
+	       e.username,
+               e.first_name,
+               e.last_name,
+               e.email_address
+          FROM tb_entity e
+    '''
+
+    cursor.execute(query)
+    rows = cursor.fetchall()
+
+    return user.get_user_objects(rows)
+
+
+##### Misc #####
+
 # checks if this user exists and this is their password
 def authenticate(db_conn, username, password):
 
@@ -90,105 +178,12 @@ def get_user_id_by_username(db_conn, username):
     return rows[0][0]
 
 
-# returns a user object with the data of the user from the db with the parameter id
-def get_user_by_id(db_conn, id):
-
-    cursor = db_conn.cursor()
-
-    query = '''
-        SELECT e.entity,
-	       e.username,
-               e.first_name,
-               e.last_name,
-               e.email_address
-          FROM tb_entity e
-         WHERE e.entity = %(id)s
-    '''
-
-    cursor.execute(query, {"id":id})
-    rows = cursor.fetchall()
-
-    if len(rows) > 1:
-        raise ValueError, "IDs are not unique (this shouldn't be allowed by the schema)"
-    if len(rows) < 1:
-        raise ValueError, "User with that id does not exist: %s" % (id)
-
-    return user.user(rows[0][0], rows[0][1], rows[0][2], rows[0][3], rows[0][4])
+##############################
+##### Activity Functions #####
+##############################
 
 
-# creates a user with the given information
-# returns the unique id of that user
-def create_user(db_conn, username, password, first_name, last_name, email_address, role_label):
-
-    cursor = db_conn.cursor()
-
-    # TODO having a nicer error message for when a username is taken might be nice
-
-    query = '''
-        SELECT fn_create_entity(
-                %(username)s,
-                %(password)s,
-                %(first_name)s,
-                %(last_name)s,
-                %(email_address)s,
-                %(role_label)s
-            )
-    '''
-
-    cursor.execute(query, {"username":username, "password":password, "first_name":first_name, "last_name":last_name, "email_address":email_address, "role_label":role_label})
-    rows = cursor.fetchall()
-    db_conn.commit()
-
-    if len(rows) < 1:
-        # this should never happen because the db function should stop it if there is a problem
-        raise ValueError, "Could not create user"
-
-    return rows[0][0]
-
-
-# returns a list of all the users in the db as user objects
-def get_all_users(db_conn):
-
-    cursor = db_conn.cursor()
-
-    query = '''
-        SELECT e.entity,
-	       e.username,
-               e.first_name,
-               e.last_name,
-               e.email_address
-          FROM tb_entity e
-    '''
-
-    cursor.execute(query)
-    rows = cursor.fetchall()
-
-    return user.get_user_objects(rows)
-
-
-# returns an activity object with the data of the activity from the db with the parameter id
-def get_activity_by_id(db_conn, id):
-
-    cursor = db_conn.cursor()
-
-    query = '''
-        SELECT a.activity,
-	       a.title,
-               a.description
-          FROM tb_activity a
-         WHERE a.activity = %(id)s
-    '''
-
-    cursor.execute(query, {"id":id})
-    rows = cursor.fetchall()
-
-    if len(rows) > 1:
-        raise ValueError, "IDs are not unique (this shouldn't be allowed by the schema)"
-    if len(rows) < 1:
-        raise ValueError, "Activity with that id does not exist: %s" % (id)
-
-    return activity.activity(rows[0][0], rows[0][1], rows[0][2])
-
+##### Create #####
 
 # creates an activity with the given information
 # returns the unique id of that activity
@@ -222,6 +217,32 @@ def create_activity(db_conn, title, description):
     return rows[0][0]
 
 
+##### Read #####
+
+# returns an activity object with the data of the activity from the db with the parameter id
+def get_activity_by_id(db_conn, id):
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        SELECT a.activity,
+	       a.title,
+               a.description
+          FROM tb_activity a
+         WHERE a.activity = %(id)s
+    '''
+
+    cursor.execute(query, {"id":id})
+    rows = cursor.fetchall()
+
+    if len(rows) > 1:
+        raise ValueError, "IDs are not unique (this shouldn't be allowed by the schema)"
+    if len(rows) < 1:
+        raise ValueError, "Activity with that id does not exist: %s" % (id)
+
+    return activity.activity(rows[0][0], rows[0][1], rows[0][2])
+
+
 # returns a list of all the activities in the db as activity objects
 def get_all_activites(db_conn):
 
@@ -239,6 +260,45 @@ def get_all_activites(db_conn):
 
     return activity.get_activity_objects(rows)
 
+
+#############################
+##### Student Functions #####
+#############################
+
+
+##### Create #####
+
+# creates a student with the given information
+# returns the unique id of that student
+def create_student(db_conn, first_name, last_name):
+
+    cursor = db_conn.cursor()
+
+    query = '''
+            INSERT INTO tb_student
+            (
+                first_name,
+                last_name
+            )
+            VALUES
+            (
+                %(first_name)s,
+                %(last_name)s
+            ) RETURNING student
+    '''
+
+    cursor.execute(query, {"first_name":first_name, "last_name":last_name})
+    rows = cursor.fetchall()
+    db_conn.commit()
+
+    if len(rows) < 1:
+        # this should never happen because the db function should stop it if there is a problem
+        raise ValueError, "Could not create student"
+
+    return rows[0][0]
+
+
+##### Read #####
 
 # returns a student object with the data of the student from the db with the parameter id
 # TODO waiting for dacorvyn's student class
@@ -286,35 +346,11 @@ def get_all_students(db_conn):
     return student.get_student_objects(rows)
 
 
-# creates a student with the given information
-# returns the unique id of that student
-def create_student(db_conn, first_name, last_name):
+######################################
+##### Student Activity Functions #####
+######################################
 
-    cursor = db_conn.cursor()
-
-    query = '''
-            INSERT INTO tb_student
-            (
-                first_name,
-                last_name
-            )
-            VALUES
-            (
-                %(first_name)s,
-                %(last_name)s
-            ) RETURNING student
-    '''
-
-    cursor.execute(query, {"first_name":first_name, "last_name":last_name})
-    rows = cursor.fetchall()
-    db_conn.commit()
-
-    if len(rows) < 1:
-        # this should never happen because the db function should stop it if there is a problem
-        raise ValueError, "Could not create student"
-
-    return rows[0][0]
-
+##### Read #####
 
 # returns the data of a particular student's performance on a particular activity
 def get_activity_data_by_student_and_activity(db_conn, student_id, activity_id):
