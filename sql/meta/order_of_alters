@@ -6,3 +6,5 @@ fn_check_entity_password.sql
 create_tb_role.sql
 create_tb_activity.sql
 create_tb_student.sql
+create_tb_data_type.sql
+create_activity_data_tables.sql
