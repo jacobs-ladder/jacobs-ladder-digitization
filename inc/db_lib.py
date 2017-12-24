@@ -261,6 +261,51 @@ def get_all_activites(db_conn):
     return activity.get_activity_objects(rows)
 
 
+##### Update #####
+
+# updates the activity with the parameter id to have the newly input attributes (at least all the ones that are defined)
+def update_activity(db_conn, id, attributes):
+
+    # goes through attributes to make sure that at least one of them exists to be updated
+    attribute_to_be_updated_exists = any(value is not None for value in attributes.values())
+    if not attribute_to_be_updated_exists:
+        raise ValueError, "No attributes were given to be updated"
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        UPDATE tb_activity
+           SET
+    '''
+    parameters = {}
+    parameters['id'] = id
+
+    if attributes['title'] is not None:
+        query += 'title = %(title)s,'
+        parameters['title'] = attributes['title']
+
+    if attributes['description'] is not None:
+        query += 'description = %(description)s,'
+        parameters['description'] = attributes['description']
+
+    query = query[:-1] # remove last character from query string (the comma of the last attribute to be updated)
+
+    query += '''
+         WHERE activity = %(id)s
+     RETURNING activity
+    '''
+
+    cursor.execute(query, parameters)
+    rows = cursor.fetchall()
+    db_conn.commit()
+
+    if len(rows) < 1:
+        # this should never happen because the db function should stop it if there is a problem
+        raise ValueError, "Could not update activity"
+
+    return rows[0][0]
+
+
 #############################
 ##### Student Functions #####
 #############################

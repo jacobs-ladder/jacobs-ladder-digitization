@@ -59,6 +59,7 @@ def send_css(path):
     return send_from_directory('css', path)
 
 
+# TODO for cleanliness' sake we should alter these methods to close the db connection once they are done using it
 
 #######################
 ##### Page Routes #####
@@ -115,7 +116,7 @@ def admin_home():
 # see here: http://flask.pocoo.org/docs/0.12/quickstart/
 
 # get all activites
-@app.route("/api/activity", methods=["GET", "POST"])
+@app.route("/api/activity", methods=["GET", "POST", "PATCH"])
 @login_required
 def activity():
 
@@ -136,6 +137,17 @@ def activity():
         created_activity_id = db_lib.create_activity(db_conn, title, description)
 
         return Response('{created_activity:' + str(created_activity_id) + '}')
+    elif request.method == 'PATCH':
+        activity_id = request.args['activity']
+
+        attributes = {
+            "title":       request.args['title']       if 'title'       in request.args.keys() else None,
+            "description": request.args['description'] if 'description' in request.args.keys() else None
+        }
+
+        updated_activity_id = db_lib.update_activity(db_conn, activity_id, attributes)
+
+        return Response('{updated_activity:' + str(updated_activity_id) + '}')
 
 
 # route for users (creation and retrieval)
