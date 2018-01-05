@@ -8,6 +8,7 @@ sys.path.insert(0, 'inc')
 import db_lib
 from activity import get_activities_json
 from user import get_users_json
+from student import get_students_json
 
 app = Flask(__name__)
 

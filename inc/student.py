@@ -1,24 +1,29 @@
 import json
 from json import JSONEncoder
+import class user
 ################################
 ##### The Class Definition #####
 ################################
 
 class student:
 
-    def __init__(self, id, title, description):
-	self.id 	 = id
-        self.title       = title
-        self.description = description
+    def __init__(self, id, student, firstname, lastname):
+        self.id 	    = id
+        self.student    = student
+        self.firstname  = firstname
+        self.lastname   = lastname
 
     def get_id(self):
-	return self.id
+        return self.id
 
-    def get_title(self):
-        return self.title
+    def get_student(self):
+        return self.student
 
-    def get_description(self):
-        return self.description
+    def get_firstname(self):
+        return self.firstname
+    
+    def get_lastname(self):
+        return self.lastname
 
     def toJSON(self):
 	return json.dumps(self.__dict__);
@@ -35,14 +40,13 @@ def get_student_objects(db_rows):
 
     for row in db_rows:
         # this will need to get updated if student gets more attributes
-        current_student_first name    = row[0]
-		current_student_last_name 	  = row[1]
-        current_student_teacher_list  = row[2]
-        current_student_activity_list = row[3]
+        current_student               = row[0]
+        current_student_first name    = row[1]
+		current_student_last_name     = row[2]
 
-        current_student = student(current_student_first_name, current_student_last_name, current_student_teacher_list, current_student_activity_list)
+        This_Student = student(current_student, current_student_first_name, current_student_last_name)
 
-        students.append(current_student)
+        students.append(This_student)
 
     return students
 
