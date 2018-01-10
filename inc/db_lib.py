@@ -346,7 +346,7 @@ def create_student(db_conn, first_name, last_name):
 ##### Read #####
 
 # returns a student object with the data of the student from the db with the parameter id
-# TODO waiting for dacorvyn's student class
+# TODO need to be tested with new students class
 # as a result this function is not tested
 def get_student_by_id(db_conn, student_id):
 
@@ -372,7 +372,7 @@ def get_student_by_id(db_conn, student_id):
 
 
 # returns a list of all the students in the db as student objects
-# TODO waiting for dacorvyn's student class
+# TODO need to be tested with new students class
 # as a result this function is not tested
 def get_all_students(db_conn):
 
