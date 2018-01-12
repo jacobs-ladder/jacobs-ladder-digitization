@@ -32,7 +32,7 @@ class student:
 # takes in the returned result of a db query that gets information about the student
 def get_student_objects(db_rows):
 
-    student = []
+    students = []
 
     for row in db_rows:
         # this will need to get updated if student gets more attributes

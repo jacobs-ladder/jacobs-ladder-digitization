@@ -196,7 +196,7 @@ def student():
         # check parameters to know if they want all students or a single student
         # in the future they should be able to pass a parameter here that filters on teachers etc.
         if 'student' in request.args.keys():
-            student_to_be_returned = db_lib.get_student_by_id(db_conn, request.args['user'])
+            student_to_be_returned = db_lib.get_student_by_id(db_conn, request.args['student'])
             return Response(student_to_be_returned.toJSON())
         else:
             students = db_lib.get_all_students(db_conn)

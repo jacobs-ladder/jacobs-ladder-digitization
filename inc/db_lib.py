@@ -14,6 +14,7 @@ import os
 # other files we wrote
 import activity
 import user
+import student
 import student_activity_data_aggregation
 
 
@@ -399,9 +400,8 @@ def create_student(db_conn, first_name, last_name):
 ##### Read #####
 
 # returns a student object with the data of the student from the db with the parameter id
-# TODO need to be tested with new students class
 # as a result this function is not tested
-def get_student_by_id(db_conn, student_id):
+def get_student_by_id(db_conn, id):
 
     cursor = db_conn.cursor()
 
@@ -425,16 +425,15 @@ def get_student_by_id(db_conn, student_id):
 
 
 # returns a list of all the students in the db as student objects
-# TODO need to be tested with new students class
 # as a result this function is not tested
 def get_all_students(db_conn):
 
     cursor = db_conn.cursor()
 
     query = '''
-        SELECT s.entity,
+        SELECT s.student,
                s.first_name,
-               s.last_name,
+               s.last_name
           FROM tb_student s
     '''
 
