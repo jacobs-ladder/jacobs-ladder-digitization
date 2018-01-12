@@ -136,6 +136,59 @@ def get_all_users(db_conn):
     return user.get_user_objects(rows)
 
 
+##### Update #####
+
+# updates the user with the parameter id to have the newly input attributes (at least all the ones that are defined)
+def update_user(db_conn, id, attributes):
+
+    # goes through attributes to make sure that at least one of them exists to be updated
+    attribute_to_be_updated_exists = any(value is not None for value in attributes.values())
+    if not attribute_to_be_updated_exists:
+        raise ValueError, "No attributes were given to be updated"
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        UPDATE tb_entity
+           SET
+    '''
+    parameters = {}
+    parameters['id'] = id
+
+    if attributes['username'] is not None:
+        query += 'username = %(username)s,'
+        parameters['username'] = attributes['username']
+
+    if attributes['first_name'] is not None:
+        query += 'first_name = %(first_name)s,'
+        parameters['first_name'] = attributes['first_name']
+
+    if attributes['last_name'] is not None:
+        query += 'last_name = %(last_name)s,'
+        parameters['last_name'] = attributes['last_name']
+
+    if attributes['email_address'] is not None:
+        query += 'email_address = %(email_address)s,'
+        parameters['email_address'] = attributes['email_address']
+
+    query = query[:-1] # remove last character from query string (the comma of the last attribute to be updated)
+
+    query += '''
+         WHERE entity = %(id)s
+     RETURNING entity
+    '''
+
+    cursor.execute(query, parameters)
+    rows = cursor.fetchall()
+    db_conn.commit()
+
+    if len(rows) < 1:
+        # this should never happen because the db function should stop it if there is a problem
+        raise ValueError, "Could not update entity"
+
+    return rows[0][0]
+
+
 ##### Misc #####
 
 # checks if this user exists and this is their password

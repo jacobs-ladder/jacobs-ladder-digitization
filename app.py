@@ -145,7 +145,7 @@ def activity():
 
 
 # route for users (creation and retrieval)
-@app.route("/api/user", methods=["GET", "POST"])
+@app.route("/api/user", methods=["GET", "POST", "PATCH"])
 @login_required
 def user():
 
@@ -170,6 +170,19 @@ def user():
         created_user_id = db_lib.create_user(db_conn, username, password, first_name, last_name, email_address, role_label)
 
         return Response('{created_user_id:' + str(created_user_id) + '}')
+    elif request.method == 'PATCH':
+        user_id = request.args['user']
+
+        attributes = {
+            "username":      request.args['username']      if 'username'      in request.args.keys() else None,
+            "first_name":    request.args['first_name']    if 'first_name'    in request.args.keys() else None,
+            "last_name":     request.args['last_name']     if 'last_name'     in request.args.keys() else None,
+            "email_address": request.args['email_address'] if 'email_address' in request.args.keys() else None
+        }
+
+        updated_user_id = db_lib.update_user(db_conn, user_id, attributes)
+
+        return Response('{updated_user:' + str(updated_user_id) + '}')
 
 
 # route for students (creation and retrieval)
