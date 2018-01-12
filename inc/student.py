@@ -36,11 +36,11 @@ def get_student_objects(db_rows):
 
     for row in db_rows:
         # this will need to get updated if student gets more attributes
-        current_student            = row[0]
+        current_student_id         = row[0]
         current_student_first_name = row[1]
         current_student_last_name  = row[2]
 
-        this_student = student(current_student, current_student_first_name, current_student_last_name)
+        this_student = student(current_student_id, current_student_first_name, current_student_last_name)
 
         students.append(this_student)
 
