@@ -35,6 +35,11 @@ def load_user(user_id):
     return user
 
 
+@app.route('/')
+@login_required
+def home():
+   return app.send_static_file('index.html')
+
 ##################################################
 ##### Delivering files to Client-Side Routes #####
 ##################################################
