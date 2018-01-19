@@ -219,8 +219,17 @@ def student():
         created_student_id = db_lib.create_student(db_conn, first_name, last_name)
 
         return Response('{created_student:' + str(created_student_id) + '}')
+    elif request.method == 'PATCH':
+        user_id = request.args['user']
 
+        attributes = {
+            "student_first_name":    request.args['student_first_name']    if 'student_first_name'    in request.args.keys() else None,
+            "student_last_name":     request.args['student_last_name']     if 'student_last_name'     in request.args.keys() else None,
+        }
 
+        updated_student_id = db_lib.update_student(db_conn, student_id, attributes)
+
+        return Response('{updated_student:' + str(updated_student_id) + '}')
 # route for the activity data of a particular student (creation and retrieval)
 @app.route("/api/student_activity", methods=["GET", "POST"])
 @login_required
