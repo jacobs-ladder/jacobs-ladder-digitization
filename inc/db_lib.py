@@ -148,6 +148,9 @@ def get_all_users(db_conn):
 # updates the user with the parameter id to have the newly input attributes (at least all the ones that are defined)
 def update_user(db_conn, id, attributes):
 
+    # TODO add validation for role_labels so that way we get a nice error
+    # message if they pass in a role_label that doesn't exist
+
     # goes through attributes to make sure that at least one of them exists to be updated
     attribute_to_be_updated_exists = any(value is not None for value in attributes.values())
     if not attribute_to_be_updated_exists:
@@ -177,6 +180,10 @@ def update_user(db_conn, id, attributes):
     if attributes['email_address'] is not None:
         query += 'email_address = %(email_address)s,'
         parameters['email_address'] = attributes['email_address']
+
+    if attributes['role_label'] is not None:
+        query += 'role = (SELECT r.role FROM tb_role r WHERE r.label = %(role_label)s),'
+        parameters['role_label'] = attributes['role_label']
 
     query = query[:-1] # remove last character from query string (the comma of the last attribute to be updated)
 
