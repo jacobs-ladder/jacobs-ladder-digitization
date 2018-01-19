@@ -373,6 +373,37 @@ def update_activity(db_conn, id, attributes):
     return rows[0][0]
 
 
+
+##### Delete #####
+
+# deletes the activity from the database with the parameter id
+def delete_activity(db_conn, id):
+
+    # TODO for now this actually deletes from the db rather than using a disabled column or something like that
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        DELETE
+          FROM tb_activity
+         WHERE activity = %(id)
+     RETURNING activity
+    '''
+
+    parameters = {}
+    parameters['id'] = id
+
+    cursor.execute(query, parameters)
+    rows = cursor.fetchall()
+    db_conn.commit()
+
+    if len(rows) < 1:
+        # this should never happen because the db function should stop it if there is a problem
+        raise ValueError, "Could not delete activity"
+
+    return rows[0][0]
+
+
 #############################
 ##### Student Functions #####
 #############################
