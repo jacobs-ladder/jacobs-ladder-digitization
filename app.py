@@ -115,7 +115,7 @@ def admin_home():
 # see here: http://flask.pocoo.org/docs/0.12/quickstart/
 
 # get all activites
-@app.route("/api/activity", methods=["GET", "POST", "PATCH", "DELETE"])
+@app.route("/api/activity", methods=["GET", "POST", "PATCH"])#, "DELETE"])
 @login_required
 def activity():
 
@@ -147,12 +147,13 @@ def activity():
         updated_activity_id = db_lib.update_activity(db_conn, activity_id, attributes)
 
         return Response('{updated_activity:' + str(updated_activity_id) + '}')
-    elif request.method == 'DELETE':
-        activity_id = request.args['activity']
-        deleted_activity_id = db_lib.delete_activity(db_conn, activity_id)
-        
-        return Response('{deleted_activity:' + str(deleted_activity_id) + '}')
-        
+    # TODO commented this route out until we get the db activity deleting working
+    #elif request.method == 'DELETE':
+    #    activity_id = request.args['activity']
+    #    deleted_activity_id = db_lib.delete_activity(db_conn, activity_id)
+
+    #    return Response('{deleted_activity:' + str(deleted_activity_id) + '}')
+
 
 # route for users (creation and retrieval)
 @app.route("/api/user", methods=["GET", "POST", "PATCH"])
