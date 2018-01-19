@@ -101,8 +101,11 @@ def get_user_by_id(db_conn, id):
 	       e.username,
                e.first_name,
                e.last_name,
-               e.email_address
+               e.email_address,
+               r.label
           FROM tb_entity e
+          JOIN tb_role r
+            ON e.role = r.role
          WHERE e.entity = %(id)s
     '''
 
@@ -114,7 +117,7 @@ def get_user_by_id(db_conn, id):
     if len(rows) < 1:
         raise ValueError, "User with that id does not exist: %s" % (id)
 
-    return user.user(rows[0][0], rows[0][1], rows[0][2], rows[0][3], rows[0][4])
+    return user.user(rows[0][0], rows[0][1], rows[0][2], rows[0][3], rows[0][4], rows[0][5])
 
 
 # returns a list of all the users in the db as user objects
@@ -127,8 +130,11 @@ def get_all_users(db_conn):
 	       e.username,
                e.first_name,
                e.last_name,
-               e.email_address
+               e.email_address,
+               r.label
           FROM tb_entity e
+          JOIN tb_role r
+            ON e.role = r.role
     '''
 
     cursor.execute(query)
