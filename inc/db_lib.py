@@ -385,8 +385,12 @@ def delete_activity(db_conn, id):
 
     query = '''
         DELETE
+          FROM tb_student_activity
+         WHERE activity = %(id)s;
+
+        DELETE
           FROM tb_activity
-         WHERE activity = %(id)
+         WHERE activity = %(id)s
      RETURNING activity
     '''
 
