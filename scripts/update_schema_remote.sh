@@ -25,7 +25,7 @@ while read line; do
     alter_full_file_name=$alter_file_path$line
     echo "APPLYING ALTER: $line"
     # NOTE: had to put the app_name in here directly because it couldnt be a string
-    heroku pg:psql --app jacobs-ladder-digitization < $alter_full_file_name # TODO testing &> $temp_database_alters_output_full_file_name
+    heroku pg:psql --app jacobs-ladder-digitization < $alter_full_file_name
 done < $order_of_alters_full_file_name
 
 # repopulate data

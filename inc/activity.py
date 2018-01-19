@@ -1,4 +1,5 @@
-
+import json
+from json import JSONEncoder
 ################################
 ##### The Class Definition #####
 ################################
@@ -18,6 +19,9 @@ class activity:
 
     def get_description(self):
         return self.description
+
+    def toJSON(self):
+	return json.dumps(self.__dict__);
 
 
 ###########################################
@@ -40,3 +44,10 @@ def get_activity_objects(db_rows):
         activites.append(current_activity)
 
     return activites
+
+def get_activities_json(activities):
+    return json.dumps(activities, cls=ActivityEncoder)
+
+class ActivityEncoder(JSONEncoder):
+        def default(self, o):
+            return o.__dict__
