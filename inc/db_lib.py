@@ -377,31 +377,36 @@ def update_activity(db_conn, id, attributes):
 ##### Delete #####
 
 # deletes the activity from the database with the parameter id
-def delete_activity(db_conn, id):
-
-    # TODO for now this actually deletes from the db rather than using a disabled column or something like that
-
-    cursor = db_conn.cursor()
-
-    query = '''
-        DELETE
-          FROM tb_activity
-         WHERE activity = %(id)
-     RETURNING activity
-    '''
-
-    parameters = {}
-    parameters['id'] = id
-
-    cursor.execute(query, parameters)
-    rows = cursor.fetchall()
-    db_conn.commit()
-
-    if len(rows) < 1:
-        # this should never happen because the db function should stop it if there is a problem
-        raise ValueError, "Could not delete activity"
-
-    return rows[0][0]
+# TODO commenting this out until ryan has a chance to actually fix it
+#def delete_activity(db_conn, id):
+#
+#    # TODO for now this actually deletes from the db rather than using a disabled column or something like that
+#
+#    cursor = db_conn.cursor()
+#
+#    query = '''
+#        DELETE
+#          FROM tb_student_activity
+#         WHERE activity = %(id)s;
+#
+#        DELETE
+#          FROM tb_activity
+#         WHERE activity = %(id)s
+#     RETURNING activity
+#    '''
+#
+#    parameters = {}
+#    parameters['id'] = id
+#
+#    cursor.execute(query, parameters)
+#    rows = cursor.fetchall()
+#    db_conn.commit()
+#
+#    if len(rows) < 1:
+#        # this should never happen because the db function should stop it if there is a problem
+#        raise ValueError, "Could not delete activity"
+#
+#    return rows[0][0]
 
 
 #############################
@@ -485,6 +490,52 @@ def get_all_students(db_conn):
     rows = cursor.fetchall()
 
     return student.get_student_objects(rows)
+
+
+
+##### Update #####
+
+# updates the student with the parameter id to have the newly input attributes (at least all the ones that are defined)
+def update_student(db_conn, id, attributes):
+
+    # goes through attributes to make sure that at least one of them exists to be updated
+    attribute_to_be_updated_exists = any(value is not None for value in attributes.values())
+    if not attribute_to_be_updated_exists:
+        raise ValueError, "No attributes were given to be updated"
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        UPDATE tb_student
+           SET
+    '''
+    parameters = {}
+    parameters['id'] = id
+
+    if attributes['first_name'] is not None:
+        query += 'first_name = %(first_name)s,'
+        parameters['first_name'] = attributes['first_name']
+
+    if attributes['last_name'] is not None:
+        query += 'last_name = %(last_name)s,'
+        parameters['last_name'] = attributes['last_name']
+
+    query = query[:-1] # remove last character from query string (the comma of the last attribute to be updated)
+
+    query += '''
+         WHERE student = %(id)s
+     RETURNING student
+    '''
+
+    cursor.execute(query, parameters)
+    rows = cursor.fetchall()
+    db_conn.commit()
+
+    if len(rows) < 1:
+        # this should never happen because the db function should stop it if there is a problem
+        raise ValueError, "Could not update student"
+
+    return rows[0][0]
 
 
 ######################################
