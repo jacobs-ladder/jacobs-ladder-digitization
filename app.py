@@ -198,7 +198,7 @@ def user():
 
 
 # route for students (creation and retrieval)
-@app.route("/api/student", methods=["GET", "POST"])
+@app.route("/api/student", methods=["GET", "POST", "PATCH"])
 @login_required
 def student():
 
@@ -221,7 +221,7 @@ def student():
 
         return Response('{created_student:' + str(created_student_id) + '}')
     elif request.method == 'PATCH':
-        user_id = request.args['user']
+        user_id = request.args['student']
 
         attributes = {
             "student_first_name":    request.args['student_first_name']    if 'student_first_name'    in request.args.keys() else None,
