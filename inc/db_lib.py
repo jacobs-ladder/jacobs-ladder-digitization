@@ -101,8 +101,11 @@ def get_user_by_id(db_conn, id):
 	       e.username,
                e.first_name,
                e.last_name,
-               e.email_address
+               e.email_address,
+               r.label
           FROM tb_entity e
+          JOIN tb_role r
+            ON e.role = r.role
          WHERE e.entity = %(id)s
     '''
 
@@ -114,7 +117,7 @@ def get_user_by_id(db_conn, id):
     if len(rows) < 1:
         raise ValueError, "User with that id does not exist: %s" % (id)
 
-    return user.user(rows[0][0], rows[0][1], rows[0][2], rows[0][3], rows[0][4])
+    return user.user(rows[0][0], rows[0][1], rows[0][2], rows[0][3], rows[0][4], rows[0][5])
 
 
 # returns a list of all the users in the db as user objects
@@ -127,8 +130,11 @@ def get_all_users(db_conn):
 	       e.username,
                e.first_name,
                e.last_name,
-               e.email_address
+               e.email_address,
+               r.label
           FROM tb_entity e
+          JOIN tb_role r
+            ON e.role = r.role
     '''
 
     cursor.execute(query)
@@ -141,6 +147,9 @@ def get_all_users(db_conn):
 
 # updates the user with the parameter id to have the newly input attributes (at least all the ones that are defined)
 def update_user(db_conn, id, attributes):
+
+    # TODO add validation for role_labels so that way we get a nice error
+    # message if they pass in a role_label that doesn't exist
 
     # goes through attributes to make sure that at least one of them exists to be updated
     attribute_to_be_updated_exists = any(value is not None for value in attributes.values())
@@ -171,6 +180,10 @@ def update_user(db_conn, id, attributes):
     if attributes['email_address'] is not None:
         query += 'email_address = %(email_address)s,'
         parameters['email_address'] = attributes['email_address']
+
+    if attributes['role_label'] is not None:
+        query += 'role = (SELECT r.role FROM tb_role r WHERE r.label = %(role_label)s),'
+        parameters['role_label'] = attributes['role_label']
 
     query = query[:-1] # remove last character from query string (the comma of the last attribute to be updated)
 
@@ -360,6 +373,42 @@ def update_activity(db_conn, id, attributes):
     return rows[0][0]
 
 
+
+##### Delete #####
+
+# deletes the activity from the database with the parameter id
+# TODO commenting this out until ryan has a chance to actually fix it
+#def delete_activity(db_conn, id):
+#
+#    # TODO for now this actually deletes from the db rather than using a disabled column or something like that
+#
+#    cursor = db_conn.cursor()
+#
+#    query = '''
+#        DELETE
+#          FROM tb_student_activity
+#         WHERE activity = %(id)s;
+#
+#        DELETE
+#          FROM tb_activity
+#         WHERE activity = %(id)s
+#     RETURNING activity
+#    '''
+#
+#    parameters = {}
+#    parameters['id'] = id
+#
+#    cursor.execute(query, parameters)
+#    rows = cursor.fetchall()
+#    db_conn.commit()
+#
+#    if len(rows) < 1:
+#        # this should never happen because the db function should stop it if there is a problem
+#        raise ValueError, "Could not delete activity"
+#
+#    return rows[0][0]
+
+
 #############################
 ##### Student Functions #####
 #############################
@@ -441,6 +490,52 @@ def get_all_students(db_conn):
     rows = cursor.fetchall()
 
     return student.get_student_objects(rows)
+
+
+
+##### Update #####
+
+# updates the student with the parameter id to have the newly input attributes (at least all the ones that are defined)
+def update_student(db_conn, id, attributes):
+
+    # goes through attributes to make sure that at least one of them exists to be updated
+    attribute_to_be_updated_exists = any(value is not None for value in attributes.values())
+    if not attribute_to_be_updated_exists:
+        raise ValueError, "No attributes were given to be updated"
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        UPDATE tb_student
+           SET
+    '''
+    parameters = {}
+    parameters['id'] = id
+
+    if attributes['first_name'] is not None:
+        query += 'first_name = %(first_name)s,'
+        parameters['first_name'] = attributes['first_name']
+
+    if attributes['last_name'] is not None:
+        query += 'last_name = %(last_name)s,'
+        parameters['last_name'] = attributes['last_name']
+
+    query = query[:-1] # remove last character from query string (the comma of the last attribute to be updated)
+
+    query += '''
+         WHERE student = %(id)s
+     RETURNING student
+    '''
+
+    cursor.execute(query, parameters)
+    rows = cursor.fetchall()
+    db_conn.commit()
+
+    if len(rows) < 1:
+        # this should never happen because the db function should stop it if there is a problem
+        raise ValueError, "Could not update student"
+
+    return rows[0][0]
 
 
 ######################################
