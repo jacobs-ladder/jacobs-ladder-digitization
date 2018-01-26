@@ -62,9 +62,19 @@
 <script src="../js/test.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
 <script type="text/babel">
-const myDiv = <div className="big">I AM A BIG DIV</div>;
+//const myDiv = <div className="big">I AM A BIG DIV</div>;
 
-ReactDOM.render(myDiv, document.getElementById('app'));
+//ReactDOM.render(myDiv, document.getElementById('app'));
+
+const students = ["Name Here", "Jane Doe", "Major Major", "Mark Twain"];
+const listItems = students.map((student) =>
+  <li>{student}</li>
+);
+
+ReactDOM.render(
+  <ul>{listItems}</ul>,
+  document.getElementById('app')
+);
 
 </script>
 
