@@ -64,11 +64,6 @@ def send_css(path):
 ##### Page Routes #####
 #######################
 
-@app.route('/')
-@login_required
-def home():
-   return app.send_static_file('admin.html')
-
 
 # somewhere to login
 @app.route("/login", methods=["GET", "POST"])
@@ -182,8 +177,7 @@ def user():
             "username":      request.args['username']      if 'username'      in request.args.keys() else None,
             "first_name":    request.args['first_name']    if 'first_name'    in request.args.keys() else None,
             "last_name":     request.args['last_name']     if 'last_name'     in request.args.keys() else None,
-            "email_address": request.args['email_address'] if 'email_address' in request.args.keys() else None,
-            "role_label":    request.args['role_label']    if 'role_label'    in request.args.keys() else None
+            "email_address": request.args['email_address'] if 'email_address' in request.args.keys() else None
         }
 
         updated_user_id = db_lib.update_user(db_conn, user_id, attributes)
