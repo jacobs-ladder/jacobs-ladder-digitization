@@ -41,6 +41,8 @@ form {
     border-radius: 10px 10px 0px 0px; /* top left, top right, bottom right, bottom left */
     background-color: #87C6CE;
     margin-left: .5em;
+    padding-top: .5em;
+    padding-bottom: .5em;
 }
 
 #sidebar {
