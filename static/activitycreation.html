@@ -1,15 +1,75 @@
 <html>
-<form action="activitysubmit.html" method="post">
-	<p>Name: <br> <input type=text name=activtyname>
-	<p> Description: <br> <input type=text name=description>
-	<p><input type=submit value= "Create Activity">
-</form>
-<form action="activitylist.html">
-    <input type="submit" value="List of Activities" />
-</form>
-<form action="admin.html"> 
-    <input type="submit" value="Home" />
-</form>
+<head>
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="../css/home.css">
+</head>
 
-<script src="js/test.js"></script>
+<body>
+
+<div class="container">
+
+      <!-- Static navbar -->
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Project name</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Contact</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li class="dropdown-header">Nav header</li>
+                  <li><a href="#">Separated link</a></li>
+                  <li><a href="#">One more separated link</a></li>
+                </ul>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>
+              <li><a href="../navbar-static-top/">Static top</a></li>
+              <li><a href="../navbar-fixed-top/">Fixed top</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
+
+      <!-- Main component for a primary marketing message or call to action -->
+      <div class="jumbotron main">
+        <form action="activitysubmit.html" method="post">
+				<p>Name: <br> <input type=text name=activtyname></p>
+				<p>Type of Activity: <br> <input type=text name=activitytype></p>
+				<p>Instructions: <br> <input type=text name=instructions></p>
+				<p>Any Variations: <br> <input type=text name=variations></p>
+				<p>Goal of Activity: <br> <input type=text name=goal></p>
+
+				<p><input type=submit value="Create Activity"></p>
+				</form>
+				<form action="activitylist.html">
+					<input type="submit" value="List of Activities" />
+				</form>
+				<form action="admin.html">
+					<input type="submit" value="Home" />
+				</form>
+      </div>
+
+    </div> <!-- /container -->
+
+	<script src="../js/jquery-3.3.1.min.js"></script>
+	<script src="../js/test.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
+</body>
 </html>

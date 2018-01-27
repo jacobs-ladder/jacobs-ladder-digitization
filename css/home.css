@@ -1,3 +1,44 @@
 body {
-    background-color: lightblue;
+	background-color: #A7E9ED;
+}
+
+.main {
+	background-color: #FFFAF2;
+}
+
+html, body {
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    color: #444;
+    -webkit-font-smoothing: antialiased;
+    /*background: #f0f0f0;*/
+    margin-left: 20px
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+form {
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+#app {
+    padding-top: 3em;
+}
+
+#body {
+    padding: 3em;
+    text-align: center;
+}
+
+#nav .navA {
+    border-radius: 10px 10px 0px 0px; /* top left, top right, bottom right, bottom left */
+    background-color: #f0f;
+    margin-left: .5em;
+}
+
+#sidebar .row {
+    background-color: #0ff;
+    margin-bottom: .5em;
+    line-height: 2em;
 }

@@ -122,7 +122,7 @@ def admin_home():
 # see here: http://flask.pocoo.org/docs/0.12/quickstart/
 
 # get all activites
-@app.route("/api/activity", methods=["GET", "POST", "PATCH"])
+@app.route("/api/activity", methods=["GET", "POST", "PATCH"])#, "DELETE"])
 @login_required
 def activity():
 
@@ -154,6 +154,12 @@ def activity():
         updated_activity_id = db_lib.update_activity(db_conn, activity_id, attributes)
 
         return Response('{updated_activity:' + str(updated_activity_id) + '}')
+    # TODO commented this route out until we get the db activity deleting working
+    #elif request.method == 'DELETE':
+    #    activity_id = request.args['activity']
+    #    deleted_activity_id = db_lib.delete_activity(db_conn, activity_id)
+
+    #    return Response('{deleted_activity:' + str(deleted_activity_id) + '}')
 
 
 # route for users (creation and retrieval)
@@ -198,7 +204,7 @@ def user():
 
 
 # route for students (creation and retrieval)
-@app.route("/api/student", methods=["GET", "POST"])
+@app.route("/api/student", methods=["GET", "POST", "PATCH"])
 @login_required
 def student():
 
@@ -220,8 +226,17 @@ def student():
         created_student_id = db_lib.create_student(db_conn, first_name, last_name)
 
         return Response('{created_student:' + str(created_student_id) + '}')
+    elif request.method == 'PATCH':
+        user_id = request.args['student']
 
+        attributes = {
+            "student_first_name":    request.args['student_first_name']    if 'student_first_name'    in request.args.keys() else None,
+            "student_last_name":     request.args['student_last_name']     if 'student_last_name'     in request.args.keys() else None,
+        }
 
+        updated_student_id = db_lib.update_student(db_conn, student_id, attributes)
+
+        return Response('{updated_student:' + str(updated_student_id) + '}')
 # route for the activity data of a particular student (creation and retrieval)
 @app.route("/api/student_activity", methods=["GET", "POST"])
 @login_required
