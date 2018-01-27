@@ -1,11 +1,11 @@
+<!DOCTYPE html>
+
 <html>
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="../css/home.css"/>
 </head>
-
 <body>
-
 <div id="app">
   If you see this, stuff doesn't work.
 </div>
@@ -68,19 +68,24 @@ ReactDOM.render(
   document.getElementById('app')
 );
 
+const students = ["student A", "student B", "student C", "student D", "student E", "student F", "student G", "student H", "student I", "student J", ]; //TODO connect to backend (get real list of students)
+const listStudents = students.map((student) =>
+  <tr><td>&nbsp;{student}</td></tr>
+);
 
-//TODO Connect the POST submission to the back end
 const currBody = (
   <div>
-    <h2>Create an Activity</h2>
-    <form action="activitysubmit.html" method="post">
-      <p>Name: <input type="text" name="activtyname"/></p>
-      <p>Type of Activity: <input type="text" name="activitytype"/></p>
-      <p>Instructions: <input type="text" name="instructions"/></p>
-      <p>Any Variations: <input type="text" name="variations"/></p>
-      <p>Goal of Activity: <input type="text" name="goal"/></p>
+    <h2>Student List</h2>
 
-      <p><input type="submit" value="Create Activity"/></p>
+      <table>
+        <tr>
+          <th>Student List</th>
+        </tr>
+        {listStudents}
+      </table>
+
+    <form action="logout">
+      <input type="submit" value="Logout" />
     </form>
   </div>
   );
@@ -93,5 +98,6 @@ ReactDOM.render(
 );
 
 </script>
+
 </body>
 </html>
