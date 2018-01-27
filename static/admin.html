@@ -1,45 +1,33 @@
 <!DOCTYPE html>
 
-<style>
-</style>
 <html>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="../css/home.css"/>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="../css/home.css"/>
+</head>
 <body>
 <div id="app">
-  Stuff?
+  If you see this, stuff doesn't work.
 </div>
 
-
-
-<!-- <p id="demo">Student List:</p> -->
-<!-- <ul style="list-style-type:none">
-  <li>* StudentA</li>
-  <li>* StudentB</li>
-  <li>* StudentC</li>
-</ul> -->
-<!-- <form action="activitycreation.html">
-    <input type="submit" value="Create Activity" />
-</form> -->
 
 
 <!-- For bootstrap to work -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
 <!-- For React to work -->
 <script src="../js/react.js"></script>
 <script src="../js/react-dom.js"></script>
-<script src="../js/test.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
+<!-- Ours -->
+<script src="../js/test.js"></script>
+
 <script type="text/babel">
-//const myDiv = <div className="big">I AM A BIG DIV</div>;
 
-//ReactDOM.render(myDiv, document.getElementById('app'));
+var isAdmin = true; //TODO connect to backend (needs to see if the user is an Admin)
+var isEval = true; //TODO connect to backend (needs to see if the user is an Evaluator)
 
-var isAdmin = true;
-var isEval = isAdmin || true;
 
 const layout = (
   <div className="container-fluid">
@@ -48,13 +36,12 @@ const layout = (
       </div>
       {isAdmin &&
         <div className="col-md-2 col-3 navA">
-          Admin
+          <a href="admin.html"> Admin </a>
         </div>
       }
-      {
-        isEval &&
+      {isEval &&
         <div className="col-md-2 col-3 navA">
-          Evaluator
+          <a href="eval.html"> Evaluator </a>
         </div>
       }
 
@@ -81,6 +68,11 @@ ReactDOM.render(
   document.getElementById('app')
 );
 
+const students = ["student A", "student B", "student C", "student D", "student E", "student F", "student G", "student H", "student I", "student J", ]; //TODO connect to backend (get real list of students)
+const listStudents = students.map((student) =>
+  <tr><td>&nbsp;{student}</td></tr>
+);
+
 const currBody = (
   <div>
     <h2>Admin Landing</h2>
@@ -89,33 +81,7 @@ const currBody = (
         <tr>
           <th>Student List</th>
         </tr>
-        <tr>
-          <td>&nbsp;student A</td>
-        </tr>
-        <tr>
-          <td>&nbsp;student B</td>
-        </tr>
-        <tr>
-          <td>&nbsp;student C</td>
-        </tr>
-        <tr>
-          <td>&nbsp;student D</td>
-        </tr>
-        <tr>
-          <td>&nbsp;student E</td>
-        </tr>
-        <tr>
-          <td>&nbsp;student F</td>
-        </tr>
-        <tr>
-          <td>&nbsp;student G</td>
-        </tr>
-        <tr>
-          <td>&nbsp;student H</td>
-        </tr>
-        <tr>
-          <td>&nbsp;student I</td>
-        </tr>
+        {listStudents}
       </table>
 
     <form action="logout">
@@ -124,11 +90,6 @@ const currBody = (
   </div>
   );
 
-
-const students = ["Name Here", "Jane Doe", "Major Major", "Mark Twain"]; //TODO connect to backend
-const listItems = students.map((student) =>
-  <li>{student}</li>
-);
 
 
 ReactDOM.render(
