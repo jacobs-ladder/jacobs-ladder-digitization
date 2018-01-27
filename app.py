@@ -1,6 +1,7 @@
 from flask import Flask, Response, redirect, url_for, request, session, abort, send_from_directory
-from flask_login import LoginManager, login_required, login_user, logout_user
+from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 import json
+from functools import wraps
 
 import sys
 sys.path.insert(0, 'inc')
@@ -24,6 +25,17 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
+
+def role_required(role="ANY"):
+	def fn(view_fn):
+		def wrapper(*args, **kwargs):
+			if role != current_user.get_role_label() and role != "ANY":
+				return abort(403)
+			return view_fn(*args, **kwargs)
+		return wrapper
+	return fn
+		
+
 # callback to reload the user object
 @login_manager.user_loader
 def load_user(user_id):
@@ -33,7 +45,6 @@ def load_user(user_id):
     db_conn.close()
 
     return user
-
 
 @app.route('/')
 @login_required
@@ -97,8 +108,9 @@ def logout():
 # somewhere to admin
 @app.route("/admin")
 @login_required
+@role_required("admin")
 def admin_home():
-    return app.send_static_file('admin.html')
+	return app.send_static_file('admin.html')
 
 
 
