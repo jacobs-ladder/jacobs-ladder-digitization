@@ -44,7 +44,7 @@ var isEval = isAdmin || true;
 const layout = (
   <div className="container-fluid">
     <div className="row" id="nav">
-      <div className="col-md-2 col-3">
+      <div className="col-1 col-sm-2">
       </div>
       {isAdmin &&
         <div className="col-md-2 col-3 navA">
@@ -63,7 +63,7 @@ const layout = (
       </div>
     </div>
     <div className="row">
-      <div className="col-md-2 col-3">
+      <div className="col-md-2 col-3" id="sidebar">
         <div className="row">Students</div>
         <div className="row">Users</div>
         <div className="row">Activities</div>
@@ -85,38 +85,38 @@ const currBody = (
   <div>
     <h2>Admin Landing</h2>
 
-    <table>
-      <tr>
-        <th>Student List</th>
-      </tr>
-      <tr>
-        <td>&nbsp;student A</td>
-      </tr>
-      <tr>
-        <td>&nbsp;student B</td>
-      </tr>
-      <tr>
-        <td>&nbsp;student C</td>
-      </tr>
-      <tr>
-        <td>&nbsp;student D</td>
-      </tr>
-      <tr>
-        <td>&nbsp;student E</td>
-      </tr>
-      <tr>
-        <td>&nbsp;student F</td>
-      </tr>
-      <tr>
-        <td>&nbsp;student G</td>
-      </tr>
-      <tr>
-        <td>&nbsp;student H</td>
-      </tr>
-      <tr>
-        <td>&nbsp;student I</td>
-      </tr>
-    </table>
+      <table>
+        <tr>
+          <th>Student List</th>
+        </tr>
+        <tr>
+          <td>&nbsp;student A</td>
+        </tr>
+        <tr>
+          <td>&nbsp;student B</td>
+        </tr>
+        <tr>
+          <td>&nbsp;student C</td>
+        </tr>
+        <tr>
+          <td>&nbsp;student D</td>
+        </tr>
+        <tr>
+          <td>&nbsp;student E</td>
+        </tr>
+        <tr>
+          <td>&nbsp;student F</td>
+        </tr>
+        <tr>
+          <td>&nbsp;student G</td>
+        </tr>
+        <tr>
+          <td>&nbsp;student H</td>
+        </tr>
+        <tr>
+          <td>&nbsp;student I</td>
+        </tr>
+      </table>
 
     <form action="logout">
       <input type="submit" value="Logout" />
