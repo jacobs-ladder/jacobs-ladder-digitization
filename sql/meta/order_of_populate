@@ -2,3 +2,4 @@ populate_tb_entity.sql
 populate_tb_activity.sql
 populate_tb_student.sql
 populate_activity_data_tables.sql
+populate_tb_student_teacher.sql

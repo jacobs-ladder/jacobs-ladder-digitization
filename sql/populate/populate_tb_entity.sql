@@ -16,11 +16,11 @@ SELECT fn_create_entity(
 );
 
 SELECT fn_create_entity(
-    'eleanor',
+    'elliot',
     'password',
-    'eleanor',
+    'elliot',
     'eason',
-    'eleanor@eleanor.com',
+    'elliot@elliot.com',
     'evaluator'
 );
 
@@ -33,3 +33,11 @@ SELECT fn_create_entity(
     'administrator'
 );
 
+SELECT fn_create_entity(
+    'hyungsuk',
+    'password',
+    'hyungsuk',
+    'do',
+    'hyungsuk@hyungsuk.com',
+    'teacher'
+);

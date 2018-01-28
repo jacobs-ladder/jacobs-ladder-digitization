@@ -8,3 +8,5 @@ create_tb_activity.sql
 create_tb_student.sql
 create_tb_data_type.sql
 create_activity_data_tables.sql
+fn_entity_is_teacher.sql
+create_tb_student_teacher.sql
