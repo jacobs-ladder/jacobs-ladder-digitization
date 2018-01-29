@@ -114,7 +114,7 @@ def admin_home():
 
 @app.route("/activity_creation")
 @login_required
-@role_required("admin")
+# @role_required("administrator")
 def activity_creation():
 	return app.send_static_file('activitycreation.html')
 
@@ -145,8 +145,8 @@ def activity():
             activities = db_lib.get_all_activites(db_conn)
             return Response(get_activities_json(activities))
     elif request.method == 'POST':
-        title       = request.args['title']
-        description = request.args['description']
+        title       = request.form['title']
+        description = request.form['description']
 
         created_activity_id = db_lib.create_activity(db_conn, title, description)
 
