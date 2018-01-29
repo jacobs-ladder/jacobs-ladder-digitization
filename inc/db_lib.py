@@ -573,7 +573,105 @@ def get_activity_data_by_student_and_activity(db_conn, student_id, activity_id):
     '''
 
     cursor.execute(query, {"student":student_id, "activity":activity_id})
-    query_rows = cursor.fetchall()
+    rows = cursor.fetchall()
 
-    return student_activity_data_aggregation.student_activity_data_aggregation(query_rows)
+    return student_activity_data_aggregation.student_activity_data_aggregation(rows)
 
+
+#####################################
+##### Student Teacher Functions #####
+#####################################
+
+##### Create #####
+
+# creates a student_teacher association between the parameter student and the parameter teacher
+def assign_student_to_teacher(db_conn, student_id, teacher_id):
+
+    # TODO for now this function will throw an error from the SQL if the teacher id is some kind of entity that is not a teacher
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        INSERT INTO tb_student_teacher
+        (
+            student,
+            teacher
+        )
+        VALUES
+        (
+            %(student)s,
+            %(teacher)s
+        )
+        RETURNING student_teacher
+    '''
+
+    cursor.execute(query, {"student": student_id, "teacher":teacher_id})
+    rows = cursor.fetchall()
+
+    # no need to do error checking like if the teacher is a teacher
+    # or if the student/teacher pair are already associated
+    # cuz the SQL will handle it
+
+    if len(rows) < 1:
+        # this should never happen because the db function should stop it if there is a problem
+        raise ValueError, "Could not insert student_teacher"
+
+    return rows[0][0]
+
+
+##### Read #####
+
+# searches for all the students that have the parameter teacher assigned to them and then returns those student objects
+def get_students_by_teacher(db_conn, teacher_id):
+
+    # TODO this function will just return nothing if you try to give it an entity that is not a teacher
+    # this will change when the table is updated to allow admins and evaluators
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        SELECT s.student    AS student,
+               s.first_name AS first_name,
+               s.last_name  AS last_name
+          FROM tb_student s
+          JOIN tb_student_teacher st
+            ON s.student = st.student
+         WHERE st.teacher = %(teacher)s
+    '''
+
+    cursor.execute(query, {"teacher":teacher_id})
+    rows = cursor.fetchall()
+
+    # no need to do error checking like if the teacher is a teacher etc cuz the SQL will handle it
+
+    return student.get_student_objects(rows)
+
+# searches for all the teachers that have the parameter student assigned to them and then returns those user objects
+def get_teachers_by_student(db_conn, student_id):
+
+    # TODO this function will just return nothing if you give it a student id that doesn't exist
+    # should probably have error checking for this
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        SELECT e.entity,
+               e.username,
+               e.first_name,
+               e.last_name,
+               e.email_address,
+               r.label
+          FROM tb_entity e
+          JOIN tb_student_teacher st
+            ON st.teacher = e.entity
+          JOIN tb_role r
+            ON e.role = r.role
+         WHERE st.student = %(student)s
+    '''
+
+    cursor.execute(query, {"student":student_id})
+    rows = cursor.fetchall()
+
+    # no need to do error checking like if the teacher is a teacher etc cuz the SQL will handle it
+
+    return user.get_user_objects(rows)
