@@ -34,7 +34,7 @@ def role_required(role="any"):
 			return view_fn(*args, **kwargs)
 		return wrapper
 	return fn
-		
+
 
 # callback to reload the user object
 @login_manager.user_loader
@@ -108,7 +108,7 @@ def logout():
 # somewhere to admin
 @app.route("/admin")
 @login_required
-@role_required("admin")
+@role_required("administrator")
 def admin_home():
 	return app.send_static_file('admin.html')
 

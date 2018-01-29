@@ -1,9 +1,14 @@
+/*
+Offial JL color list:
+Cream: #FFFAF2;
+Seafoam blue: #A7E9ED;
+Green Blue (teal): #87C6CE;
+Light blue: #BBD6EE;
+Blue: #4472C4;
+*/
+
 body {
 	background-color: #A7E9ED;
-}
-
-.main {
-	background-color: #FFFAF2;
 }
 
 html, body {
@@ -29,16 +34,24 @@ form {
 #body {
     padding: 3em;
     text-align: center;
+    background-color: #FFFAF2;
 }
 
 #nav .navA {
     border-radius: 10px 10px 0px 0px; /* top left, top right, bottom right, bottom left */
-    background-color: #f0f;
+    background-color: #87C6CE;
     margin-left: .5em;
+    padding-top: .5em;
+    padding-bottom: .5em;
+}
+
+#sidebar {
+    background-color: #A8D08C;
 }
 
 #sidebar .row {
-    background-color: #0ff;
+    /*background-color: #4472C4;*/
     margin-bottom: .5em;
     line-height: 2em;
+    padding-left: 2em;
 }

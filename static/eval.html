@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html>
-<link rel="stylesheet" type="text/css" href="css/home.css"
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="../css/home.css"/>
+</head>
 <body>
+<div id="app">
+  If you see this, stuff doesn't work.
+</div>
 
 <h2>Admin Landing</h2>
 
@@ -21,7 +27,91 @@
     <input type="submit" value="Logout" />
 </form>
 
-<script src="js/test.js"></script>
+<!-- For bootstrap to work -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<!-- For React to work -->
+<script src="../js/react.js"></script>
+<script src="../js/react-dom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
+<!-- Ours -->
+<script src="../js/test.js"></script>
 
+<script type="text/babel">
+
+var isAdmin = true; //TODO connect to backend (needs to see if the user is an Admin)
+var isEval = true; //TODO connect to backend (needs to see if the user is an Evaluator)
+
+
+const layout = (
+  <div className="container-fluid">
+    <div className="row" id="nav">
+      <div className="col-1 col-sm-2">
+      </div>
+      {isAdmin &&
+        <div className="col-md-2 col-3 navA" href="admin.html">
+          <a href="admin.html"> Admin </a>
+        </div>
+      }
+      {isEval &&
+        <div className="col-md-2 col-3 navA">
+          Evaluator
+        </div>
+      }
+
+      <div className="col-md-2 col-3 navA">
+        Teacher
+      </div>
+    </div>
+    <div className="row">
+      <div className="col-md-2 col-3" id="sidebar">
+        <div className="row">Students</div>
+        <div className="row">Users</div>
+        <div className="row">Activities</div>
+        <div className="row">Records</div>
+      </div>
+      <div className="col-md-9 col-9" id="body">
+      </div>
+    </div>
+  </div>
+);
+
+
+ReactDOM.render(
+  layout,
+  document.getElementById('app')
+);
+
+const students = ["student A", "student B", "student C", "student D", "student E", "student F", "student G", "student H", "student I", "student J", ]; //TODO connect to backend (get real list of students)
+const listStudents = students.map((student) =>
+  <tr><td>&nbsp;{student}</td></tr>
+);
+
+const currBody = (
+  <div>
+    <h2>Evaluator Landing</h2>
+
+      <table>
+        <tr>
+          <th>Student List</th>
+        </tr>
+        {listStudents}
+      </table>
+
+    <form action="logout">
+      <input type="submit" value="Logout" />
+    </form>
+  </div>
+  );
+
+
+
+ReactDOM.render(
+  currBody,
+  document.getElementById('body')
+);
+
+</script>
 </body>
 </html>
