@@ -24,29 +24,6 @@
 <script src="../js/test.js"></script>
 
 <!--temp js-->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script type="text/javascript">
-
-    $(document).ready(function () {
-
-        $.ajax({
-            type: 'GET',
-            url: '../api/activities',
-
-            dataType: "json",
-            success: function (msg) {
-                // do something with the json here
-                alert(msg);
-
-            },
-            error: function (request, status, error) {
-
-                alert(error);
-            }
-        });
-    });
-
-</script>
 <!--temp js-->
 
 <script type="text/babel">
@@ -99,7 +76,7 @@ ReactDOM.render(
 const currBody = (
   <div>
     <h2>Create an Activity</h2>
-    <form action="activitysubmit.html" method="post">
+    <form action="../api/activity" method="post">
       <p>Name: <input type="text" name="activtyname"/></p>
       <p>Type of Activity: <input type="text" name="activitytype"/></p>
       <p>Instructions: <input type="text" name="instructions"/></p>
