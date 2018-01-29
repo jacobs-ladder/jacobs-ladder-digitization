@@ -26,10 +26,10 @@ login_manager.init_app(app)
 login_manager.login_view = "login"
 
 
-def role_required(role="ANY"):
+def role_required(role="any"):
 	def fn(view_fn):
 		def wrapper(*args, **kwargs):
-			if role != current_user.get_role_label() and role != "ANY":
+			if role.lower() != current_user.get_role_label().lower() and role.lower() != "any":
 				return abort(403)
 			return view_fn(*args, **kwargs)
 		return wrapper
@@ -111,6 +111,14 @@ def logout():
 @role_required("admin")
 def admin_home():
 	return app.send_static_file('admin.html')
+
+@app.route("/activity_creation")
+@login_required
+@role_required("admin")
+def activity_creation():
+	return app.send_static_file('activitycreation.html')
+
+
 
 
 
