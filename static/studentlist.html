@@ -35,9 +35,15 @@
             url: '../api/student',
 
             dataType: "json",
-            success: function (data) {
-                // do something with the json here
-                this.student=data;
+            // success: function (data) {
+            //     // do something with the json here
+            //     this.student=data;
+
+            success: function(data){
+
+              $(data).each(function(){
+                    $('#studentListTable').append('<tbody><tr><td>' + this.firstname + '</td><td>' + this.lastname + '</td></tr></tbody>')
+                });
                 alert("success");
 
             },
@@ -94,20 +100,23 @@ ReactDOM.render(
   document.getElementById('app')
 );
 
-const students = ["student A", "student B", "student C", "student D", "student E", "student F", "student G", "student H", "student I", "student J", ]; //TODO connect to backend (get real list of students)
-const listStudents = this.student.map((item, key) =>
-  <tr><td>&nbsp;{item.name}</td></tr>
-);
+// const students = ["student A", "student B", "student C", "student D", "student E", "student F", "student G", "student H", "student I", "student J", ]; //TODO connect to backend (get real list of students)
+// const listStudents = this.student.map((item, key) =>
+//   <tr><td>&nbsp;{item}</td></tr>
+// );
 
+    // {listStudents}
 const currBody = (
   <div>
     <h2>Student List</h2>
 
-      <table>
+      <table id="studentListTable">
+      <thead>
         <tr>
           <th>Student List</th>
         </tr>
-        {listStudents}
+      </thead>
+
       </table>
 
     <form action="logout">
