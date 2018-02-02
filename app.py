@@ -49,7 +49,7 @@ def load_user(user_id):
 @app.route('/')
 @login_required
 def home():
-   return app.send_static_file('index.html')
+   return app.send_static_file('admin.html')
 
 ##################################################
 ##### Delivering files to Client-Side Routes #####
