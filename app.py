@@ -112,19 +112,19 @@ def logout():
 def admin_home():
 	return app.send_static_file('admin.html')
 
-@app.route("/activity_creation")
+@app.route("/activitycreation")
 @login_required
 # @role_required("administrator")
 def activity_creation():
 	return app.send_static_file('activitycreation.html')
 
-@app.route("/activity_list")
+@app.route("/activitylist")
 @login_required
 # @role_required("administrator")
 def activity_list():
 	return app.send_static_file('activitylist.html')
 
-@app.route("/student_list")
+@app.route("/studentlist")
 @login_required
 # @role_required("administrator")
 def student_list():
