@@ -51,9 +51,9 @@ const layout = (
     </div>
     <div className="row">
       <div className="col-md-2 col-3" id="sidebar">
-        <div className="row">Students</div>
-        <div className="row">Users</div>
-        <div className="row">Activities</div>
+        <div className="row"><a href="studentlist.html">Students</a></div>
+        <div className="row"><a href="teacher.html">Users</a></div>
+        <div className="row"><a href="activitylist.html">Activities</a></div>
         <div className="row">Records</div>
       </div>
       <div className="col-md-9 col-9" id="body">
@@ -70,19 +70,20 @@ ReactDOM.render(
 
 const students = ["student A", "student B", "student C", "student D", "student E", "student F", "student G", "student H", "student I", "student J", ]; //TODO connect to backend (get real list of students)
 const listStudents = students.map((student) =>
-  <tr><td>&nbsp;{student}</td></tr>
+  <li> {student} </li>
 );
 
 const currBody = (
   <div>
     <h2>Student List</h2>
 
-      <table>
-        <tr>
-          <th>Student List</th>
-        </tr>
-        {listStudents}
-      </table>
+      <div className="col-md-2 col-2">Thing</div>
+      <div className="col-md-4 col-4">
+        <ul>
+          {listStudents}
+        </ul>
+      </div>
+
 
     <form action="logout">
       <input type="submit" value="Logout" />
