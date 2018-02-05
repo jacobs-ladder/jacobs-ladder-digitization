@@ -130,6 +130,12 @@ def activity_list():
 def student_list():
 	return app.send_static_file('studentlist.html')
 
+@app.route("/teacher")
+@login_required
+# @role_required("administrator")
+def teacher():
+    return app.send_static_file('teacher.html')
+
 
 
 
