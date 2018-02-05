@@ -89,8 +89,7 @@ def login():
             id = db_lib.get_user_id_by_username(db_conn, username)
             user = load_user(id)
             login_user(user)
-	    if request.args.get("next") == None:
-		return redirect("");
+        if request.args.get("next") == None:
             return redirect(request.args.get("next"))
         else:
             return abort(401)
