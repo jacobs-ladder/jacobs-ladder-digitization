@@ -49,7 +49,12 @@ def load_user(user_id):
 @app.route('/')
 @login_required
 def home():
-   return app.send_static_file('admin.html')
+	if current_user.get_role_label() == "administrator":
+		return redirect("/admin")
+	if current_user.get_role_label() == "teacher":
+		return redirect("/teacher")
+	if current_user.get_role_label() == "evaluator":
+		return redirect("/eval")
 
 ##################################################
 ##### Delivering files to Client-Side Routes #####
@@ -90,9 +95,9 @@ def login():
             user = load_user(id)
             login_user(user)
         if request.args.get("next") == None:
-            return redirect(request.args.get("next"))
+            return redirect('/')
         else:
-            return abort(401)
+            return redirect(request.args.get("next"))
     else:
         return app.send_static_file('login.html')
 
