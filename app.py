@@ -295,21 +295,18 @@ def student_teacher():
         #If it gives me a student id, get me all of the teachers for that student
         if 'student' in request.args.keys():
             students_teacher_list = db_lib.get_teachers_by_student(db_conn, request.args['student'])
-            return Response(get_teachers_json(students_teacher_list))
-            pass
+            return Response(get_users_json(students_teacher_list))
         # if it gives me a teacher id, get me all of the students for that teacher
-        if 'teacher' in request.args.keys():
+        elif 'teacher' in request.args.keys():
             teachers_student_list = db_lib.get_students_by_teacher(db_conn, request.args['teacher'])
             return Response(get_students_json(teachers_student_list))
-            pass
     elif request.method == 'POST':
         #Assign student to teacher and vice versa
         student_id = request.args['student']
         teacher_id = request.args['teacher']
         
         student_teacher_assignment = db_lib.assign_student_to_teacher(db_conn, student_id, teacher_id)
-        return Response('assignment complete:'+ student_teacher_assignment + '}')
-        pass
+        return Response('{student_teacher:'+ student_teacher_assignment + '}')
     
 
 
