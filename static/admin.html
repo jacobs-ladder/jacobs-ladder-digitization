@@ -7,7 +7,7 @@
 </head>
 <body>
 <div id="app">
-  If you see this, stuff doesn't work.
+  Loading...
 </div>
 
 
@@ -21,7 +21,7 @@
 <script src="../js/react-dom.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
 <!-- Ours -->
-<script src="../js/test.js"></script>
+<script src="../js/main.js"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/babel">
@@ -33,9 +33,6 @@
             url: '../api/student',
 
             dataType: "json",
-            // success: function (data) {
-            //     // do something with the json here
-            //     this.student=data;
 
             success: function(data){
 
@@ -49,59 +46,6 @@
             }
         });
     });
-
-
-
-
-
-
-var isAdmin = true; //TODO connect to backend (needs to see if the user is an Admin)
-var isEval = true; //TODO connect to backend (needs to see if the user is an Evaluator)
-
-
-const layout = (
-  <div className="container-fluid">
-    <div className="row" id="nav">
-      <div className="col-1 col-sm-2">
-      </div>
-      {isAdmin &&
-        <div className="col-md-2 col-3 navA">
-          <a href="admin"> Admin </a>
-        </div>
-      }
-      {isEval &&
-        <div className="col-md-2 col-3 navA">
-          <a href="eval"> Evaluator </a>
-        </div>
-      }
-
-      <div className="col-md-2 col-3 navA">
-        Teacher
-      </div>
-    </div>
-    <div className="row">
-      <div className="col-md-2 col-3" id="sidebar">
-        <div className="row"><a href="studentlist">Students</a></div>
-        <div className="row"><a href="teacher">Users</a></div>
-        <div className="row"><a href="activitylist">Activities</a></div>
-        <div className="row">Records</div>
-      </div>
-      <div className="col-md-9 col-9" id="body">
-      </div>
-    </div>
-  </div>
-);
-
-
-ReactDOM.render(
-  layout,
-  document.getElementById('app')
-);
-
-// const students = ["student A", "student B", "student C", "student D", "student E", "student F", "student G", "student H", "student I", "student J", ]; //TODO connect to backend (get real list of students)
-// const listStudents = students.map((student) =>
-//   <tr><td>&nbsp;{student}</td></tr>
-// );
 
 const currBody = (
   <div>
