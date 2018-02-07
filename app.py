@@ -49,7 +49,12 @@ def load_user(user_id):
 @app.route('/')
 @login_required
 def home():
-   return app.send_static_file('index.html')
+	if current_user.get_role_label() == "administrator":
+		return redirect("/admin")
+	if current_user.get_role_label() == "teacher":
+		return redirect("/teacher")
+	if current_user.get_role_label() == "evaluator":
+		return redirect("/eval")
 
 ##################################################
 ##### Delivering files to Client-Side Routes #####
@@ -89,11 +94,10 @@ def login():
             id = db_lib.get_user_id_by_username(db_conn, username)
             user = load_user(id)
             login_user(user)
-	    if request.args.get("next") == None:
-		return redirect("");
-            return redirect(request.args.get("next"))
+        if request.args.get("next") == None:
+            return redirect('/')
         else:
-            return abort(401)
+            return redirect(request.args.get("next"))
     else:
         return app.send_static_file('login.html')
 
@@ -112,11 +116,29 @@ def logout():
 def admin_home():
 	return app.send_static_file('admin.html')
 
-@app.route("/activity_creation")
+@app.route("/activitycreation")
 @login_required
 # @role_required("administrator")
 def activity_creation():
 	return app.send_static_file('activitycreation.html')
+
+@app.route("/activitylist")
+@login_required
+# @role_required("administrator")
+def activity_list():
+	return app.send_static_file('activitylist.html')
+
+@app.route("/studentlist")
+@login_required
+# @role_required("administrator")
+def student_list():
+	return app.send_static_file('studentlist.html')
+
+@app.route("/teacher")
+@login_required
+# @role_required("administrator")
+def teacher():
+    return app.send_static_file('teacher.html')
 
 
 
