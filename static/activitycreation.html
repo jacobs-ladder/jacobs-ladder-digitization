@@ -7,7 +7,7 @@
 <body>
 
 <div id="app">
-  If you see this, stuff doesn't work.
+  Loading...
 </div>
 
 
@@ -21,80 +21,33 @@
 <script src="../js/react-dom.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
 <!-- Ours -->
-<script src="../js/test.js"></script>
+<script src="../js/main.js"></script>
 
-<!--temp js-->
 <!--temp js-->
 
 <script type="text/babel">
+	const currBody = (
+	  <div>
+		<h2>Create an Activity</h2>
+		<form action="../api/activity" method="post">
+		  <p>Name: <input type="text" name="title"/></p>
+		  <p>Type of Activity: <input type="text" name="activitytype"/></p>
+		  <p>Instructions: <input type="text" name="description"/></p>
+		  <p>Any Variations: <input type="text" name="variations"/></p>
+		  <p>Goal of Activity: <input type="text" name="goal"/></p>
 
-var isAdmin = true; //TODO connect to backend (needs to see if the user is an Admin)
-var isEval = true; //TODO connect to backend (needs to see if the user is an Evaluator)
-
-
-const layout = (
-  <div className="container-fluid">
-    <div className="row" id="nav">
-      <div className="col-1 col-sm-2">
-      </div>
-      {isAdmin &&
-        <div className="col-md-2 col-3 navA">
-          <a href="admin"> Admin </a>
-        </div>
-      }
-      {isEval &&
-        <div className="col-md-2 col-3 navA">
-          <a href="eval"> Evaluator </a>
-        </div>
-      }
-
-      <div className="col-md-2 col-3 navA">
-        Teacher
-      </div>
-    </div>
-    <div className="row">
-      <div className="col-md-2 col-3" id="sidebar">
-        <div className="row"><a href="studentlist">Students</a></div>
-        <div className="row"><a href="teacher">Users</a></div>
-        <div className="row"><a href="activitylist">Activities</a></div>
-        <div className="row">Records</div>
-      </div>
-      <div className="col-md-9 col-9" id="body">
-      </div>
-    </div>
-  </div>
-);
-
-
-ReactDOM.render(
-  layout,
-  document.getElementById('app')
-);
-
-
-//TODO Connect the POST submission to the back end
-const currBody = (
-  <div>
-    <h2>Create an Activity</h2>
-    <form action="../api/activity" method="post">
-      <p>Name: <input type="text" name="title"/></p>
-      <p>Type of Activity: <input type="text" name="activitytype"/></p>
-      <p>Instructions: <input type="text" name="description"/></p>
-      <p>Any Variations: <input type="text" name="variations"/></p>
-      <p>Goal of Activity: <input type="text" name="goal"/></p>
-
-      <p><input type="submit" value="Create Activity"/></p>
-    </form>
-  </div>
-  );
+		  <p><input type="submit" value="Create Activity"/></p>
+		</form>
+	  </div>
+	  );
 
 
 
-ReactDOM.render(
-  currBody,
-  document.getElementById('body')
-);
-
+	ReactDOM.render(
+	  currBody,
+	  document.getElementById('body')
+	);
 </script>
+<!--temp js-->
 </body>
 </html>

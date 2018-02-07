@@ -65,7 +65,7 @@ def home():
 def send_js(path):
     if '..' in path:
         return abort(403)
-    return send_from_directory('js', path)
+    return send_from_directory('dist/js', path)
 
 @app.route('/css/<path:path>')
 def send_css(path):
