@@ -23,37 +23,7 @@
 <!-- Ours -->
 <script src="../js/test.js"></script>
 
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/babel">
-
-    $(document).ready(function () {
-
-        $.ajax({
-            type: 'GET',
-            url: '../api/student',  //TODO this doesn't work?
-
-            dataType: "json",
-            // success: function (data) {
-            //     // do something with the json here
-            //     this.student=data;
-
-            success: function(data){
-
-              $(data).each(function(){
-                    $('#studentListTable').append('<tbody><tr><td>' + this.firstname + '</td><td>' + this.lastname + '</td></tr></tbody>')
-                });
-            },
-            error: function (request, status, error) {
-
-                alert(error);
-            }
-        });
-    });
-
-
-
 
 var isAdmin = true; //TODO connect to backend (needs to see if the user is an Admin)
 var isEval = true; //TODO connect to backend (needs to see if the user is an Evaluator)
@@ -66,12 +36,12 @@ const layout = (
       </div>
       {isAdmin &&
         <div className="col-md-2 col-3 navA">
-          <a href="admin"> Admin </a>
+          <a href="admin.html"> Admin </a>
         </div>
       }
       {isEval &&
         <div className="col-md-2 col-3 navA">
-          <a href="eval"> Evaluator </a>
+          <a href="eval.html"> Evaluator </a>
         </div>
       }
 
@@ -81,9 +51,9 @@ const layout = (
     </div>
     <div className="row">
       <div className="col-md-2 col-3" id="sidebar">
-        <div className="row"><a href="studentlist">Students</a></div>
-        <div className="row"><a href="teacher">Users</a></div>
-        <div className="row"><a href="activitylist">Activities</a></div>
+        <div className="row"><a href="studentlist.html">Students</a></div>
+        <div className="row"><a href="teacher.html">Users</a></div>
+        <div className="row"><a href="activitylist.html">Activities</a></div>
         <div className="row">Records</div>
       </div>
       <div className="col-md-9 col-9" id="body">
@@ -98,25 +68,21 @@ ReactDOM.render(
   document.getElementById('app')
 );
 
-// const students = ["student A", "student B", "student C", "student D", "student E", "student F", "student G", "student H", "student I", "student J", ]; //TODO connect to backend (get real list of students)
-// const listStudents = this.student.map((item, key) =>
-//   <tr><td>&nbsp;{item}</td></tr>
-// );
+const students = ["teacher A", "teacher B", "teacher C", "teacher D", "teacher E", "teacher F", "teacher G", "teacher H", "teacher I", "teacher J", ]; //TODO connect to backend (get real list of students)
+const listStudents = students.map((student) =>
+  <li> {student} </li>
+);
 
-
-    // {listStudents}
 const currBody = (
   <div>
-    <h2>Student List</h2>
+    <h2>Teacher List</h2>
 
-      <table id="studentListTable">
-      <thead>
-        <tr>
-          <th>Student List</th>
-        </tr>
-      </thead>
-
-      </table>
+      <div className="col-md-2 col-2">Thing</div>
+      <div className="col-md-4 col-4">
+        <ul>
+          {listStudents}
+        </ul>
+      </div>
 
 
     <form action="logout">

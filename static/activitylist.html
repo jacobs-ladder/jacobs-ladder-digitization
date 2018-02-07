@@ -29,11 +29,13 @@
 var isAdmin = true; //TODO connect to backend (needs to see if the user is an Admin)
 var isEval = true; //TODO connect to backend (needs to see if the user is an Evaluator)
 
+var activityList = "";
+
     $(document).ready(function () {
 
         $.ajax({
             type: 'GET',
-            url: '../api/activity',
+            url: '../api/activity',  //TODO this doesn't work
 
             dataType: "json",
             // success: function (data) {
@@ -43,7 +45,7 @@ var isEval = true; //TODO connect to backend (needs to see if the user is an Eva
             success: function(data){
 
               $(data).each(function(){
-                    $('#activityList').append('<li>Title: ' + this.title + ' Description: ' + this.description + '</li>')
+                    activityList = activityList + "<li>Title: " + this.title + " Description: " + this.description + "</li>";
                 });
             },
             error: function (request, status, error) {
@@ -52,6 +54,13 @@ var isEval = true; //TODO connect to backend (needs to see if the user is an Eva
             }
         });
     });
+
+
+const students = ["teacher A", "teacher B", "teacher C", "teacher D", "teacher E", "teacher F", "teacher G", "teacher H", "teacher I", "teacher J", ]; //TODO connect to backend (get real list of students)
+const listStudents = students.map((student) =>
+  <li key={student}> {student} </li>
+);
+
 
 const layout = (
   <div className="container-fluid">
@@ -97,7 +106,7 @@ const currBody = (
     <h2>Activity List</h2>
 
       <div className="col-md-4 col-4">
-        <ul id="activityList"></ul>
+        <ul id="activities">{listStudents}</ul>
       </div>
 
 
