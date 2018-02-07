@@ -10,8 +10,6 @@
   Loading...
 </div>
 
-
-
 <!-- For bootstrap to work -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -34,24 +32,33 @@
 
             success: function(data){
 				render_student_table(data);
-            	//$(data).each(function(){
-                    //$('#studentListTable').append('<tbody><tr><td>' + this.firstname + '</td><td>' + this.lastname + '</td></tr></tbody>')
-                //});
             },
             error: function (request, status, error) {
-
                 alert(error);
             }
         });
     });
 
-	function render_student_table(data){
-		var students = data;
-		const currBody = (
+	const body = (
 		  <div>
 			<h2>Admin Landing</h2>
 			<p>Students Table</p>
-			<table id="studentListTable">
+			<div id = "student_list_table"></div>
+			<form action="logout">
+			  <input type="submit" value="Logout" />
+			</form>
+		  </div>
+	  	);
+
+	ReactDOM.render(
+	  	body,
+	 	document.getElementById('body')
+	);
+
+	function render_student_table(data){
+		var students = data;
+		const student_list_table = (
+			<table>
 				<thead>
 				  <tr>
 					<th>First Name</th>
@@ -68,20 +75,13 @@
 						);
 					})}
 				</tbody>
-			
+	
 			</table>
-
-			<form action="logout">
-			  <input type="submit" value="Logout" />
-			</form>
-		  </div>
 	  	);
 
-
-
 		ReactDOM.render(
-		  	currBody,
-		 	document.getElementById('body')
+		  	student_list_table,
+		 	document.getElementById('student_list_table')
 		);
 	}
 
