@@ -18,74 +18,9 @@
 <script src="../js/react.js"></script>
 <script src="../js/react-dom.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
-<!-- Ours -->
-<script src="../js/main.js"></script>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/babel">
-    $(document).ready(function () {
-    	$.ajax({
-        	type: 'GET',
-            url: '../api/student',
-
-            dataType: "json",
-
-            success: function(data){
-				render_student_table(data);
-            },
-            error: function (request, status, error) {
-                alert(error);
-            }
-        });
-    });
-
-	const body = (
-		  <div>
-			<h2>Admin Landing</h2>
-			<p>Students Table</p>
-			<div id = "student_list_table"></div>
-			<form action="logout">
-			  <input type="submit" value="Logout" />
-			</form>
-		  </div>
-	  	);
-
-	ReactDOM.render(
-	  	body,
-	 	document.getElementById('body')
-	);
-
-	function render_student_table(data){
-		var students = data;
-		const student_list_table = (
-			<table>
-				<thead>
-				  <tr>
-					<th>First Name</th>
-					<th>Last Name</th>
-				  </tr>
-				</thead>
-				<tbody>
-					{students.map(function(student, key) {
-						return (
-							<tr key={key}>
-								<td>{student.firstname}</td>
-								<td>{student.lastname}</td>
-							</tr>
-						);
-					})}
-				</tbody>
-	
-			</table>
-	  	);
-
-		ReactDOM.render(
-		  	student_list_table,
-		 	document.getElementById('student_list_table')
-		);
-	}
-
-</script>
-
+<!-- Ours -->
+<script src="../js/app.js"></script>
+<script src="../js/admin.js"></script>
 </body>
 </html>
