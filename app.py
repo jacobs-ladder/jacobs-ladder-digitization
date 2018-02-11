@@ -349,7 +349,7 @@ def student_activity():
 
             student_id  = request.args['student']
 
-            students_activity_list = db_lib.get_activities_by_student(db_conn, student_id)
+            student_activity_list = db_lib.get_activities_by_student(db_conn, student_id)
 
             # close the database connection once we are done with it
             db_conn.close()
