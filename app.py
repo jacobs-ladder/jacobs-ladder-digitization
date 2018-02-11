@@ -275,11 +275,20 @@ def student_activity():
     db_conn = db_lib.get_db_connection()
 
     if request.method == 'GET':
-        student_id  = request.args['student']
-        activity_id = request.args['activity']
+        #Check if they include an activity id to see whether they want to agrregate data on a specific activity
+        #Otherwise return list of activities currently assigned to the student
+        if 'activity' in request.args.keys():
+            student_id  = request.args['student']
+            activity_id = request.args['activity']
 
-        student_activity_data_aggregation = db_lib.get_activity_data_by_student_and_activity(db_conn, student_id, activity_id)
-        return Response(student_activity_data_aggregation.toJSON())
+            student_activity_data_aggregation = db_lib.get_activity_data_by_student_and_activity(db_conn, student_id, activity_id)
+            return Response(student_activity_data_aggregation.toJSON())
+        elif:
+            student_id  = request.args['student']
+            
+            students_activity_list = db_lib.get_activities_by_student(db_conn, student_id)
+            return Response(get_activities_json(student_activity_list))
+            
     elif request.method == 'POST':
         # TODO temp
         pass
