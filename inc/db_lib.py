@@ -643,10 +643,8 @@ def assign_student_to_teacher(db_conn, student_id, teacher_id):
 ##### Read #####
 
 # searches for all the students that have the parameter teacher assigned to them and then returns those student objects
+# this function can return users that are not teachers because admins and evaluators also act as teachers
 def get_students_by_teacher(db_conn, teacher_id):
-
-    # TODO this function will just return nothing if you try to give it an entity that is not a teacher
-    # this will change when the table is updated to allow admins and evaluators
 
     cursor = db_conn.cursor()
 
