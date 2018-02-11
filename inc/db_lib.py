@@ -578,6 +578,27 @@ def get_activity_data_by_student_and_activity(db_conn, student_id, activity_id):
     return student_activity_data_aggregation.student_activity_data_aggregation(rows)
 
 
+# returns a list of activity objects that are associated with the student with the parameter ID
+def get_activities_by_student(db_conn, student_id):
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        SELECT a.activity,
+               a.title,
+               a.description
+          FROM tb_activity a
+    INNER JOIN tb_student_activity sa
+            ON a.activity = sa.activity
+         WHERE sa.student = %(student)s
+    '''
+
+    cursor.execute(query, {"student":student_id})
+    rows = cursor.fetchall()
+
+    return activity.get_activity_objects(rows)
+
+
 #####################################
 ##### Student Teacher Functions #####
 #####################################
