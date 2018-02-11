@@ -332,6 +332,7 @@ def student_activity():
     db_conn = db_lib.get_db_connection()
 
     if request.method == 'GET':
+
         #Check if they include an activity id to see whether they want to agrregate data on a specific activity
         #Otherwise return list of activities currently assigned to the student
         if 'activity' in request.args.keys():
