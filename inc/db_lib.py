@@ -628,6 +628,7 @@ def assign_student_to_teacher(db_conn, student_id, teacher_id):
 
     cursor.execute(query, {"student": student_id, "teacher":teacher_id})
     rows = cursor.fetchall()
+    db_conn.commit()
 
     # no need to do error checking like if the teacher is a teacher
     # or if the student/teacher pair are already associated

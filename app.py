@@ -396,7 +396,7 @@ def student_teacher():
 
         # close the database connection once we are done with it
         db_conn.close()
-        return Response('{student_teacher:'+ student_teacher_assignment + '}')
+        return Response('{student_teacher:' + str(student_teacher_assignment) + '}')
 
 
 
