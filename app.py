@@ -117,7 +117,7 @@ def logout():
 # somewhere to admin
 @app.route("/admin")
 @login_required
-@role_required("administrator")
+#@role_required("administrator")
 def admin_home():
 	return app.send_static_file('admin.html')
 
@@ -144,6 +144,12 @@ def student_list():
 # @role_required("administrator")
 def teacher():
     return app.send_static_file('teacher.html')
+
+@app.route("/eval")
+@login_required
+# @role_required("administrator")
+def eval():
+    return app.send_static_file('eval.html')
 
 
 
