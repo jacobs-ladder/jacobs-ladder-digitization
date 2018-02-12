@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
+import ReactTable from 'react-table'
+
 
 $(document).ready(function () {
 	$.ajax({
@@ -35,27 +37,14 @@ ReactDOM.render(
 
 function render_student_table(data){
 	var students = data;
-	const student_list_table = (
-		<table>
-			<thead>
-			  <tr>
-				<th>First Name</th>
-				<th>Last Name</th>
-			  </tr>
-			</thead>
-			<tbody>
-				{students.map(function(student, key) {
-					return (
-						<tr key={key}>
-							<td>{student.firstname}</td>
-							<td>{student.lastname}</td>
-						</tr>
-					);
-				})}
-			</tbody>
-
-		</table>
-  	);
+	const columns = [{
+		Header: 'First Name',
+		accessor: 'firstname'
+	  }, {
+		Header: 'Last Name',
+		accessor: 'lastname',
+	  }];
+	const student_list_table = <ReactTable data={data} columns={columns} filterable />
 
 	ReactDOM.render(
 	  	student_list_table,
