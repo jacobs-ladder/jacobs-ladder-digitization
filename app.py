@@ -156,7 +156,6 @@ def teacher():
 # TODO should probably switch from using ?key=value to using form[]
 # see here: http://flask.pocoo.org/docs/0.12/quickstart/
 
-# get all activites
 @app.route("/api/activity", methods=["GET", "POST", "PATCH"])#, "DELETE"])
 @login_required
 def activity():
@@ -183,10 +182,11 @@ def activity():
 
     elif request.method == 'POST':
 
-        title       = request.form['title']
-        description = request.form['description']
+        title         = request.form['title']
+        activity_type = request.form['activity_type']
+        instructions  = request.form['instructions']
 
-        created_activity_id = db_lib.create_activity(db_conn, title, description)
+        created_activity_id = db_lib.create_activity(db_conn, title, activity_type, description)
 
         # close the database connection once we are done with it
         db_conn.close()
@@ -196,8 +196,9 @@ def activity():
         activity_id = request.args['activity']
 
         attributes = {
-            "title":       request.args['title']       if 'title'       in request.args.keys() else None,
-            "description": request.args['description'] if 'description' in request.args.keys() else None
+            "title":         request.args['title']         if 'title'         in request.args.keys() else None,
+            "activity_type": request.args['activity_type'] if 'activity_type' in request.args.keys() else None,
+            "instructions":  request.args['instructions']  if 'instructions'  in request.args.keys() else None
         }
 
         updated_activity_id = db_lib.update_activity(db_conn, activity_id, attributes)
@@ -212,6 +213,49 @@ def activity():
     #    deleted_activity_id = db_lib.delete_activity(db_conn, activity_id)
 
     #    return Response('{deleted_activity:' + str(deleted_activity_id) + '}')
+
+
+@app.route("/api/activity_type", methods=["GET", "POST"])
+@login_required
+def activity_type():
+
+    db_conn = db_lib.get_db_connection()
+
+    if request.method == 'GET':
+
+        if 'activity_type' in request.args.keys():
+
+            activity_type_to_be_returned = db_lib.get_activity_type_by_id(db_conn, request.args['activity_type'])
+
+            # close the database connection once we are done with it
+            db_conn.close()
+            return Response(activity_type_to_be_returned)
+
+        elif 'label' in request.args.keys():
+
+            activity_type_to_be_returned = db_lib.get_activity_type_by_label(db_conn, request.args['label'])
+
+            # close the database connection once we are done with it
+            db_conn.close()
+            return Response(activity_type_to_be_returned)
+
+        else:
+
+            activity_types_to_be_returned = db_lib.get_all_activity_types(db_conn)
+
+            # close the database connection once we are done with it
+            db_conn.close()
+            return Response(activity_types_to_be_returned)
+
+    elif request.method == 'POST':
+
+        label = request.args['label']
+
+        created_activity_type_id = db_lib.create_activity_type(db_conn, label)
+
+        # close the database connection once we are done with it
+        db_conn.close()
+        return Response('{created_activity_type_id:' + str(created_activity_type_id) + '}')
 
 
 # route for users (creation and retrieval)
