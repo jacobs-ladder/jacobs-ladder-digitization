@@ -145,6 +145,12 @@ def student_list():
 def teacher():
     return app.send_static_file('teacher.html')
 
+@app.route("/eval")
+@login_required
+# @role_required("administrator")
+def teacher():
+    return app.send_static_file('eval.html')
+
 
 
 
