@@ -578,6 +578,27 @@ def get_activity_data_by_student_and_activity(db_conn, student_id, activity_id):
     return student_activity_data_aggregation.student_activity_data_aggregation(rows)
 
 
+# returns a list of activity objects that are associated with the student with the parameter ID
+def get_activities_by_student(db_conn, student_id):
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        SELECT a.activity,
+               a.title,
+               a.description
+          FROM tb_activity a
+    INNER JOIN tb_student_activity sa
+            ON a.activity = sa.activity
+         WHERE sa.student = %(student)s
+    '''
+
+    cursor.execute(query, {"student":student_id})
+    rows = cursor.fetchall()
+
+    return activity.get_activity_objects(rows)
+
+
 #####################################
 ##### Student Teacher Functions #####
 #####################################
@@ -607,6 +628,7 @@ def assign_student_to_teacher(db_conn, student_id, teacher_id):
 
     cursor.execute(query, {"student": student_id, "teacher":teacher_id})
     rows = cursor.fetchall()
+    db_conn.commit()
 
     # no need to do error checking like if the teacher is a teacher
     # or if the student/teacher pair are already associated
@@ -622,10 +644,8 @@ def assign_student_to_teacher(db_conn, student_id, teacher_id):
 ##### Read #####
 
 # searches for all the students that have the parameter teacher assigned to them and then returns those student objects
+# this function can return users that are not teachers because admins and evaluators also act as teachers
 def get_students_by_teacher(db_conn, teacher_id):
-
-    # TODO this function will just return nothing if you try to give it an entity that is not a teacher
-    # this will change when the table is updated to allow admins and evaluators
 
     cursor = db_conn.cursor()
 

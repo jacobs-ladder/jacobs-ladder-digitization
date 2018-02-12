@@ -41,7 +41,10 @@ def role_required(role="any"):
 def load_user(user_id):
 
     db_conn = db_lib.get_db_connection()
+
     user = db_lib.get_user_by_id(db_conn, user_id)
+
+    # close the database connection once we are done with it
     db_conn.close()
 
     return user
@@ -74,8 +77,6 @@ def send_css(path):
     return send_from_directory('css', path)
 
 
-# TODO for cleanliness' sake we should alter these methods to close the db connection once they are done using it
-
 #######################
 ##### Page Routes #####
 #######################
@@ -94,6 +95,10 @@ def login():
             id = db_lib.get_user_id_by_username(db_conn, username)
             user = load_user(id)
             login_user(user)
+
+        # close the database connection once we are done with it
+        db_conn.close()
+
         if request.args.get("next") == None:
             return redirect('/')
         else:
@@ -161,18 +166,32 @@ def activity():
     if request.method == 'GET':
         # check parameters to know if they want all activities or a single activity
         if 'activity' in request.args.keys():
+
             activity_to_be_returned = db_lib.get_activity_by_id(db_conn, request.args['activity'])
+
+            # close the database connection once we are done with it
+            db_conn.close()
             return Response(activity_to_be_returned.toJSON())
+
         else:
+
             activities = db_lib.get_all_activites(db_conn)
+
+            # close the database connection once we are done with it
+            db_conn.close()
             return Response(get_activities_json(activities))
+
     elif request.method == 'POST':
+
         title       = request.form['title']
         description = request.form['description']
 
         created_activity_id = db_lib.create_activity(db_conn, title, description)
 
+        # close the database connection once we are done with it
+        db_conn.close()
         return Response('{created_activity:' + str(created_activity_id) + '}')
+
     elif request.method == 'PATCH':
         activity_id = request.args['activity']
 
@@ -183,7 +202,10 @@ def activity():
 
         updated_activity_id = db_lib.update_activity(db_conn, activity_id, attributes)
 
+        # close the database connection once we are done with it
+        db_conn.close()
         return Response('{updated_activity:' + str(updated_activity_id) + '}')
+
     # TODO commented this route out until we get the db activity deleting working
     #elif request.method == 'DELETE':
     #    activity_id = request.args['activity']
@@ -202,12 +224,23 @@ def user():
     if request.method == 'GET':
         # check parameters to know if they want all users or a single user
         if 'user' in request.args.keys():
+
             user_to_be_returned = db_lib.get_user_by_id(db_conn, request.args['user'])
+
+            # close the database connection once we are done with it
+            db_conn.close()
             return Response(user_to_be_returned.toJSON())
+
         else:
+
             users = db_lib.get_all_users(db_conn)
+
+            # close the database connection once we are done with it
+            db_conn.close()
             return Response(get_users_json(users))
+
     elif request.method == 'POST':
+
         username      = request.args['username']
         password      = request.args['password']
         first_name    = request.args['first_name']
@@ -217,8 +250,12 @@ def user():
 
         created_user_id = db_lib.create_user(db_conn, username, password, first_name, last_name, email_address, role_label)
 
+        # close the database connection once we are done with it
+        db_conn.close()
         return Response('{created_user_id:' + str(created_user_id) + '}')
+
     elif request.method == 'PATCH':
+
         user_id = request.args['user']
 
         attributes = {
@@ -230,6 +267,8 @@ def user():
 
         updated_user_id = db_lib.update_user(db_conn, user_id, attributes)
 
+        # close the database connection once we are done with it
+        db_conn.close()
         return Response('{updated_user:' + str(updated_user_id) + '}')
 
 
@@ -244,19 +283,34 @@ def student():
         # check parameters to know if they want all students or a single student
         # in the future they should be able to pass a parameter here that filters on teachers etc.
         if 'student' in request.args.keys():
+
             student_to_be_returned = db_lib.get_student_by_id(db_conn, request.args['student'])
+
+            # close the database connection once we are done with it
+            db_conn.close()
             return Response(student_to_be_returned.toJSON())
+
         else:
+
             students = db_lib.get_all_students(db_conn)
+
+            # close the database connection once we are done with it
+            db_conn.close()
             return Response(get_students_json(students))
+
     elif request.method == 'POST':
+
         first_name = request.args['first_name']
         last_name  = request.args['last_name']
 
         created_student_id = db_lib.create_student(db_conn, first_name, last_name)
 
+        # close the database connection once we are done with it
+        db_conn.close()
         return Response('{created_student:' + str(created_student_id) + '}')
+
     elif request.method == 'PATCH':
+
         user_id = request.args['student']
 
         attributes = {
@@ -266,7 +320,10 @@ def student():
 
         updated_student_id = db_lib.update_student(db_conn, student_id, attributes)
 
+        # close the database connection once we are done with it
+        db_conn.close()
         return Response('{updated_student:' + str(updated_student_id) + '}')
+
 # route for the activity data of a particular student (creation and retrieval)
 @app.route("/api/student_activity", methods=["GET", "POST"])
 @login_required
@@ -275,39 +332,72 @@ def student_activity():
     db_conn = db_lib.get_db_connection()
 
     if request.method == 'GET':
-        student_id  = request.args['student']
-        activity_id = request.args['activity']
 
-        student_activity_data_aggregation = db_lib.get_activity_data_by_student_and_activity(db_conn, student_id, activity_id)
-        return Response(student_activity_data_aggregation.toJSON())
+        #Check if they include an activity id to see whether they want to agrregate data on a specific activity
+        #Otherwise return list of activities currently assigned to the student
+        if 'activity' in request.args.keys():
+
+            student_id  = request.args['student']
+            activity_id = request.args['activity']
+
+            student_activity_data_aggregation = db_lib.get_activity_data_by_student_and_activity(db_conn, student_id, activity_id)
+
+            # close the database connection once we are done with it
+            db_conn.close()
+            return Response(student_activity_data_aggregation.toJSON())
+
+        else:
+
+            student_id  = request.args['student']
+
+            student_activity_list = db_lib.get_activities_by_student(db_conn, student_id)
+
+            # close the database connection once we are done with it
+            db_conn.close()
+            return Response(get_activities_json(student_activity_list))
+
     elif request.method == 'POST':
         # TODO temp
         pass
-        
+
 # routes for student-teacher interaction and assigning teachers to students and students to teachers
 @app.route("/api/student_teacher",methods=["GET","POST"])
 @login_required
 def student_teacher():
 
     db_conn = db_lib.get_db_connection()
-     
+
     if request.method == 'GET':
         #If it gives me a student id, get me all of the teachers for that student
         if 'student' in request.args.keys():
+
             students_teacher_list = db_lib.get_teachers_by_student(db_conn, request.args['student'])
+
+            # close the database connection once we are done with it
+            db_conn.close()
             return Response(get_users_json(students_teacher_list))
+
         # if it gives me a teacher id, get me all of the students for that teacher
         elif 'teacher' in request.args.keys():
+
             teachers_student_list = db_lib.get_students_by_teacher(db_conn, request.args['teacher'])
+
+            # close the database connection once we are done with it
+            db_conn.close()
             return Response(get_students_json(teachers_student_list))
+
     elif request.method == 'POST':
-        #Assign student to teacher and vice versa
+
+        # Assign student to teacher and vice versa
         student_id = request.args['student']
         teacher_id = request.args['teacher']
-        
+
         student_teacher_assignment = db_lib.assign_student_to_teacher(db_conn, student_id, teacher_id)
-        return Response('{student_teacher:'+ student_teacher_assignment + '}')
-    
+
+        # close the database connection once we are done with it
+        db_conn.close()
+        return Response('{student_teacher:' + str(student_teacher_assignment) + '}')
+
 
 
 #######################
