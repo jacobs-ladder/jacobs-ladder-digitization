@@ -699,14 +699,14 @@ def get_activity_data_by_student_and_activity(db_conn, student_id, activity_id):
             ON acell.activity_row = ar.activity_row
     INNER JOIN tb_activity_column acol
             ON acell.activity_column = acol.activity_column
-    INNER JOIN tb_student_activity sa_row
-            ON ar.student_activity = sa_row.student_activity
-    INNER JOIN tb_student_activity sa_col -- this duplicate join is here to filter the cells based on columns as well as rows
-            ON acol.student_activity = sa_col.student_activity
+    INNER JOIN tb_student_activity sa
+            ON acell.student_activity = sa.student_activity
+    --INNER JOIN tb_student_activity sa_col -- this duplicate join is here to filter the cells based on columns as well as rows
+    --        ON acol.student_activity = sa_col.student_activity
     INNER JOIN tb_data_type dt
             ON acol.data_type = dt.data_type
-         WHERE sa_row.student  = %(student)s
-           AND sa_row.activity = %(activity)s
+         WHERE sa.student  = %(student)s
+           AND sa.activity = %(activity)s
       ORDER BY ar.number, acol.number
     '''
 
