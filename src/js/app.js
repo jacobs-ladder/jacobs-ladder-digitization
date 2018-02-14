@@ -22,7 +22,7 @@ const layout = (
       }
 
       <div className="col-md-2 col-3 navA">
-        Teacher
+        <a href="teacher"> Teacher </a>
       </div>
     </div>
     <div className="row">
