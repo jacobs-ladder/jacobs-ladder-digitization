@@ -1,51 +1,56 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
+import ReactTable from 'react-table'
 
-var activityList = "";
 
 $(document).ready(function () {
-
-    $.ajax({
-        type: 'GET',
-        url: '../api/activity',  //TODO this doesn't work
+	$.ajax({
+    	type: 'GET',
+        url: '../api/activity',
 
         dataType: "json",
-        // success: function (data) {
-        //     // do something with the json here
-        //     this.student=data;
 
         success: function(data){
-
-          $(data).each(function(){
-                activityList = activityList + "<li>Title: " + this.title + " Description: " + this.description + "</li>";
-            });
+			render_activity_table(data);
         },
         error: function (request, status, error) {
-
             alert(error);
         }
     });
 });
 
-const currBody = (
-  <div>
-	<h2>Activity List</h2>
-
-	  <div className="col-md-4 col-4">
-	    <ul id="activities"></ul>
+const body = (
+	  <div>
+		<h2>Activity List</h2>
+		<p>Activitys Table</p>
+		<div id = "activity_list_table"></div>
+		<form action="logout">
+		  <input type="submit" value="Logout" />
+		</form>
 	  </div>
-
-
-	<form action="logout">
-	  <input type="submit" value="Logout" />
-	</form>
-  </div>
-  );
-
-
+  	);
 
 ReactDOM.render(
-  currBody,
-  document.getElementById('body')
+  	body,
+ 	document.getElementById('body')
 );
 
+function render_activity_table(data){
+	var students = data;
+	const columns = [{
+		Header: 'Title',
+		accessor: 'title'
+	  }, {
+		Header: 'Instructions',
+		accessor: 'instructions',
+      }, {
+		Header: 'Type',
+		accessor: 'activity_type_label',
+	  }];
+	const activity_list_table = <ReactTable data={data} columns={columns} filterable />
+
+	ReactDOM.render(
+	  	activity_list_table,
+	 	document.getElementById('activity_list_table')
+	);
+}

@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 38);
+/******/ 	return __webpack_require__(__webpack_require__.s = 40);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -21666,7 +21666,9 @@ module.exports = function() {
 
 /***/ }),
 /* 37 */,
-/* 38 */
+/* 38 */,
+/* 39 */,
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21689,12 +21691,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 $(document).ready(function () {
 	$.ajax({
 		type: 'GET',
-		url: '../api/student',
+		url: '../api/user',
 
 		dataType: "json",
 
 		success: function success(data) {
-			render_student_table(data);
+			render_teacher_table(data);
 		},
 		error: function error(request, status, _error) {
 			alert(_error);
@@ -21708,14 +21710,14 @@ var body = _react2.default.createElement(
 	_react2.default.createElement(
 		"h2",
 		null,
-		"Admin Landing"
+		"Teacher List"
 	),
 	_react2.default.createElement(
 		"p",
 		null,
-		"Students Table"
+		"Teacher Table"
 	),
-	_react2.default.createElement("div", { id: "student_list_table" }),
+	_react2.default.createElement("div", { id: "teacher_list_table" }),
 	_react2.default.createElement(
 		"form",
 		{ action: "logout" },
@@ -21725,25 +21727,18 @@ var body = _react2.default.createElement(
 
 _reactDom2.default.render(body, document.getElementById('body'));
 
-function render_student_table(data) {
-	var students = data;
+function render_teacher_table(data) {
+	var teachers = data;
 	var columns = [{
 		Header: 'First Name',
-		accessor: 'firstname'
+		accessor: 'first_name'
 	}, {
 		Header: 'Last Name',
-		accessor: 'lastname'
+		accessor: 'last_name'
 	}];
-	var student_list_table = _react2.default.createElement(_reactTable2.default, {
-		data: data,
-		columns: columns,
-		filterable: true,
-		defaultFilterMethod: function defaultFilterMethod(filter, row, column) {
-			return String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase());
-		}
-	});
+	var teacher_list_table = _react2.default.createElement(_reactTable2.default, { data: data, columns: columns, filterable: true });
 
-	_reactDom2.default.render(student_list_table, document.getElementById('student_list_table'));
+	_reactDom2.default.render(teacher_list_table, document.getElementById('teacher_list_table'));
 }
 
 /***/ })

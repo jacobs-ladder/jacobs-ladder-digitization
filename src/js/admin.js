@@ -56,4 +56,3 @@ function render_student_table(data){
 	 	document.getElementById('student_list_table')
 	);
 }
-
