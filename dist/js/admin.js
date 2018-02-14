@@ -18613,7 +18613,14 @@ function render_student_table(data) {
 		Header: 'Last Name',
 		accessor: 'lastname'
 	}];
-	var student_list_table = _react2.default.createElement(_reactTable2.default, { data: data, columns: columns, filterable: true });
+	var student_list_table = _react2.default.createElement(_reactTable2.default, {
+		data: data,
+		columns: columns,
+		filterable: true,
+		defaultFilterMethod: function defaultFilterMethod(filter, row, column) {
+			return String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase());
+		}
+	});
 
 	_reactDom2.default.render(student_list_table, document.getElementById('student_list_table'));
 }
