@@ -5,8 +5,14 @@ module.exports = {
 	admin: "./src/js/admin.js",
 	activitylist: "./src/js/activitylist.js",
 <<<<<<< HEAD
+<<<<<<< HEAD
     studentlist: "./src/js/studentlist.js",
     teacher: "./src/js/teacher.js",
+=======
+  studentlist: "./src/js/studentlist.js",
+  teacher_profile: "./src/js/teacher_profile.js",
+  student_profile: "./src/js/student_profile.js"
+>>>>>>> a933e59167b46d7a9ab066da8d89613f0c65c4db
 =======
   studentlist: "./src/js/studentlist.js",
   teacher_profile: "./src/js/teacher_profile.js",
