@@ -151,6 +151,18 @@ def teacher():
 def eval():
     return app.send_static_file('eval.html')
 
+@app.route("/teacher_profile")
+@login_required
+# @role_required("administrator")
+def teacher_profile():
+    return app.send_static_file('teacher_profile.html')
+
+@app.route("/student_profile")
+@login_required
+# @role_required("administrator")
+def student_profile():
+    return app.send_static_file('student_profile.html')
+
 
 
 

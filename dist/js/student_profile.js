@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 40);
+/******/ 	return __webpack_require__(__webpack_require__.s = 42);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -18256,7 +18256,9 @@ module.exports = camelize;
 /* 37 */,
 /* 38 */,
 /* 39 */,
-/* 40 */
+/* 40 */,
+/* 41 */,
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18272,29 +18274,31 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-$(document).ready(function () {
+var studentName = "Clark Kent";
 
-  $.ajax({
-    type: 'GET',
-    url: '../api/student', //TODO this doesn't work?
+// $(document).ready(function () {
 
-    dataType: "json",
-    // success: function (data) {
-    //     // do something with the json here
-    //     this.student=data;
+//     $.ajax({
+//         type: 'GET',
+//         url: '../api/student',  //TODO this doesn't work?
 
-    success: function success(data) {
+//         dataType: "json",
+//         // success: function (data) {
+//         //     // do something with the json here
+//         //     this.student=data;
 
-      $(data).each(function () {
-        $('#studentListTable').append('<tbody><tr><td>' + this.firstname + '</td><td>' + this.lastname + '</td></tr></tbody>');
-      });
-    },
-    error: function error(request, status, _error) {
+//         success: function(data){
 
-      alert(_error);
-    }
-  });
-});
+//           $(data).each(function(){
+//                 $('#studentListTable').append('<tbody><tr><td>' + this.firstname + '</td><td>' + this.lastname + '</td></tr></tbody>')
+//             });
+//         },
+//         error: function (request, status, error) {
+
+//             alert(error);
+//         }
+//     });
+// });
 
 var currBody = _react2.default.createElement(
   "div",
@@ -18302,7 +18306,7 @@ var currBody = _react2.default.createElement(
   _react2.default.createElement(
     "h2",
     null,
-    "Student List"
+    studentName
   ),
   _react2.default.createElement(
     "table",
@@ -18316,7 +18320,7 @@ var currBody = _react2.default.createElement(
         _react2.default.createElement(
           "th",
           null,
-          "Student List"
+          "Students Here"
         )
       )
     )

@@ -4,7 +4,9 @@ module.exports = {
 	app:   "./src/js/app.js",
 	admin: "./src/js/admin.js",
 	activitylist: "./src/js/activitylist.js",
-    studentlist: "./src/js/studentlist.js"
+  studentlist: "./src/js/studentlist.js",
+  teacher_profile: "./src/js/teacher_profile.js",
+  student_profile: "./src/js/student_profile.js"
   },
   output: {
     path: path.resolve(__dirname, "dist"),
