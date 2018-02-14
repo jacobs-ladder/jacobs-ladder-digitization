@@ -44,7 +44,7 @@ function render_teacher_table(data){
 		Header: 'Last Name',
 		accessor: 'last_name',
 	  }];
-	const teacher_list_table = <ReactTable data={data} columns={columns} filterable />
+	const teacher_list_table = <ReactTable data={data} columns={columns} filterable defaultFilterMethod= { (filter, row, column) => String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase())}/>
 
 	ReactDOM.render(
 	  	teacher_list_table,

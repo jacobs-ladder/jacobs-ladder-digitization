@@ -21736,7 +21736,9 @@ function render_teacher_table(data) {
 		Header: 'Last Name',
 		accessor: 'last_name'
 	}];
-	var teacher_list_table = _react2.default.createElement(_reactTable2.default, { data: data, columns: columns, filterable: true });
+	var teacher_list_table = _react2.default.createElement(_reactTable2.default, { data: data, columns: columns, filterable: true, defaultFilterMethod: function defaultFilterMethod(filter, row, column) {
+			return String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase());
+		} });
 
 	_reactDom2.default.render(teacher_list_table, document.getElementById('teacher_list_table'));
 }

@@ -47,7 +47,7 @@ function render_activity_table(data){
 		Header: 'Type',
 		accessor: 'activity_type_label',
 	  }];
-	const activity_list_table = <ReactTable data={data} columns={columns} filterable />
+	const activity_list_table = <ReactTable data={data} columns={columns} filterable defaultFilterMethod= { (filter, row, column) => String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase())}/>
 
 	ReactDOM.render(
 	  	activity_list_table,
