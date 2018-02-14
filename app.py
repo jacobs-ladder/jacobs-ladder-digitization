@@ -192,7 +192,7 @@ def activity():
 
         else:
 
-            activities = db_lib.get_all_activites(db_conn)
+            activities = db_lib.get_all_activities(db_conn)
 
             # close the database connection once we are done with it
             db_conn.close()
