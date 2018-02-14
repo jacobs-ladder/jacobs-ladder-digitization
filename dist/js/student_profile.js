@@ -18274,65 +18274,42 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var studentName = "Clark Kent";
+$(document).ready(function () {
+    $.ajax({
+        type: 'GET',
+        url: '../api/student?student=' + String(sid),
 
-// $(document).ready(function () {
+        dataType: "json",
 
-//     $.ajax({
-//         type: 'GET',
-//         url: '../api/student',  //TODO this doesn't work?
-
-//         dataType: "json",
-//         // success: function (data) {
-//         //     // do something with the json here
-//         //     this.student=data;
-
-//         success: function(data){
-
-//           $(data).each(function(){
-//                 $('#studentListTable').append('<tbody><tr><td>' + this.firstname + '</td><td>' + this.lastname + '</td></tr></tbody>')
-//             });
-//         },
-//         error: function (request, status, error) {
-
-//             alert(error);
-//         }
-//     });
-// });
+        success: function success(data) {
+            render_student_view(data);
+        },
+        error: function error(request, status, _error) {
+            alert(_error);
+        }
+    });
+});
 
 var currBody = _react2.default.createElement(
-  "div",
-  null,
-  _react2.default.createElement(
-    "h2",
+    "div",
     null,
-    studentName
-  ),
-  _react2.default.createElement(
-    "table",
-    { id: "studentListTable" },
     _react2.default.createElement(
-      "thead",
-      null,
-      _react2.default.createElement(
-        "tr",
-        null,
-        _react2.default.createElement(
-          "th",
-          null,
-          "Students Here"
-        )
-      )
+        "div",
+        { id: "student_view" },
+        " "
+    ),
+    _react2.default.createElement(
+        "form",
+        { action: "logout" },
+        _react2.default.createElement("input", { type: "submit", value: "Logout" })
     )
-  ),
-  _react2.default.createElement(
-    "form",
-    { action: "logout" },
-    _react2.default.createElement("input", { type: "submit", value: "Logout" })
-  )
 );
 
 _reactDom2.default.render(currBody, document.getElementById('body'));
+
+function render_student_view(data) {
+    alert(data);
+}
 
 /***/ })
 /******/ ]);
