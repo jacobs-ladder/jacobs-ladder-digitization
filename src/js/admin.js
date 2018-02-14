@@ -44,11 +44,15 @@ function render_student_table(data){
 		Header: 'Last Name',
 		accessor: 'lastname',
 	  }];
-	const student_list_table = <ReactTable data={data} columns={columns} filterable />
+	const student_list_table = <ReactTable 
+			data={data} 
+			columns={columns} 
+			filterable 
+			defaultFilterMethod= { (filter, row, column) => String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase())}
+		/>
 
 	ReactDOM.render(
 	  	student_list_table,
 	 	document.getElementById('student_list_table')
 	);
 }
-
