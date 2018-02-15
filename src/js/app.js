@@ -28,7 +28,7 @@ const layout = (
     <div className="row">
       <div className="col-md-2 col-3" id="sidebar">
         <div className="row"><a href="studentlist">Students</a></div>
-        <div className="row"><a href="teacher">Users</a></div>
+        <div className="row"><a href="userlist">Users</a></div>
         <div className="row"><a href="activitylist">Activities</a></div>
         <div className="row">Records</div>
       </div>

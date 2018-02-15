@@ -163,6 +163,11 @@ def teacher_profile():
 def student_profile(sid):
     return render_template('student_profile.html', sid=sid)
 
+@app.route("/userlist")
+@login_required
+# @role_required("administrator")
+def userlist():
+    return app.send_static_file('userlist.html')
 
 
 
