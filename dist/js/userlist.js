@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 43);
+/******/ 	return __webpack_require__(__webpack_require__.s = 44);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -21671,7 +21671,8 @@ module.exports = function() {
 /* 40 */,
 /* 41 */,
 /* 42 */,
-/* 43 */
+/* 43 */,
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21694,12 +21695,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 $(document).ready(function () {
 	$.ajax({
 		type: 'GET',
-		url: '../api/student',
+		url: '../api/user',
 
 		dataType: "json",
 
 		success: function success(data) {
-			render_student_table(data);
+			render_users_table(data);
 		},
 		error: function error(request, status, _error) {
 			alert(_error);
@@ -21713,14 +21714,14 @@ var body = _react2.default.createElement(
 	_react2.default.createElement(
 		"h2",
 		null,
-		"Student List"
+		"All Users List"
 	),
 	_react2.default.createElement(
 		"p",
 		null,
-		"Students Table"
+		"User Table"
 	),
-	_react2.default.createElement("div", { id: "student_list_table" }),
+	_react2.default.createElement("div", { id: "users_list_table" }),
 	_react2.default.createElement(
 		"form",
 		{ action: "logout" },
@@ -21730,20 +21731,76 @@ var body = _react2.default.createElement(
 
 _reactDom2.default.render(body, document.getElementById('body'));
 
-function render_student_table(data) {
-	var students = data;
+function render_users_table(data) {
+	var users = data;
 	var columns = [{
 		Header: 'First Name',
-		accessor: 'firstname'
+		accessor: 'first_name'
 	}, {
 		Header: 'Last Name',
-		accessor: 'lastname'
+		accessor: 'last_name'
+	}, {
+		Header: 'By Role',
+		accessor: 'role_label',
+		id: 'role',
+		Cell: function Cell(_ref) {
+			var value = _ref.value;
+			return value;
+		},
+		filterMethod: function filterMethod(filter, row) {
+			if (filter.value === 'all') {
+				return true;
+			}
+			if (filter.value === 'administrator') {
+				return row[filter.id] == 'administrator';
+			}
+			if (filter.value === 'teacher') {
+				return row[filter.id] == 'teacher';
+			}
+			if (filter.value === 'evaluator') {
+				return row[filter.id] == 'evaluator';
+			}
+		},
+		Filter: function Filter(_ref2) {
+			var filter = _ref2.filter,
+			    _onChange = _ref2.onChange;
+			return _react2.default.createElement(
+				"select",
+				{
+					onChange: function onChange(event) {
+						return _onChange(event.target.value);
+					},
+					style: { width: "100%" },
+					value: filter ? filter.value : "all"
+				},
+				_react2.default.createElement(
+					"option",
+					{ value: "all" },
+					"Show All"
+				),
+				_react2.default.createElement(
+					"option",
+					{ value: "administrator" },
+					"administrator"
+				),
+				_react2.default.createElement(
+					"option",
+					{ value: "evaluator" },
+					"evaluator"
+				),
+				_react2.default.createElement(
+					"option",
+					{ value: "teacher" },
+					"teacher"
+				)
+			);
+		}
 	}];
-	var student_list_table = _react2.default.createElement(_reactTable2.default, { data: data, columns: columns, filterable: true, defaultFilterMethod: function defaultFilterMethod(filter, row, column) {
+	var users_list_table = _react2.default.createElement(_reactTable2.default, { data: data, columns: columns, filterable: true, defaultFilterMethod: function defaultFilterMethod(filter, row, column) {
 			return String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase());
 		} });
 
-	_reactDom2.default.render(student_list_table, document.getElementById('student_list_table'));
+	_reactDom2.default.render(users_list_table, document.getElementById('users_list_table'));
 }
 
 /***/ })

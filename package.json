@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "The Jacob's Ladder Digitization Project",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "react-table": "^6.7.6"
+  },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
