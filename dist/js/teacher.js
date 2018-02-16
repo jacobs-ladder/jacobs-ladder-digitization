@@ -21731,10 +21731,16 @@ function render_teacher_table(data) {
 	var teachers = data;
 	var columns = [{
 		Header: 'First Name',
-		accessor: 'first_name'
+		id: 'first_name',
+		accessor: function accessor(d) {
+			return d.role_label === 'teacher' ? d.first_name : false;
+		}
 	}, {
 		Header: 'Last Name',
-		accessor: 'last_name'
+		id: 'last_name',
+		accessor: function accessor(d) {
+			return d.role_label === 'teacher' ? d.last_name : false;
+		}
 	}];
 	var teacher_list_table = _react2.default.createElement(_reactTable2.default, { data: data, columns: columns, filterable: true, defaultFilterMethod: function defaultFilterMethod(filter, row, column) {
 			return String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase());

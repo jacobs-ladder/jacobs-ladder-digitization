@@ -39,10 +39,12 @@ function render_eval_table(data){
 	var evals = data;
 	const columns = [{
 		Header: 'First Name',
-		accessor: 'first_name'
+		id: 'first_name',
+        accessor: d => (d.role_label === 'evaluator' ? d.first_name : false ),
 	  }, {
 		Header: 'Last Name',
-		accessor: 'last_name',
+		id: 'last_name',
+        accessor: d => (d.role_label === 'evaluator' ? d.last_name : false ),
 	  }];
 	const eval_list_table = <ReactTable data={data} columns={columns} filterable defaultFilterMethod= { (filter, row, column) => String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase())}/>
 
