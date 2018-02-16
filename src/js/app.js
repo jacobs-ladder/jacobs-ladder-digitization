@@ -34,7 +34,6 @@ const layout = (
         <div className="row"><a href="/studentlist">Students</a></div>
         <div className="row"><a href="/userlist">Users</a></div>
         <div className="row"><a href="/activitylist">Activities</a></div>
-        <div className="row">Records</div>
       </div>
       <div className="col-md-9 col-9" id="body">
       </div>
