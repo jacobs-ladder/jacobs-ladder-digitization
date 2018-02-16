@@ -209,7 +209,7 @@ def activity():
         activity_type = request.form['activity_type']
         instructions  = request.form['instructions']
 
-        created_activity_id = db_lib.create_activity(db_conn, title, activity_type, description)
+        created_activity_id = db_lib.create_activity(db_conn, title, activity_type, instructions)
 
         # close the database connection once we are done with it
         db_conn.close()
