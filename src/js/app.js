@@ -12,7 +12,11 @@ const layout = (
       </div>
       {isAdmin &&
         <div className="col-md-2 col-3 navA">
-          <a href="admin"> Admin </a>
+          <a href="admin" className="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"> Admin </a>
+            <ul className="dropdown-menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+            </ul>
         </div>
       }
       {isEval &&
@@ -28,7 +32,7 @@ const layout = (
     <div className="row">
       <div className="col-md-2 col-3" id="sidebar">
         <div className="row"><a href="studentlist">Students</a></div>
-        <div className="row"><a href="teacher">Users</a></div>
+        <div className="row"><a href="userlist">Users</a></div>
         <div className="row"><a href="activitylist">Activities</a></div>
         <div className="row">Records</div>
       </div>
