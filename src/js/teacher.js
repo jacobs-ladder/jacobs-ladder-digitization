@@ -36,17 +36,15 @@ ReactDOM.render(
 );
 
 function render_teacher_table(data){
-	var teachers = data;
+	var teachers = data.filter(d => d.role_label === 'teacher');
 	const columns = [{
 		Header: 'First Name',
-		id: 'first_name',
-        accessor: d => (d.role_label === 'teacher' ? d.first_name : false ),
+        accessor: "first_name",
 	  }, {
 		Header: 'Last Name',
-		id: 'last_name',
-        accessor: d => (d.role_label === 'teacher' ? d.last_name : false ),
+		accessor: 'last_name',
 	  }];
-	const teacher_list_table = <ReactTable data={data} columns={columns} filterable defaultFilterMethod= { (filter, row, column) => String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase())}/>
+	const teacher_list_table = <ReactTable data={teachers} columns={columns} filterable defaultFilterMethod= { (filter, row, column) => String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase())}/>
 
 	ReactDOM.render(
 	  	teacher_list_table,

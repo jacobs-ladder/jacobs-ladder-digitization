@@ -34,5 +34,9 @@ document.getElementById('body')
 );
 
 function render_student_view(data){
-	//TODO: Render student view with the student object
+	ReactDOM.render(
+	(<div><h1>First Name: {data.firstname}</h1>
+	 <h1>Last Name: {data.lastname}</h1></div>),
+	document.getElementById('body')
+	);
 }

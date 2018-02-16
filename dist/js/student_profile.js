@@ -18308,7 +18308,22 @@ var currBody = _react2.default.createElement(
 _reactDom2.default.render(currBody, document.getElementById('body'));
 
 function render_student_view(data) {
-    //TODO: Render student view with the student object
+    _reactDom2.default.render(_react2.default.createElement(
+        "div",
+        null,
+        _react2.default.createElement(
+            "h1",
+            null,
+            "First Name: ",
+            data.firstname
+        ),
+        _react2.default.createElement(
+            "h1",
+            null,
+            "Last Name: ",
+            data.lastname
+        )
+    ), document.getElementById('body'));
 }
 
 /***/ })

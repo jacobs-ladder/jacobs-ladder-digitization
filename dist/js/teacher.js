@@ -21728,21 +21728,17 @@ var body = _react2.default.createElement(
 _reactDom2.default.render(body, document.getElementById('body'));
 
 function render_teacher_table(data) {
-	var teachers = data;
+	var teachers = data.filter(function (d) {
+		return d.role_label === 'teacher';
+	});
 	var columns = [{
 		Header: 'First Name',
-		id: 'first_name',
-		accessor: function accessor(d) {
-			return d.role_label === 'teacher' ? d.first_name : false;
-		}
+		accessor: "first_name"
 	}, {
 		Header: 'Last Name',
-		id: 'last_name',
-		accessor: function accessor(d) {
-			return d.role_label === 'teacher' ? d.last_name : false;
-		}
+		accessor: 'last_name'
 	}];
-	var teacher_list_table = _react2.default.createElement(_reactTable2.default, { data: data, columns: columns, filterable: true, defaultFilterMethod: function defaultFilterMethod(filter, row, column) {
+	var teacher_list_table = _react2.default.createElement(_reactTable2.default, { data: teachers, columns: columns, filterable: true, defaultFilterMethod: function defaultFilterMethod(filter, row, column) {
 			return String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase());
 		} });
 

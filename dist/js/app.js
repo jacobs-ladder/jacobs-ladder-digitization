@@ -18296,8 +18296,8 @@ var layout = _react2.default.createElement(
           null,
           _react2.default.createElement(
             "a",
-            { href: "#" },
-            "Action"
+            { href: "/admin" },
+            "Home"
           )
         ),
         _react2.default.createElement(
@@ -18316,7 +18316,7 @@ var layout = _react2.default.createElement(
       { className: "col-md-2 col-3 navA" },
       _react2.default.createElement(
         "a",
-        { href: "eval" },
+        { href: "/eval" },
         " Evaluator "
       )
     ),
@@ -18325,7 +18325,7 @@ var layout = _react2.default.createElement(
       { className: "col-md-2 col-3 navA" },
       _react2.default.createElement(
         "a",
-        { href: "teacher" },
+        { href: "/teacher" },
         " Teacher "
       )
     )
@@ -18341,7 +18341,7 @@ var layout = _react2.default.createElement(
         { className: "row" },
         _react2.default.createElement(
           "a",
-          { href: "studentlist" },
+          { href: "/studentlist" },
           "Students"
         )
       ),
@@ -18350,7 +18350,7 @@ var layout = _react2.default.createElement(
         { className: "row" },
         _react2.default.createElement(
           "a",
-          { href: "userlist" },
+          { href: "/userlist" },
           "Users"
         )
       ),
@@ -18359,7 +18359,7 @@ var layout = _react2.default.createElement(
         { className: "row" },
         _react2.default.createElement(
           "a",
-          { href: "activitylist" },
+          { href: "/activitylist" },
           "Activities"
         )
       ),
