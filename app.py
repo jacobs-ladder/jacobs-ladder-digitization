@@ -1,4 +1,4 @@
-from flask import Flask, Response, redirect, url_for, request, session, abort, send_from_directory
+from flask import Flask, Response, redirect, url_for, request, session, abort, send_from_directory, render_template
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 import json
 from functools import wraps
@@ -157,12 +157,17 @@ def eval():
 def teacher_profile():
     return app.send_static_file('teacher_profile.html')
 
-@app.route("/student_profile")
+@app.route("/student_profile/<int:sid>")
 @login_required
 # @role_required("administrator")
-def student_profile():
-    return app.send_static_file('student_profile.html')
+def student_profile(sid):
+    return render_template('student_profile.html', sid=sid)
 
+@app.route("/userlist")
+@login_required
+# @role_required("administrator")
+def userlist():
+    return app.send_static_file('userlist.html')
 
 
 
@@ -204,7 +209,7 @@ def activity():
         activity_type = request.form['activity_type']
         instructions  = request.form['instructions']
 
-        created_activity_id = db_lib.create_activity(db_conn, title, activity_type, description)
+        created_activity_id = db_lib.create_activity(db_conn, title, activity_type, instructions)
 
         # close the database connection once we are done with it
         db_conn.close()

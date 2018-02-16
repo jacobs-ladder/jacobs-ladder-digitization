@@ -43,13 +43,17 @@ function render_student_table(data){
 	  }, {
 		Header: 'Last Name',
 		accessor: 'lastname',
+	  }, {
+		Header: '',
+		accessor: 'id',
+		Cell: ({ value }) => (<a href={"student_profile/" + String(value)}>View</a>),
 	  }];
-	const student_list_table = <ReactTable 
-			data={data} 
-			columns={columns} 
-			filterable 
+	const student_list_table = <ReactTable
+			data={data}
+			columns={columns}
+			filterable
 			defaultFilterMethod= { (filter, row, column) => String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase())}
-		/>
+			/>
 
 	ReactDOM.render(
 	  	student_list_table,

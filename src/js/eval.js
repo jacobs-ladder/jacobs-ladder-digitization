@@ -6,12 +6,12 @@ import ReactTable from 'react-table'
 $(document).ready(function () {
 	$.ajax({
     	type: 'GET',
-        url: '../api/student',
+        url: '../api/user',
 
         dataType: "json",
 
         success: function(data){
-			render_student_table(data);
+			render_eval_table(data);
         },
         error: function (request, status, error) {
             alert(error);
@@ -21,9 +21,9 @@ $(document).ready(function () {
 
 const body = (
 	  <div>
-		<h2>Student List</h2>
-		<p>Students Table</p>
-		<div id = "student_list_table"></div>
+		<h2>Evaluator List</h2>
+		<p>Evaluator Table</p>
+		<div id = "eval_list_table"></div>
 		<form action="logout">
 		  <input type="submit" value="Logout" />
 		</form>
@@ -35,19 +35,19 @@ ReactDOM.render(
  	document.getElementById('body')
 );
 
-function render_student_table(data){
-	var students = data;
+function render_eval_table(data){
+	var evals = data.filter(d => d.role_label === 'evaluator');
 	const columns = [{
 		Header: 'First Name',
-		accessor: 'firstname'
+		accessor: 'first_name',
 	  }, {
 		Header: 'Last Name',
-		accessor: 'lastname',
+		accessor: 'last_name',
 	  }];
-	const student_list_table = <ReactTable data={data} columns={columns} filterable defaultFilterMethod= { (filter, row, column) => String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase())}/>
+	const eval_list_table = <ReactTable data={evals} columns={columns} filterable defaultFilterMethod= { (filter, row, column) => String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase())}/>
 
 	ReactDOM.render(
-	  	student_list_table,
-	 	document.getElementById('student_list_table')
+	  	eval_list_table,
+	 	document.getElementById('eval_list_table')
 	);
 }

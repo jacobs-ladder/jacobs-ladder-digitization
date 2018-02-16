@@ -22,7 +22,6 @@ $(document).ready(function () {
 const body = (
 	  <div>
 		<h2>Activity List</h2>
-		<p>Activitys Table</p>
 		<div id = "activity_list_table"></div>
 		<form action="logout">
 		  <input type="submit" value="Logout" />
@@ -47,7 +46,7 @@ function render_activity_table(data){
 		Header: 'Type',
 		accessor: 'activity_type_label',
 	  }];
-	const activity_list_table = <ReactTable data={data} columns={columns} filterable />
+	const activity_list_table = <ReactTable data={data} columns={columns} filterable defaultFilterMethod= { (filter, row, column) => String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase())}/>
 
 	ReactDOM.render(
 	  	activity_list_table,
