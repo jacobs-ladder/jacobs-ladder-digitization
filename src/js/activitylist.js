@@ -22,7 +22,6 @@ $(document).ready(function () {
 const body = (
 	  <div>
 		<h2>Activity List</h2>
-		<p>Activitys Table</p>
 		<div id = "activity_list_table"></div>
 		<form action="logout">
 		  <input type="submit" value="Logout" />

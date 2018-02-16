@@ -9,6 +9,7 @@ module.exports = {
     student_profile: "./src/js/student_profile.js",
     studentlist: "./src/js/studentlist.js",
     userlist: "./src/js/userlist.js",
+    eval: "./src/js/eval.js"
 },
 
   output: {

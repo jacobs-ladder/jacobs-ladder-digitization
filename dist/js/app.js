@@ -18285,8 +18285,30 @@ var layout = _react2.default.createElement(
       { className: "col-md-2 col-3 navA" },
       _react2.default.createElement(
         "a",
-        { href: "admin" },
+        { href: "admin", className: "dropdown-toggle", "data-toggle": "dropdown", "data-hover": "dropdown" },
         " Admin "
+      ),
+      _react2.default.createElement(
+        "ul",
+        { className: "dropdown-menu" },
+        _react2.default.createElement(
+          "li",
+          null,
+          _react2.default.createElement(
+            "a",
+            { href: "#" },
+            "Action"
+          )
+        ),
+        _react2.default.createElement(
+          "li",
+          null,
+          _react2.default.createElement(
+            "a",
+            { href: "#" },
+            "Another action"
+          )
+        )
       )
     ),
     isEval && _react2.default.createElement(

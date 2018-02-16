@@ -12,7 +12,11 @@ const layout = (
       </div>
       {isAdmin &&
         <div className="col-md-2 col-3 navA">
-          <a href="admin"> Admin </a>
+          <a href="admin" className="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"> Admin </a>
+            <ul className="dropdown-menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+            </ul>
         </div>
       }
       {isEval &&

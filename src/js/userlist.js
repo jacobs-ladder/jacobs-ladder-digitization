@@ -20,8 +20,7 @@ $(document).ready(function () {
 
 const body = (
 	  <div>
-		<h2>All Users List</h2>
-		<p>User Table</p>
+		<h2>All Users</h2>
 		<div id = "users_list_table"></div>
 		<form action="logout">
 		  <input type="submit" value="Logout" />
