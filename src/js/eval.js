@@ -36,17 +36,15 @@ ReactDOM.render(
 );
 
 function render_eval_table(data){
-	var evals = data;
+	var evals = data.filter(d => d.role_label === 'evaluator');
 	const columns = [{
 		Header: 'First Name',
-		id: 'first_name',
-        accessor: d => (d.role_label === 'evaluator' ? d.first_name : false ),
+		accessor: 'first_name',
 	  }, {
 		Header: 'Last Name',
-		id: 'last_name',
-        accessor: d => (d.role_label === 'evaluator' ? d.last_name : false ),
+		accessor: 'last_name',
 	  }];
-	const eval_list_table = <ReactTable data={data} columns={columns} filterable defaultFilterMethod= { (filter, row, column) => String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase())}/>
+	const eval_list_table = <ReactTable data={evals} columns={columns} filterable defaultFilterMethod= { (filter, row, column) => String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase())}/>
 
 	ReactDOM.render(
 	  	eval_list_table,

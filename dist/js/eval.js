@@ -21733,21 +21733,17 @@ var body = _react2.default.createElement(
 _reactDom2.default.render(body, document.getElementById('body'));
 
 function render_eval_table(data) {
-	var evals = data;
+	var evals = data.filter(function (d) {
+		return d.role_label === 'evaluator';
+	});
 	var columns = [{
 		Header: 'First Name',
-		id: 'first_name',
-		accessor: function accessor(d) {
-			return d.role_label === 'evaluator' ? d.first_name : false;
-		}
+		accessor: 'first_name'
 	}, {
 		Header: 'Last Name',
-		id: 'last_name',
-		accessor: function accessor(d) {
-			return d.role_label === 'evaluator' ? d.last_name : false;
-		}
+		accessor: 'last_name'
 	}];
-	var eval_list_table = _react2.default.createElement(_reactTable2.default, { data: data, columns: columns, filterable: true, defaultFilterMethod: function defaultFilterMethod(filter, row, column) {
+	var eval_list_table = _react2.default.createElement(_reactTable2.default, { data: evals, columns: columns, filterable: true, defaultFilterMethod: function defaultFilterMethod(filter, row, column) {
 			return String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase());
 		} });
 
