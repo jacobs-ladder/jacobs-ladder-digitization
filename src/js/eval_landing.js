@@ -45,6 +45,10 @@ const body = (
 		<div id = "student_list_table" className="column1"></div>
 		<div id = "users_list_table" className="column1"></div>
 		</div>
+		<form action="/studentlist">
+		  <input type="submit" value="All Student List" />
+		</form>
+		<br />
 		<form action="logout">
 		  <input type="submit" value="Logout" />
 		</form>
