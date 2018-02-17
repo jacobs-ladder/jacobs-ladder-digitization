@@ -50,6 +50,7 @@ function render_student_table(data){
 	  }];
 	const student_list_table = <ReactTable
 			data={data}
+			defaultPageSize={10}
 			columns={columns}
 			filterable
 			defaultFilterMethod= { (filter, row, column) => String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase())}

@@ -21733,7 +21733,7 @@ function render_activity_table(data) {
 		Header: 'Type',
 		accessor: 'activity_type_label'
 	}];
-	var activity_list_table = _react2.default.createElement(_reactTable2.default, { data: data, columns: columns, filterable: true, defaultFilterMethod: function defaultFilterMethod(filter, row, column) {
+	var activity_list_table = _react2.default.createElement(_reactTable2.default, { data: data, defaultPageSize: 10, columns: columns, filterable: true, defaultFilterMethod: function defaultFilterMethod(filter, row, column) {
 			return String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase());
 		} });
 

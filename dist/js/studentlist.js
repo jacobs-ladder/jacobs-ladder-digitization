@@ -21739,7 +21739,7 @@ function render_student_table(data) {
 		Header: 'Last Name',
 		accessor: 'lastname'
 	}];
-	var student_list_table = _react2.default.createElement(_reactTable2.default, { data: data, columns: columns, filterable: true, defaultFilterMethod: function defaultFilterMethod(filter, row, column) {
+	var student_list_table = _react2.default.createElement(_reactTable2.default, { data: data, defaultPageSize: 10, columns: columns, filterable: true, defaultFilterMethod: function defaultFilterMethod(filter, row, column) {
 			return String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase());
 		} });
 
