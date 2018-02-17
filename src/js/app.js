@@ -21,7 +21,7 @@ const layout = (
       }
       {isEval &&
         <div className="col-md-2 col-3 navA">
-          <a href="/eval"> Evaluator </a>
+          <a href="/eval_landing"> Evaluator </a>
         </div>
       }
 

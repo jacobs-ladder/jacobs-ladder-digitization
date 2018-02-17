@@ -169,6 +169,12 @@ def student_profile(sid):
 def userlist():
     return app.send_static_file('userlist.html')
 
+@app.route("/eval_landing")
+@login_required
+# @role_required("administrator")
+def eval_landing():
+    return app.send_static_file('eval_landing.html')
+
 
 
 

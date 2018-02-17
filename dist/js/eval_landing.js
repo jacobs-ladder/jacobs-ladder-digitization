@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 40);
+/******/ 	return __webpack_require__(__webpack_require__.s = 46);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -21668,7 +21668,13 @@ module.exports = function() {
 /* 37 */,
 /* 38 */,
 /* 39 */,
-/* 40 */
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21696,10 +21702,28 @@ $(document).ready(function () {
 		dataType: "json",
 
 		success: function success(data) {
-			render_teacher_table(data);
+			// render_teacher_table(data);
+			render_users_table(data);
 		},
 		error: function error(request, status, _error) {
 			alert(_error);
+		}
+	});
+});
+
+$(document).ready(function () {
+	$.ajax({
+		type: 'GET',
+		url: '../api/student',
+
+		dataType: "json",
+
+		success: function success(data) {
+			// render_teacher_table(data);
+			render_student_table(data);
+		},
+		error: function error(request, status, _error2) {
+			alert(_error2);
 		}
 	});
 });
@@ -21710,14 +21734,15 @@ var body = _react2.default.createElement(
 	_react2.default.createElement(
 		"h2",
 		null,
-		"Teacher List"
+		"Welcome Evaluator"
 	),
+	_react2.default.createElement("p", null),
 	_react2.default.createElement(
-		"p",
-		null,
-		"Teacher Table"
+		"div",
+		{ className: "row" },
+		_react2.default.createElement("div", { id: "student_list_table", className: "column1" }),
+		_react2.default.createElement("div", { id: "users_list_table", className: "column1" })
 	),
-	_react2.default.createElement("div", { id: "teacher_list_table" }),
 	_react2.default.createElement(
 		"form",
 		{ action: "logout" },
@@ -21727,22 +21752,98 @@ var body = _react2.default.createElement(
 
 _reactDom2.default.render(body, document.getElementById('body'));
 
-function render_teacher_table(data) {
-	var teachers = data.filter(function (d) {
-		return d.role_label === 'teacher';
-	});
+function render_student_table(data) {
+	var students = data;
 	var columns = [{
-		Header: 'First Name',
-		accessor: "first_name"
-	}, {
-		Header: 'Last Name',
-		accessor: 'last_name'
+		Header: 'Assigned Student List',
+		columns: [{
+			Header: 'First Name',
+			accessor: 'firstname'
+		}, {
+			Header: 'Last Name',
+			accessor: 'lastname'
+		}]
 	}];
-	var teacher_list_table = _react2.default.createElement(_reactTable2.default, { data: teachers, columns: columns, filterable: true, defaultFilterMethod: function defaultFilterMethod(filter, row, column) {
+	var student_list_table = _react2.default.createElement(_reactTable2.default, { defaultPageSize: 10, data: data, columns: columns, filterable: true, defaultFilterMethod: function defaultFilterMethod(filter, row, column) {
 			return String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase());
 		} });
 
-	_reactDom2.default.render(teacher_list_table, document.getElementById('teacher_list_table'));
+	_reactDom2.default.render(student_list_table, document.getElementById('student_list_table'));
+}
+
+function render_users_table(data) {
+	var users = data;
+	var columns = [{
+		Header: 'Teacher List',
+		columns: [{
+			Header: 'First Name',
+			accessor: 'first_name'
+		}, {
+			Header: 'Last Name',
+			accessor: 'last_name'
+		}, {
+			Header: 'By Role',
+			accessor: 'role_label',
+			id: 'role',
+			Cell: function Cell(_ref) {
+				var value = _ref.value;
+				return value;
+			},
+			filterMethod: function filterMethod(filter, row) {
+				if (filter.value === 'all') {
+					return true;
+				}
+				if (filter.value === 'administrator') {
+					return row[filter.id] == 'administrator';
+				}
+				if (filter.value === 'teacher') {
+					return row[filter.id] == 'teacher';
+				}
+				if (filter.value === 'evaluator') {
+					return row[filter.id] == 'evaluator';
+				}
+			},
+			Filter: function Filter(_ref2) {
+				var filter = _ref2.filter,
+				    _onChange = _ref2.onChange;
+				return _react2.default.createElement(
+					"select",
+					{
+						onChange: function onChange(event) {
+							return _onChange(event.target.value);
+						},
+						style: { width: "100%" },
+						value: filter ? filter.value : "all"
+					},
+					_react2.default.createElement(
+						"option",
+						{ value: "all" },
+						"Show All"
+					),
+					_react2.default.createElement(
+						"option",
+						{ value: "administrator" },
+						"administrator"
+					),
+					_react2.default.createElement(
+						"option",
+						{ value: "evaluator" },
+						"evaluator"
+					),
+					_react2.default.createElement(
+						"option",
+						{ value: "teacher" },
+						"teacher"
+					)
+				);
+			}
+		}]
+	}];
+	var users_list_table = _react2.default.createElement(_reactTable2.default, { data: data, columns: columns, filterable: true, defaultFilterMethod: function defaultFilterMethod(filter, row, column) {
+			return String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase());
+		}, defaultPageSize: 10 });
+
+	_reactDom2.default.render(users_list_table, document.getElementById('users_list_table'));
 }
 
 /***/ })
