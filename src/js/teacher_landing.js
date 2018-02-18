@@ -21,8 +21,12 @@ $(document).ready(function () {
 
 const body = (
 	  <div>
-		<h2>Student List</h2>
+		<h2>Welcome Teacher</h2>
 		<div id = "student_list_table"></div>
+		<form action="/studentlist">
+		  <input type="submit" value="All Student List" />
+		</form>
+		<br />
 		<form action="logout">
 		  <input type="submit" value="Logout" />
 		</form>
@@ -37,7 +41,7 @@ ReactDOM.render(
 function render_student_table(data){
 	var students = data;
 	const columns = [{
-		Header: 'Students Table',
+		Header: 'Assigned Student Table',
 		columns: [{
 			Header: 'First Name',
 			accessor: 'firstname'

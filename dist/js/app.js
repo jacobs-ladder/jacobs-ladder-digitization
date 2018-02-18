@@ -577,7 +577,7 @@ module.exports = warning;
 if (process.env.NODE_ENV !== 'production') {
   var invariant = __webpack_require__(4);
   var warning = __webpack_require__(6);
-  var ReactPropTypesSecret = __webpack_require__(8);
+  var ReactPropTypesSecret = __webpack_require__(9);
   var loggedTypeFailures = {};
 }
 
@@ -628,7 +628,8 @@ module.exports = checkPropTypes;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 8 */
+/* 8 */,
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -647,7 +648,6 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 9 */,
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -18316,7 +18316,7 @@ var layout = _react2.default.createElement(
       { className: "col-md-2 col-3 navA" },
       _react2.default.createElement(
         "a",
-        { href: "/eval" },
+        { href: "/eval_landing" },
         " Evaluator "
       )
     ),
@@ -18325,7 +18325,7 @@ var layout = _react2.default.createElement(
       { className: "col-md-2 col-3 navA" },
       _react2.default.createElement(
         "a",
-        { href: "/teacher" },
+        { href: "/teacher_landing" },
         " Teacher "
       )
     )
@@ -18362,11 +18362,6 @@ var layout = _react2.default.createElement(
           { href: "/activitylist" },
           "Activities"
         )
-      ),
-      _react2.default.createElement(
-        "div",
-        { className: "row" },
-        "Records"
       )
     ),
     _react2.default.createElement("div", { className: "col-md-9 col-9", id: "body" })

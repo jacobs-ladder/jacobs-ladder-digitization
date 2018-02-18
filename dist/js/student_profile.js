@@ -577,7 +577,7 @@ module.exports = warning;
 if (process.env.NODE_ENV !== 'production') {
   var invariant = __webpack_require__(4);
   var warning = __webpack_require__(6);
-  var ReactPropTypesSecret = __webpack_require__(8);
+  var ReactPropTypesSecret = __webpack_require__(9);
   var loggedTypeFailures = {};
 }
 
@@ -628,7 +628,8 @@ module.exports = checkPropTypes;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 8 */
+/* 8 */,
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -647,7 +648,6 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 9 */,
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -18290,7 +18290,7 @@ $(document).ready(function () {
     });
 });
 
-var currBody = _react2.default.createElement(
+var body = _react2.default.createElement(
     "div",
     null,
     _react2.default.createElement(
@@ -18305,10 +18305,10 @@ var currBody = _react2.default.createElement(
     )
 );
 
-_reactDom2.default.render(currBody, document.getElementById('body'));
+_reactDom2.default.render(body, document.getElementById('body'));
 
 function render_student_view(data) {
-    _reactDom2.default.render(_react2.default.createElement(
+    var student_view = _react2.default.createElement(
         "div",
         null,
         _react2.default.createElement(
@@ -18323,7 +18323,9 @@ function render_student_view(data) {
             "Last Name: ",
             data.lastname
         )
-    ), document.getElementById('body'));
+    );
+
+    _reactDom2.default.render(student_view, document.getElementById('student_view'));
 }
 
 /***/ })

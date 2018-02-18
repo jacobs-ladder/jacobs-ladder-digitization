@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 43);
+/******/ 	return __webpack_require__(__webpack_require__.s = 47);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -21671,7 +21671,11 @@ module.exports = function() {
 /* 40 */,
 /* 41 */,
 /* 42 */,
-/* 43 */
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21713,9 +21717,15 @@ var body = _react2.default.createElement(
 	_react2.default.createElement(
 		"h2",
 		null,
-		"Student List"
+		"Welcome Teacher"
 	),
 	_react2.default.createElement("div", { id: "student_list_table" }),
+	_react2.default.createElement(
+		"form",
+		{ action: "/studentlist" },
+		_react2.default.createElement("input", { type: "submit", value: "All Student List" })
+	),
+	_react2.default.createElement("br", null),
 	_react2.default.createElement(
 		"form",
 		{ action: "logout" },
@@ -21728,7 +21738,7 @@ _reactDom2.default.render(body, document.getElementById('body'));
 function render_student_table(data) {
 	var students = data;
 	var columns = [{
-		Header: 'Students Table',
+		Header: 'Assigned Student Table',
 		columns: [{
 			Header: 'First Name',
 			accessor: 'firstname'

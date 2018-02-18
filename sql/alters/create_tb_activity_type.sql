@@ -6,4 +6,4 @@ CREATE TABLE tb_activity_type
     label         VARCHAR UNIQUE NOT NULL
 );
 
-ALTER TABLE tb_activity ADD COLUMN activity_type INTEGER REFERENCES tb_activity_type;
+ALTER TABLE tb_activity ADD COLUMN activity_type INTEGER NOT NULL REFERENCES tb_activity_type;

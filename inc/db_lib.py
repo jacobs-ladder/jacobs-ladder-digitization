@@ -289,13 +289,51 @@ def get_activity_by_id(db_conn, id):
     cursor = db_conn.cursor()
 
     query = '''
+        WITH tt_columns AS (
+            SELECT ac.title    AS title,
+                   dt.label    AS data_type_label,
+                   ac.activity AS activity
+              FROM tb_activity_column ac
+        INNER JOIN tb_data_type dt
+                ON ac.data_type = dt.data_type
+          ORDER BY ac.activity,
+                   ac.number
+        ), tt_rows AS (
+            SELECT ar.title    AS title,
+                   ar.activity AS activity
+              FROM tb_activity_row ar
+          ORDER BY ar.activity,
+                   ar.number
+        ), tt_activity_with_columns AS (
+            SELECT a.activity,
+                   array_agg(ttc.title)           AS column_titles,
+                   array_agg(ttc.data_type_label) AS column_data_type_labels
+              FROM tb_activity a
+        INNER JOIN tt_columns ttc
+                ON a.activity = ttc.activity
+          GROUP BY a.activity
+        ), tt_activity_with_rows AS (
+            SELECT a.activity,
+                   array_agg(ttr.title) AS row_titles
+              FROM tb_activity a
+        INNER JOIN tt_rows ttr
+                ON a.activity = ttr.activity
+          GROUP BY a.activity
+        )
         SELECT a.activity,
-	       a.title,
+               a.title,
                at.label,
-               a.instructions
+               a.instructions,
+               ttac.column_titles,
+               ttac.column_data_type_labels,
+               ttar.row_titles
           FROM tb_activity a
     INNER JOIN tb_activity_type at
             ON a.activity_type = at.activity_type
+    INNER JOIN tt_activity_with_columns ttac
+            ON a.activity = ttac.activity
+    INNER JOIN tt_activity_with_rows ttar
+            ON a.activity = ttar.activity
          WHERE a.activity = %(id)s
     '''
 
@@ -307,7 +345,14 @@ def get_activity_by_id(db_conn, id):
     if len(rows) < 1:
         raise ValueError, "Activity with that id does not exist: %s" % (id)
 
-    return activity.activity(rows[0][0], rows[0][1], rows[0][2], rows[0][3])
+    # gather together our column information
+    activity_column_titles     = rows[0][4]
+    activity_column_data_types = rows[0][5]
+    activity_columns           = []
+    for x in range(len(activity_column_titles)):
+        activity_columns.append([activity_column_titles[x], activity_column_data_types[x]])
+
+    return activity.activity(rows[0][0], rows[0][1], rows[0][2], rows[0][3], activity_columns, rows[0][6])
 
 
 # returns a list of all the activities in the db as activity objects
