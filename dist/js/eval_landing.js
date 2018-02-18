@@ -21697,13 +21697,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 $(document).ready(function () {
 	$.ajax({
 		type: 'GET',
-		url: '../api/user',
+		url: '../api/student',
 
 		dataType: "json",
 
 		success: function success(data) {
 			// render_teacher_table(data);
-			render_users_table(data);
+			render_student_table(data);
 		},
 		error: function error(request, status, _error) {
 			alert(_error);
@@ -21714,13 +21714,13 @@ $(document).ready(function () {
 $(document).ready(function () {
 	$.ajax({
 		type: 'GET',
-		url: '../api/student',
+		url: '../api/user',
 
 		dataType: "json",
 
 		success: function success(data) {
 			// render_teacher_table(data);
-			render_student_table(data);
+			render_users_table(data);
 		},
 		error: function error(request, status, _error2) {
 			alert(_error2);
@@ -21770,7 +21770,7 @@ function render_student_table(data) {
 			accessor: 'lastname'
 		}]
 	}];
-	var student_list_table = _react2.default.createElement(_reactTable2.default, { defaultPageSize: 10, data: data, columns: columns, filterable: true, defaultFilterMethod: function defaultFilterMethod(filter, row, column) {
+	var student_list_table = _react2.default.createElement(_reactTable2.default, { defaultPageSize: 10, data: students, columns: columns, filterable: true, defaultFilterMethod: function defaultFilterMethod(filter, row, column) {
 			return String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase());
 		} });
 
@@ -21845,7 +21845,7 @@ function render_users_table(data) {
 			}
 		}]
 	}];
-	var users_list_table = _react2.default.createElement(_reactTable2.default, { data: data, columns: columns, filterable: true, defaultFilterMethod: function defaultFilterMethod(filter, row, column) {
+	var users_list_table = _react2.default.createElement(_reactTable2.default, { data: users, columns: columns, filterable: true, defaultFilterMethod: function defaultFilterMethod(filter, row, column) {
 			return String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase());
 		}, defaultPageSize: 10 });
 

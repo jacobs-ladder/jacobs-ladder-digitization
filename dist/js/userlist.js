@@ -21791,7 +21791,7 @@ function render_users_table(data) {
 			);
 		}
 	}];
-	var users_list_table = _react2.default.createElement(_reactTable2.default, { data: data, defaultPageSize: 10, columns: columns, filterable: true, defaultFilterMethod: function defaultFilterMethod(filter, row, column) {
+	var users_list_table = _react2.default.createElement(_reactTable2.default, { data: users, defaultPageSize: 10, columns: columns, filterable: true, defaultFilterMethod: function defaultFilterMethod(filter, row, column) {
 			return String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase());
 		} });
 

@@ -175,6 +175,12 @@ def userlist():
 def eval_landing():
     return app.send_static_file('eval_landing.html')
 
+@app.route("/teacher_landing")
+@login_required
+# @role_required("administrator")
+def teacher_landing():
+    return app.send_static_file('teacher_landing.html')
+
 
 
 

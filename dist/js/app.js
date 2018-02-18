@@ -18325,7 +18325,7 @@ var layout = _react2.default.createElement(
       { className: "col-md-2 col-3 navA" },
       _react2.default.createElement(
         "a",
-        { href: "/teacher" },
+        { href: "/teacher_landing" },
         " Teacher "
       )
     )

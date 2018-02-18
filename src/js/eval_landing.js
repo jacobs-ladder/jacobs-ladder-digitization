@@ -6,23 +6,6 @@ import ReactTable from 'react-table'
 $(document).ready(function () {
 	$.ajax({
     	type: 'GET',
-        url: '../api/user',
-
-        dataType: "json",
-
-        success: function(data){
-			// render_teacher_table(data);
-			render_users_table(data);
-        },
-        error: function (request, status, error) {
-            alert(error);
-        }
-    });
-});
-
-$(document).ready(function () {
-	$.ajax({
-    	type: 'GET',
         url: '../api/student',
 
         dataType: "json",
@@ -30,6 +13,24 @@ $(document).ready(function () {
         success: function(data){
 			// render_teacher_table(data);
 			render_student_table(data);
+        },
+        error: function (request, status, error) {
+            alert(error);
+        }
+    });
+});
+
+
+$(document).ready(function () {
+	$.ajax({
+    	type: 'GET',
+        url: '../api/user',
+
+        dataType: "json",
+
+        success: function(data){
+			// render_teacher_table(data);
+			render_users_table(data);
         },
         error: function (request, status, error) {
             alert(error);
@@ -72,7 +73,7 @@ function render_student_table(data){
 			accessor: 'lastname',
 		  }]
 	}];
-	const student_list_table = <ReactTable defaultPageSize={10} data={data} columns={columns} filterable defaultFilterMethod= { (filter, row, column) => String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase())}/>
+	const student_list_table = <ReactTable defaultPageSize={10} data={students} columns={columns} filterable defaultFilterMethod= { (filter, row, column) => String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase())}/>
 
 	ReactDOM.render(
 	  	student_list_table,
@@ -122,7 +123,7 @@ function render_users_table(data){
 	                    </select>
 		  }]
 	}];
-	const users_list_table = <ReactTable data={data} columns={columns} filterable defaultFilterMethod= { (filter, row, column) => String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase())} defaultPageSize={10}/>
+	const users_list_table = <ReactTable data={users} columns={columns} filterable defaultFilterMethod= { (filter, row, column) => String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase())} defaultPageSize={10}/>
 
 	ReactDOM.render(
 	  	users_list_table,

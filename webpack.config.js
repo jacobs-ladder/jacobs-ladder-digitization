@@ -11,6 +11,7 @@ module.exports = {
     userlist: "./src/js/userlist.js",
     eval: "./src/js/eval.js",
     eval_landing: "./src/js/eval_landing.js",
+    teacher_landing: "./src/js/teacher_landing.js",
 },
 
   output: {

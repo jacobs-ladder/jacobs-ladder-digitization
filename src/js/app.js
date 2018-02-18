@@ -26,7 +26,7 @@ const layout = (
       }
 
       <div className="col-md-2 col-3 navA">
-        <a href="/teacher"> Teacher </a>
+        <a href="/teacher_landing"> Teacher </a>
       </div>
     </div>
     <div className="row">

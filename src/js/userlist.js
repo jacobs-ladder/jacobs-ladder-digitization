@@ -72,7 +72,7 @@ function render_users_table(data){
 					  <option value="teacher">teacher</option>
                     </select>
 	  }];
-	const users_list_table = <ReactTable data={data} defaultPageSize={10} columns={columns} filterable defaultFilterMethod= { (filter, row, column) => String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase())}/>
+	const users_list_table = <ReactTable data={users} defaultPageSize={10} columns={columns} filterable defaultFilterMethod= { (filter, row, column) => String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase())}/>
 
 	ReactDOM.render(
 	  	users_list_table,

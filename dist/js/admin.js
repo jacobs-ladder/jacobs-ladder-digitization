@@ -21746,7 +21746,7 @@ function render_student_table(data) {
 		}
 	}];
 	var student_list_table = _react2.default.createElement(_reactTable2.default, {
-		data: data,
+		data: students,
 		defaultPageSize: 10,
 		columns: columns,
 		filterable: true,
