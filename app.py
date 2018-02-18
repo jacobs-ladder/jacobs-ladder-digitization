@@ -339,6 +339,12 @@ def user():
         return Response('{updated_user:' + str(updated_user_id) + '}')
 
 
+@app.route("/api/current_user", methods=["GET"])
+@login_required
+def api_current_user():
+    return Response(current_user.toJSON())
+
+
 # route for students (creation and retrieval)
 @app.route("/api/student", methods=["GET", "POST", "PATCH"])
 @login_required
