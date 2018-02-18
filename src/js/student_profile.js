@@ -17,7 +17,7 @@ $(document).ready(function () {
     });
 });
 
-const currBody = (
+const body = (
 <div>
 <div id='student_view'> </div>
 <form action="logout">
@@ -29,14 +29,18 @@ const currBody = (
 
 
 ReactDOM.render(
-currBody,
+body,
 document.getElementById('body')
 );
 
 function render_student_view(data){
+	const student_view = <div>
+				<h1>First Name: {data.firstname}</h1>
+			   <h1>Last Name: {data.lastname}</h1>
+			   </div>
+
 	ReactDOM.render(
-	(<div><h1>First Name: {data.firstname}</h1>
-	 <h1>Last Name: {data.lastname}</h1></div>),
-	document.getElementById('body')
+	student_view,
+	document.getElementById('student_view'),
 	);
 }
