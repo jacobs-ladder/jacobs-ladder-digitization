@@ -21698,12 +21698,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 $(document).ready(function () {
 	$.ajax({
 		type: 'GET',
-		url: '../api/student',
+		url: '../api/current_user',
 
 		dataType: "json",
 
 		success: function success(data) {
-			render_student_table(data);
+			get_assigned_students(data);
 		},
 		error: function error(request, status, _error) {
 			alert(_error);
@@ -21734,6 +21734,22 @@ var body = _react2.default.createElement(
 );
 
 _reactDom2.default.render(body, document.getElementById('body'));
+
+function get_assigned_students(data) {
+	$.ajax({
+		type: 'GET',
+		url: '../api/student_teacher?teacher=' + String(data.id),
+
+		dataType: "json",
+
+		success: function success(data) {
+			render_student_table(data);
+		},
+		error: function error(request, status, _error2) {
+			alert(_error2);
+		}
+	});
+}
 
 function render_student_table(data) {
 	var students = data;

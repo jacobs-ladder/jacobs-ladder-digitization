@@ -6,12 +6,12 @@ import ReactTable from 'react-table'
 $(document).ready(function () {
 	$.ajax({
     	type: 'GET',
-        url: '../api/student',
+        url: '../api/current_user',
 
         dataType: "json",
 
         success: function(data){
-			render_student_table(data);
+			get_assigned_students(data);
         },
         error: function (request, status, error) {
             alert(error);
@@ -37,6 +37,22 @@ ReactDOM.render(
   	body,
  	document.getElementById('body')
 );
+
+function get_assigned_students(data){
+		$.ajax({
+	    	type: 'GET',
+	        url: '../api/student_teacher?teacher=' + String(data.id),
+
+	        dataType: "json",
+
+	        success: function(data){
+				render_student_table(data);
+	        },
+	        error: function (request, status, error) {
+	            alert(error);
+	        }
+	    });
+}
 
 function render_student_table(data){
 	var students = data;
