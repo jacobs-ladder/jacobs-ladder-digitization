@@ -18272,6 +18272,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var isAdmin = true; //TODO connect to backend (needs to see if the user is an Admin)
 var isEval = true; //TODO connect to backend (needs to see if the user is an Evaluator)
 
+var userName = "Valerie Frizzle"; //TODO get user's name
+
 
 var layout = _react2.default.createElement(
   "div",
@@ -18282,7 +18284,14 @@ var layout = _react2.default.createElement(
     _react2.default.createElement(
       "div",
       { className: "col-11 header" },
-      "Hello UsernameHere \u2022 Logout"
+      _react2.default.createElement(
+        "form",
+        { action: "logout" },
+        "Hello ",
+        userName,
+        " \u2022 ",
+        _react2.default.createElement("input", { type: "submit", value: "Logout" })
+      )
     )
   ),
   _react2.default.createElement(
