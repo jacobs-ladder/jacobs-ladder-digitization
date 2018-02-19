@@ -18315,7 +18315,7 @@ var layout = _react2.default.createElement(
           _react2.default.createElement(
             "a",
             { href: "/admin" },
-            "Home"
+            "Admin Home"
           )
         ),
         _react2.default.createElement(
@@ -18346,16 +18346,7 @@ var layout = _react2.default.createElement(
           _react2.default.createElement(
             "a",
             { href: "/eval_landing" },
-            "Home"
-          )
-        ),
-        _react2.default.createElement(
-          "li",
-          null,
-          _react2.default.createElement(
-            "a",
-            { href: "#" },
-            "Another action"
+            "Evaluator Home"
           )
         )
       )
@@ -18377,16 +18368,7 @@ var layout = _react2.default.createElement(
           _react2.default.createElement(
             "a",
             { href: "/teacher_landing" },
-            "Home"
-          )
-        ),
-        _react2.default.createElement(
-          "li",
-          null,
-          _react2.default.createElement(
-            "a",
-            { href: "#" },
-            "Another action"
+            "Teacher Home"
           )
         )
       )

@@ -23,7 +23,7 @@ const layout = (
         <div className="col-md-2 col-3">
           <a href="admin" className="dropdown-toggle tab" data-toggle="dropdown" data-hover="dropdown"> Admin </a>
             <ul className="dropdown-menu">
-              <li><a href="/admin">Home</a></li>
+              <li><a href="/admin">Admin Home</a></li>
               <li><a href="/activitylist">All Activities</a></li>
             </ul>
         </div>
@@ -32,8 +32,7 @@ const layout = (
         <div className="col-md-2 col-3">
           <a href="/eval_landing" className="dropdown-toggle tab" data-toggle="dropdown" data-hover="dropdown"> Evaluator </a>
             <ul className="dropdown-menu">
-              <li><a href="/eval_landing">Home</a></li>
-              <li><a href="#">Another action</a></li>
+              <li><a href="/eval_landing">Evaluator Home</a></li>
             </ul>
         </div>
       }
@@ -41,8 +40,7 @@ const layout = (
       <div className="col-md-2 col-3">
         <a href="/teacher_landing" className="dropdown-toggle tab" data-toggle="dropdown" data-hover="dropdown"> Teacher </a>
           <ul className="dropdown-menu">
-              <li><a href="/teacher_landing">Home</a></li>
-              <li><a href="#">Another action</a></li>
+              <li><a href="/teacher_landing">Teacher Home</a></li>
             </ul>
       </div>
     </div>
