@@ -18278,6 +18278,15 @@ var layout = _react2.default.createElement(
   { className: "container-fluid" },
   _react2.default.createElement(
     "div",
+    { className: "row" },
+    _react2.default.createElement(
+      "div",
+      { className: "col-11 header" },
+      "Hello UsernameHere \u2022 Logout"
+    )
+  ),
+  _react2.default.createElement(
+    "div",
     { className: "row", id: "nav" },
     _react2.default.createElement("div", { className: "col-1 col-sm-2" }),
     isAdmin && _react2.default.createElement(
@@ -18305,8 +18314,8 @@ var layout = _react2.default.createElement(
           null,
           _react2.default.createElement(
             "a",
-            { href: "#" },
-            "Another action"
+            { href: "/activitylist" },
+            "All Activities"
           )
         )
       )

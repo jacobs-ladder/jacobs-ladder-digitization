@@ -4,9 +4,16 @@ import ReactDOM from "react-dom";
 var isAdmin = true; //TODO connect to backend (needs to see if the user is an Admin)
 var isEval = true; //TODO connect to backend (needs to see if the user is an Evaluator)
 
+var userName = "Valerie Frizzle"; //TODO get user's name
+
 
 const layout = (
   <div className="container-fluid">
+    <div className="row">
+      <div className="col-11 header">
+        Hello {userName} &bull; Logout
+      </div>
+    </div>
     <div className="row" id="nav">
       <div className="col-1 col-sm-2">
       </div>
@@ -15,7 +22,7 @@ const layout = (
           <a href="admin" className="dropdown-toggle tab" data-toggle="dropdown" data-hover="dropdown"> Admin </a>
             <ul className="dropdown-menu">
               <li><a href="/admin">Home</a></li>
-              <li><a href="#">Another action</a></li>
+              <li><a href="/activitylist">All Activities</a></li>
             </ul>
         </div>
       }

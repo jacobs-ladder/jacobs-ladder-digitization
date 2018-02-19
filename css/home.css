@@ -50,6 +50,11 @@ form {
     text-align: center;
 }
 
+.header {
+    text-align: right;
+    padding-bottom: .5em;
+}
+
 #sidebar {
     background-color: #A8D08C;
 }
