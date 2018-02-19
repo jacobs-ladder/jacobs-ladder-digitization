@@ -283,7 +283,7 @@ def student_activity():
 
             student_activity_data_aggregation = db_lib.get_activity_data_by_student_and_activity(db_conn, student_id, activity_id)
             return Response(student_activity_data_aggregation.toJSON())
-        elif:
+        else:
             student_id  = request.args['student']
             
             students_activity_list = db_lib.get_activities_by_student(db_conn, student_id)
