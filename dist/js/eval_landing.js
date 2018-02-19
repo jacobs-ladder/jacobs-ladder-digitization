@@ -21747,12 +21747,6 @@ var body = _react2.default.createElement(
 		"form",
 		{ action: "/studentlist" },
 		_react2.default.createElement("input", { type: "submit", value: "All Student List" })
-	),
-	_react2.default.createElement("br", null),
-	_react2.default.createElement(
-		"form",
-		{ action: "logout" },
-		_react2.default.createElement("input", { type: "submit", value: "Logout" })
 	)
 );
 

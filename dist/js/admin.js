@@ -21715,12 +21715,7 @@ var body = _react2.default.createElement(
 		null,
 		"Students Table"
 	),
-	_react2.default.createElement("div", { id: "student_list_table" }),
-	_react2.default.createElement(
-		"form",
-		{ action: "logout" },
-		_react2.default.createElement("input", { type: "submit", value: "Logout" })
-	)
+	_react2.default.createElement("div", { id: "student_list_table" })
 );
 
 _reactDom2.default.render(body, document.getElementById('body'));

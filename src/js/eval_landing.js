@@ -40,19 +40,15 @@ $(document).ready(function () {
 
 const body = (
 	  <div>
-	  <h2>Welcome Evaluator</h2>
-		<p></p>
-		<div className="row">
-		<div id = "student_list_table" className="column1"></div>
-		<div id = "users_list_table" className="column1"></div>
-		</div>
-		<form action="/studentlist">
-		  <input type="submit" value="All Student List" />
-		</form>
-		<br />
-		<form action="logout">
-		  <input type="submit" value="Logout" />
-		</form>
+		  <h2>Welcome Evaluator</h2>
+			<p></p>
+			<div className="row">
+				<div id = "student_list_table" className="column1"></div>
+				<div id = "users_list_table" className="column1"></div>
+			</div>
+			<form action="/studentlist">
+			  <input type="submit" value="All Student List" />
+			</form>
 	  </div>
   	);
 

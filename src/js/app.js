@@ -25,6 +25,7 @@ const layout = (
             <ul className="dropdown-menu">
               <li><a href="/admin">Admin Home</a></li>
               <li><a href="/activitylist">All Activities</a></li>
+              <li><a href="/userlist">All Users</a></li>
             </ul>
         </div>
       }

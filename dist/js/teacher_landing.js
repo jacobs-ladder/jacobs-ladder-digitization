@@ -21721,15 +21721,13 @@ var body = _react2.default.createElement(
 	),
 	_react2.default.createElement("div", { id: "student_list_table" }),
 	_react2.default.createElement(
-		"form",
-		{ action: "/studentlist" },
-		_react2.default.createElement("input", { type: "submit", value: "All Student List" })
-	),
-	_react2.default.createElement("br", null),
-	_react2.default.createElement(
-		"form",
-		{ action: "logout" },
-		_react2.default.createElement("input", { type: "submit", value: "Logout" })
+		"p",
+		null,
+		_react2.default.createElement(
+			"a",
+			{ href: "/studentlist", className: "fake-button" },
+			"Full Student List"
+		)
 	)
 );
 

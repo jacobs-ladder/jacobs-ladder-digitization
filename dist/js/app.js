@@ -18326,6 +18326,15 @@ var layout = _react2.default.createElement(
             { href: "/activitylist" },
             "All Activities"
           )
+        ),
+        _react2.default.createElement(
+          "li",
+          null,
+          _react2.default.createElement(
+            "a",
+            { href: "/userlist" },
+            "All Users"
+          )
         )
       )
     ),

@@ -21,12 +21,9 @@ $(document).ready(function () {
 
 const body = (
 	  <div>
-		<h2>Teacher List</h2>
-		<p>Teacher Table</p>
-		<div id = "teacher_list_table"></div>
-		<form action="logout">
-		  <input type="submit" value="Logout" />
-		</form>
+			<h2>Teacher List</h2>
+			<p>Teacher Table</p>
+			<div id = "teacher_list_table"></div>
 	  </div>
   	);
 
