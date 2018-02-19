@@ -18282,10 +18282,10 @@ var layout = _react2.default.createElement(
     _react2.default.createElement("div", { className: "col-1 col-sm-2" }),
     isAdmin && _react2.default.createElement(
       "div",
-      { className: "col-md-2 col-3 navA" },
+      { className: "col-md-2 col-3" },
       _react2.default.createElement(
         "a",
-        { href: "admin", className: "dropdown-toggle", "data-toggle": "dropdown", "data-hover": "dropdown" },
+        { href: "admin", className: "dropdown-toggle tab", "data-toggle": "dropdown", "data-hover": "dropdown" },
         " Admin "
       ),
       _react2.default.createElement(
@@ -18313,20 +18313,64 @@ var layout = _react2.default.createElement(
     ),
     isEval && _react2.default.createElement(
       "div",
-      { className: "col-md-2 col-3 navA" },
+      { className: "col-md-2 col-3" },
       _react2.default.createElement(
         "a",
-        { href: "/eval_landing" },
+        { href: "/eval_landing", className: "dropdown-toggle tab", "data-toggle": "dropdown", "data-hover": "dropdown" },
         " Evaluator "
+      ),
+      _react2.default.createElement(
+        "ul",
+        { className: "dropdown-menu" },
+        _react2.default.createElement(
+          "li",
+          null,
+          _react2.default.createElement(
+            "a",
+            { href: "/eval_landing" },
+            "Home"
+          )
+        ),
+        _react2.default.createElement(
+          "li",
+          null,
+          _react2.default.createElement(
+            "a",
+            { href: "#" },
+            "Another action"
+          )
+        )
       )
     ),
     _react2.default.createElement(
       "div",
-      { className: "col-md-2 col-3 navA" },
+      { className: "col-md-2 col-3" },
       _react2.default.createElement(
         "a",
-        { href: "/teacher_landing" },
+        { href: "/teacher_landing", className: "dropdown-toggle tab", "data-toggle": "dropdown", "data-hover": "dropdown" },
         " Teacher "
+      ),
+      _react2.default.createElement(
+        "ul",
+        { className: "dropdown-menu" },
+        _react2.default.createElement(
+          "li",
+          null,
+          _react2.default.createElement(
+            "a",
+            { href: "/teacher_landing" },
+            "Home"
+          )
+        ),
+        _react2.default.createElement(
+          "li",
+          null,
+          _react2.default.createElement(
+            "a",
+            { href: "#" },
+            "Another action"
+          )
+        )
       )
     )
   ),

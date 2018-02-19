@@ -31,7 +31,9 @@ form {
     padding-top: 3em;
 }
 
-.lout{text-align: center;}
+.lout {
+    text-align: center;
+}
 
 #body {
     padding: 3em;
@@ -39,13 +41,13 @@ form {
     background-color: #FFFAF2;
 }
 
-#nav button {
+.tab {
     display: block;
     border-radius: 10px 10px 0px 0px; /* top left, top right, bottom right, bottom left */
     background-color: #87C6CE;
-    margin-left: .5em;
     padding-top: .5em;
     padding-bottom: .5em;
+    text-align: center;
 }
 
 #sidebar {

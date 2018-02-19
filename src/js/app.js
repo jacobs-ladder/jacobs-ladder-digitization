@@ -11,8 +11,8 @@ const layout = (
       <div className="col-1 col-sm-2">
       </div>
       {isAdmin &&
-        <div className="col-md-2 col-3 navA">
-          <a href="admin" className="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"> Admin </a>
+        <div className="col-md-2 col-3">
+          <a href="admin" className="dropdown-toggle tab" data-toggle="dropdown" data-hover="dropdown"> Admin </a>
             <ul className="dropdown-menu">
               <li><a href="/admin">Home</a></li>
               <li><a href="#">Another action</a></li>
@@ -20,13 +20,21 @@ const layout = (
         </div>
       }
       {isEval &&
-        <div className="col-md-2 col-3 navA">
-          <a href="/eval_landing"> Evaluator </a>
+        <div className="col-md-2 col-3">
+          <a href="/eval_landing" className="dropdown-toggle tab" data-toggle="dropdown" data-hover="dropdown"> Evaluator </a>
+            <ul className="dropdown-menu">
+              <li><a href="/eval_landing">Home</a></li>
+              <li><a href="#">Another action</a></li>
+            </ul>
         </div>
       }
 
-      <div className="col-md-2 col-3 navA">
-        <a href="/teacher_landing"> Teacher </a>
+      <div className="col-md-2 col-3">
+        <a href="/teacher_landing" className="dropdown-toggle tab" data-toggle="dropdown" data-hover="dropdown"> Teacher </a>
+          <ul className="dropdown-menu">
+              <li><a href="/teacher_landing">Home</a></li>
+              <li><a href="#">Another action</a></li>
+            </ul>
       </div>
     </div>
     <div className="row">
