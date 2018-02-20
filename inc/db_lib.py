@@ -7,6 +7,7 @@
 import psycopg2
 import re
 import datetime
+import json
 
 # for getting environment variables/config vars
 import os
@@ -254,26 +255,22 @@ def get_user_id_by_username(db_conn, username):
 
 # creates an activity with the given information
 # returns the unique id of that activity
-def create_activity(db_conn, title, description):
+def create_activity(db_conn, title, activity_type_label, description):
 
     cursor = db_conn.cursor()
 
     # TODO having a nicer error message for when a title is taken might be nice
 
     query = '''
-            INSERT INTO tb_activity
-            (
-                title,
-                description
-            )
-            VALUES
-            (
+            SELECT fn_create_activity(
                 %(title)s,
+                %(activity_type_label)s,
                 %(description)s
-            ) RETURNING activity
+
+            )
     '''
 
-    cursor.execute(query, {"title":title, "description":description})
+    cursor.execute(query, {"title":title, "activity_type_label":activity_type_label, "description":description})
     rows = cursor.fetchall()
     db_conn.commit()
 
@@ -292,10 +289,51 @@ def get_activity_by_id(db_conn, id):
     cursor = db_conn.cursor()
 
     query = '''
+        WITH tt_columns AS (
+            SELECT ac.title    AS title,
+                   dt.label    AS data_type_label,
+                   ac.activity AS activity
+              FROM tb_activity_column ac
+        INNER JOIN tb_data_type dt
+                ON ac.data_type = dt.data_type
+          ORDER BY ac.activity,
+                   ac.number
+        ), tt_rows AS (
+            SELECT ar.title    AS title,
+                   ar.activity AS activity
+              FROM tb_activity_row ar
+          ORDER BY ar.activity,
+                   ar.number
+        ), tt_activity_with_columns AS (
+            SELECT a.activity,
+                   array_agg(ttc.title)           AS column_titles,
+                   array_agg(ttc.data_type_label) AS column_data_type_labels
+              FROM tb_activity a
+        INNER JOIN tt_columns ttc
+                ON a.activity = ttc.activity
+          GROUP BY a.activity
+        ), tt_activity_with_rows AS (
+            SELECT a.activity,
+                   array_agg(ttr.title) AS row_titles
+              FROM tb_activity a
+        INNER JOIN tt_rows ttr
+                ON a.activity = ttr.activity
+          GROUP BY a.activity
+        )
         SELECT a.activity,
-	       a.title,
-               a.description
+               a.title,
+               at.label,
+               a.instructions,
+               ttac.column_titles,
+               ttac.column_data_type_labels,
+               ttar.row_titles
           FROM tb_activity a
+    INNER JOIN tb_activity_type at
+            ON a.activity_type = at.activity_type
+    INNER JOIN tt_activity_with_columns ttac
+            ON a.activity = ttac.activity
+    INNER JOIN tt_activity_with_rows ttar
+            ON a.activity = ttar.activity
          WHERE a.activity = %(id)s
     '''
 
@@ -307,19 +345,67 @@ def get_activity_by_id(db_conn, id):
     if len(rows) < 1:
         raise ValueError, "Activity with that id does not exist: %s" % (id)
 
-    return activity.activity(rows[0][0], rows[0][1], rows[0][2])
+    # gather together our column information
+    activity_column_titles     = rows[0][4]
+    activity_column_data_types = rows[0][5]
+    activity_columns           = []
+    for x in range(len(activity_column_titles)):
+        activity_columns.append([activity_column_titles[x], activity_column_data_types[x]])
+
+    return activity.activity(rows[0][0], rows[0][1], rows[0][2], rows[0][3], activity_columns, rows[0][6])
 
 
 # returns a list of all the activities in the db as activity objects
-def get_all_activites(db_conn):
+def get_all_activities(db_conn):
 
     cursor = db_conn.cursor()
 
     query = '''
+        WITH tt_columns AS (
+            SELECT ac.title    AS title,
+                   dt.label    AS data_type_label,
+                   ac.activity AS activity
+              FROM tb_activity_column ac
+        INNER JOIN tb_data_type dt
+                ON ac.data_type = dt.data_type
+          ORDER BY ac.activity,
+                   ac.number
+        ), tt_rows AS (
+            SELECT ar.title    AS title,
+                   ar.activity AS activity
+              FROM tb_activity_row ar
+          ORDER BY ar.activity,
+                   ar.number
+        ), tt_activity_with_columns AS (
+            SELECT a.activity,
+                   array_agg(ttc.title)           AS column_titles,
+                   array_agg(ttc.data_type_label) AS column_data_type_labels
+              FROM tb_activity a
+        INNER JOIN tt_columns ttc
+                ON a.activity = ttc.activity
+          GROUP BY a.activity
+        ), tt_activity_with_rows AS (
+            SELECT a.activity,
+                   array_agg(ttr.title) AS row_titles
+              FROM tb_activity a
+        INNER JOIN tt_rows ttr
+                ON a.activity = ttr.activity
+          GROUP BY a.activity
+        )
         SELECT a.activity,
-	       a.title,
-               a.description
+               a.title,
+               at.label,
+               a.instructions,
+               ttac.column_titles,
+               ttac.column_data_type_labels,
+               ttar.row_titles
           FROM tb_activity a
+    INNER JOIN tb_activity_type at
+            ON a.activity_type = at.activity_type
+    INNER JOIN tt_activity_with_columns ttac
+            ON a.activity = ttac.activity
+    INNER JOIN tt_activity_with_rows ttar
+            ON a.activity = ttar.activity
     '''
 
     cursor.execute(query)
@@ -351,9 +437,21 @@ def update_activity(db_conn, id, attributes):
         query += 'title = %(title)s,'
         parameters['title'] = attributes['title']
 
-    if attributes['description'] is not None:
-        query += 'description = %(description)s,'
-        parameters['description'] = attributes['description']
+    if attributes['instructions'] is not None:
+        query += 'instructions = %(instructions)s,'
+        parameters['instructions'] = attributes['instructions']
+
+    if attributes['activity_type'] is not None:
+        activity_type_query = '''
+            SELECT at.activity_type
+              FROM tb_activity_type at
+             WHERE at.label = %(label)s
+        '''
+        cursor.execute(activity_type_query, {"label":label})
+        rows = cursor.fetchall()
+
+        query += 'activity_type = %(activity_type)s,'
+        parameters['activity_type'] = rows[0][0]
 
     query = query[:-1] # remove last character from query string (the comma of the last attribute to be updated)
 
@@ -407,6 +505,129 @@ def update_activity(db_conn, id, attributes):
 #        raise ValueError, "Could not delete activity"
 #
 #    return rows[0][0]
+
+
+
+
+###################################
+##### Activity Type Functions #####
+###################################
+
+
+
+##### Create #####
+
+def create_activity_type(db_conn, label):
+
+    cursor = db_conn.cursor()
+
+    query = '''
+            INSERT INTO tb_activity_type
+            (
+                label
+            )
+            VALUES
+            (
+                %(label)s
+            ) RETURNING activity_type
+    '''
+
+    cursor.execute(query, {"label":label})
+    rows = cursor.fetchall()
+    db_conn.commit()
+
+    if len(rows) < 1:
+        # this should never happen because the db function should stop it if there is a problem
+        raise ValueError, "Could not create activity_type"
+
+    return rows[0][0]
+
+
+##### Read #####
+
+# NOTE: activity types are going to return json objects directly instead of the route having to make the json
+
+# returns a json list of all the activity_types in the database
+def get_all_activity_types(db_conn):
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        SELECT at.activity_type,
+               at.label
+          FROM tb_activity_type at
+    '''
+
+    cursor.execute(query)
+    rows = cursor.fetchall()
+
+    json_rows = {}
+    for row in rows:
+        json_rows['id']    = row[0]
+        json_rows['label'] = row[1]
+
+    return json.dumps(json_rows)
+
+
+# returns a json object that has the id and label of the activity type with the input id
+def get_activity_type_by_id(db_conn, id):
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        SELECT at.activity_type,
+               at.label
+          FROM tb_activity_type at
+         WHERE at.activity_type = %(activity_type)s
+    '''
+
+    cursor.execute(query, {"activity_type":id})
+    rows = cursor.fetchall()
+
+    if len(rows) > 1:
+        raise ValueError, "IDs are not unique (this shouldn't be allowed by the schema)"
+    if len(rows) < 1:
+        raise ValueError, "Activity Type with that id does not exist: %s" % (id)
+
+    json_row = {}
+    json_row['id']    = rows[0][0]
+    json_row['label'] = rows[0][1]
+
+    return json.dumps(json_row)
+
+
+# returns a json object that has the id and label of the activity type with the input label
+def get_activity_type_by_label(db_conn, label):
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        SELECT at.activity_type,
+               at.label
+          FROM tb_activity_type at
+         WHERE at.label = %(label)s
+    '''
+
+    cursor.execute(query, {"label":label})
+    rows = cursor.fetchall()
+
+    if len(rows) > 1:
+        raise ValueError, "Labels are not unique (this shouldn't be allowed by the schema)"
+    if len(rows) < 1:
+        raise ValueError, "Activity Type with that label does not exist: %s" % (label)
+
+    json_row = {}
+    json_row['id']    = rows[0][0]
+    json_row['label'] = rows[0][1]
+
+    return json.dumps(json_row)
+
+
+##### Delete #####
+
+def delete_activity_type_by_id(db_conn, id):
+    # TODO
+    pass
 
 
 #############################
@@ -561,14 +782,14 @@ def get_activity_data_by_student_and_activity(db_conn, student_id, activity_id):
             ON acell.activity_row = ar.activity_row
     INNER JOIN tb_activity_column acol
             ON acell.activity_column = acol.activity_column
-    INNER JOIN tb_student_activity sa_row
-            ON ar.student_activity = sa_row.student_activity
-    INNER JOIN tb_student_activity sa_col -- this duplicate join is here to filter the cells based on columns as well as rows
-            ON acol.student_activity = sa_col.student_activity
+    INNER JOIN tb_student_activity sa
+            ON acell.student_activity = sa.student_activity
+    --INNER JOIN tb_student_activity sa_col -- this duplicate join is here to filter the cells based on columns as well as rows
+    --        ON acol.student_activity = sa_col.student_activity
     INNER JOIN tb_data_type dt
             ON acol.data_type = dt.data_type
-         WHERE sa_row.student  = %(student)s
-           AND sa_row.activity = %(activity)s
+         WHERE sa.student  = %(student)s
+           AND sa.activity = %(activity)s
       ORDER BY ar.number, acol.number
     '''
 
@@ -586,8 +807,11 @@ def get_activities_by_student(db_conn, student_id):
     query = '''
         SELECT a.activity,
                a.title,
-               a.description
+               at.label,
+               a.instructions
           FROM tb_activity a
+    INNER JOIN tb_activity_type at
+            ON a.activity_type = at.activity_type
     INNER JOIN tb_student_activity sa
             ON a.activity = sa.activity
          WHERE sa.student = %(student)s
@@ -628,6 +852,7 @@ def assign_student_to_teacher(db_conn, student_id, teacher_id):
 
     cursor.execute(query, {"student": student_id, "teacher":teacher_id})
     rows = cursor.fetchall()
+    db_conn.commit()
 
     # no need to do error checking like if the teacher is a teacher
     # or if the student/teacher pair are already associated

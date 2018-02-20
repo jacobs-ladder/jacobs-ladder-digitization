@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
+import ReactTable from 'react-table'
+
 
 $(document).ready(function () {
 	$.ajax({
@@ -19,12 +21,9 @@ $(document).ready(function () {
 
 const body = (
 	  <div>
-		<h2>Admin Landing</h2>
-		<p>Students Table</p>
-		<div id = "student_list_table"></div>
-		<form action="logout">
-		  <input type="submit" value="Logout" />
-		</form>
+			<h2>Admin Landing</h2>
+			<p>Students Table</p>
+			<div id = "student_list_table"></div>
 	  </div>
   	);
 
@@ -35,31 +34,27 @@ ReactDOM.render(
 
 function render_student_table(data){
 	var students = data;
-	const student_list_table = (
-		<table>
-			<thead>
-			  <tr>
-				<th>First Name</th>
-				<th>Last Name</th>
-			  </tr>
-			</thead>
-			<tbody>
-				{students.map(function(student, key) {
-					return (
-						<tr key={key}>
-							<td>{student.firstname}</td>
-							<td>{student.lastname}</td>
-						</tr>
-					);
-				})}
-			</tbody>
-
-		</table>
-  	);
+	const columns = [{
+		Header: 'First Name',
+		accessor: 'firstname'
+	  }, {
+		Header: 'Last Name',
+		accessor: 'lastname',
+	  }, {
+		Header: '',
+		accessor: 'id',
+		Cell: ({ value }) => (<a href={"student_profile/" + String(value)}>View</a>),
+	  }];
+	const student_list_table = <ReactTable
+			data={students}
+			defaultPageSize={10}
+			columns={columns}
+			filterable
+			defaultFilterMethod= { (filter, row, column) => String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase())}
+			/>
 
 	ReactDOM.render(
 	  	student_list_table,
 	 	document.getElementById('student_list_table')
 	);
 }
-

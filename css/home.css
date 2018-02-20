@@ -19,6 +19,10 @@ html, body {
     margin-left: 20px
 }
 
+body a:link a:visited {
+    color: #4472C4;
+}
+
 table, th, td {
     border: 1px solid black;
 }
@@ -31,18 +35,41 @@ form {
     padding-top: 3em;
 }
 
+.lout {
+    text-align: center;
+}
+
 #body {
     padding: 3em;
-    text-align: center;
+    text-align: left;
     background-color: #FFFAF2;
 }
 
-#nav .navA {
+.tab {
+    display: block;
     border-radius: 10px 10px 0px 0px; /* top left, top right, bottom right, bottom left */
     background-color: #87C6CE;
-    margin-left: .5em;
     padding-top: .5em;
     padding-bottom: .5em;
+    text-align: center;
+}
+
+.header {
+    text-align: right;
+    padding-bottom: .5em;
+}
+
+.header input {
+     background:none!important;
+     color: #4472C4;
+     border:none;
+     padding:0!important;
+     font: inherit;
+     cursor: pointer;
+}
+
+.header input:hover {
+    text-decoration: underline;
 }
 
 #sidebar {
@@ -55,3 +82,34 @@ form {
     line-height: 2em;
     padding-left: 2em;
 }
+
+.logout {
+    text-align: center;
+    background-color: #FFFAF2;
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 80%;
+    min-width: 50px;
+    margin-top: 5em;
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
+
+.dropdown-menu {
+    padding-left: .5em;
+}
+
+/*Elliot will implement this later */
+/*.fake-button {
+    display: block;
+    padding: .5em;
+    color: #fff;
+    background-color: #4472C4;
+    width: 20em;
+}
+
+.fake-button:hover {
+    background-color: #87C6CE;
+    color: #fff;
+    text-decoration: none;
+}*/

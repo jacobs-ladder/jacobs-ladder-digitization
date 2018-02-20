@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "The Jacob's Ladder Digitization Project",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "react-table": "^6.7.6"
+  },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
@@ -12,7 +14,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "reactable": "^0.14.1",
-    "webpack": "^3.10.0"
+    "webpack": "^3.11.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

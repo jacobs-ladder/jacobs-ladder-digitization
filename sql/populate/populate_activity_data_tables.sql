@@ -11,7 +11,7 @@ VALUES
 
 INSERT INTO tb_activity_row
 (
-    student_activity,
+    activity,
     title,
     number
 )
@@ -34,7 +34,7 @@ VALUES
 
 INSERT INTO tb_activity_column
 (
-    student_activity,
+    activity,
     title,
     number,
     data_type
@@ -67,6 +67,7 @@ VALUES
 
 INSERT INTO tb_activity_cell
 (
+    student_activity,
     activity_row,
     activity_column,
     data
@@ -75,59 +76,71 @@ VALUES
 (
     1,
     1,
+    1,
     '0'
 ),
 (
+    1,
     1,
     2,
     'this is a string'
 ),
 (
     1,
+    1,
     3,
     '2017-12-25 12:00:30'
 ),
 (
     1,
+    1,
     4,
     'True'
 ),
 (
+    1,
     2,
     1,
     '1.123'
 ),
 (
+    1,
     2,
     2,
     'another string!'
 ),
 (
+    1,
     2,
     3,
     '1941-12-7 06:01:37'
 ),
 (
+    1,
     2,
     4,
     'False'
 ),
 (
+    1,
     3,
     1,
     '777'
 ),
 (
+    1,
     3,
     2,
     'last string for this test data$%^&*()'
 ),
 (
+    1,
     3,
     3,
     '1996-06-15 03:12:12'
 ),
 (
+    1,
     3,
     4,
     'False'
