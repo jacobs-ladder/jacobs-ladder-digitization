@@ -18393,22 +18393,6 @@ function render_student_table(data) {
 			_react2.default.createElement(
 				"b",
 				null,
-				"Secondary Teacher:   ",
-				_react2.default.createElement(
-					"span",
-					{ style: spanStyle },
-					data[1] != null ? data[1].first_name : "",
-					" ",
-					data[1] != null ? data[1].last_name : ""
-				)
-			)
-		),
-		_react2.default.createElement(
-			"p",
-			null,
-			_react2.default.createElement(
-				"b",
-				null,
 				"Evaluator: "
 			)
 		),
