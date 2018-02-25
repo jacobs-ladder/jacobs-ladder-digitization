@@ -46,6 +46,7 @@ const body = (
 				<div id = "student_list_table" className="column1"></div>
 				<div id = "users_list_table" className="column1"></div>
 			</div>
+			<p><a href="/studentlist" className="fake-button">Assign it is temporary</a></p>
 			<p><a href="/studentlist" className="fake-button">Full Student List</a></p>
 	  </div>
   	);
