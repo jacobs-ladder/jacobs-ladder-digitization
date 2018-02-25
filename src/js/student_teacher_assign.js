@@ -21,6 +21,7 @@ const body = (
 <div>
 <div id='student_view'> </div>
 <div id='student_info'> </div>
+<p><a href="/student_teacher_assign" className="fake-button">Edit</a></p>
 </div>
 );
 
@@ -52,7 +53,7 @@ function get_assigned_students(data){
 
 function render_student_view(data){
 	const spanStyle = {
-		color: 'blue',
+		// color: 'blue',
 	};
 	const h1Style = {
 		textAlign: 'center',
@@ -60,7 +61,7 @@ function render_student_view(data){
 
 	const student_view = <div>
 		<h1 style=
-			{h1Style}><span style={spanStyle}>{data.firstname} {data.lastname}</span>&#39; Teacher Assignment</h1>
+			{h1Style}><span style={spanStyle}>{data.firstname} {data.lastname}</span>&#39;s Teacher Assignment</h1>
 			<p></p>
 			<p></p>
 			<p></p>
@@ -74,7 +75,7 @@ function render_student_view(data){
 
 function render_student_table(data) {
 	const spanStyle = {
-		color: 'green',
+		// color: 'green',//
 		fontSize: 25,
 	};
 

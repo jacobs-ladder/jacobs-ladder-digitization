@@ -11,7 +11,7 @@ const layout = (
   <div className="container-fluid">
     <div className="row">
       <div className="col-11 header">
-        <form action="logout">
+        <form action="/logout">
           Hello {userName} &bull; <input type="submit" value="Logout"/>
         </form>
       </div>

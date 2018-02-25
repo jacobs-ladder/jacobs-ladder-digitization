@@ -55,9 +55,9 @@ def home():
 	if current_user.get_role_label() == "administrator":
 		return redirect("/admin")
 	if current_user.get_role_label() == "teacher":
-		return redirect("/teacher")
+		return redirect("/teacher_landing")
 	if current_user.get_role_label() == "evaluator":
-		return redirect("/eval")
+		return redirect("/eval_landing")
 
 ##################################################
 ##### Delivering files to Client-Side Routes #####

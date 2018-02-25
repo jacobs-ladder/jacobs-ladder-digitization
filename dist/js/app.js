@@ -18286,7 +18286,7 @@ var layout = _react2.default.createElement(
       { className: "col-11 header" },
       _react2.default.createElement(
         "form",
-        { action: "logout" },
+        { action: "/logout" },
         "Hello ",
         userName,
         " \u2022 ",

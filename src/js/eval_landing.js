@@ -46,9 +46,7 @@ const body = (
 				<div id = "student_list_table" className="column1"></div>
 				<div id = "users_list_table" className="column1"></div>
 			</div>
-			<form action="/studentlist">
-			  <input type="submit" value="All Student List" />
-			</form>
+			<p><a href="/studentlist" className="fake-button">Full Student List</a></p>
 	  </div>
   	);
 

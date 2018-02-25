@@ -18308,6 +18308,15 @@ var body = _react2.default.createElement(
 		"div",
 		{ id: "student_info" },
 		" "
+	),
+	_react2.default.createElement(
+		"p",
+		null,
+		_react2.default.createElement(
+			"a",
+			{ href: "/student_teacher_assign", className: "fake-button" },
+			"Edit"
+		)
 	)
 );
 
@@ -18333,7 +18342,7 @@ function get_assigned_students(data) {
 
 function render_student_view(data) {
 	var spanStyle = {
-		color: 'blue'
+		// color: 'blue',
 	};
 	var h1Style = {
 		textAlign: 'center'
@@ -18352,7 +18361,7 @@ function render_student_view(data) {
 				" ",
 				data.lastname
 			),
-			"' Teacher Assignment"
+			"'s Teacher Assignment"
 		),
 		_react2.default.createElement("p", null),
 		_react2.default.createElement("p", null),
@@ -18364,7 +18373,7 @@ function render_student_view(data) {
 
 function render_student_table(data) {
 	var spanStyle = {
-		color: 'green',
+		// color: 'green',//
 		fontSize: 25
 	};
 
