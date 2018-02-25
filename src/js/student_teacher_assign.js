@@ -61,6 +61,9 @@ function render_student_view(data){
 	const student_view = <div>
 		<h1 style=
 			{h1Style}><span style={spanStyle}>{data.firstname} {data.lastname}</span>&#39; Teacher Assignment</h1>
+			<p></p>
+			<p></p>
+			<p></p>
 		</div>
 
 	ReactDOM.render(
@@ -76,8 +79,6 @@ function render_student_table(data) {
 	};
 
 	const student_info = <div>
-		<p></p>
-		<p></p>
 		<p><b>Primary Teacher:   <span style={spanStyle}>{data[0] != null ? data[0].first_name : ""} {data[0] != null ? data[0].last_name : ""}</span></b></p>
 		<p><b>Secondary Teacher:   <span style={spanStyle}>{data[1] != null ? data[1].first_name : ""} {data[1] != null ? data[1].last_name : ""}</span></b></p>
 		<p><b>Evaluator: </b></p>

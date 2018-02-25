@@ -18353,7 +18353,10 @@ function render_student_view(data) {
 				data.lastname
 			),
 			"' Teacher Assignment"
-		)
+		),
+		_react2.default.createElement("p", null),
+		_react2.default.createElement("p", null),
+		_react2.default.createElement("p", null)
 	);
 
 	_reactDom2.default.render(student_view, document.getElementById('student_view'));
@@ -18368,8 +18371,6 @@ function render_student_table(data) {
 	var student_info = _react2.default.createElement(
 		"div",
 		null,
-		_react2.default.createElement("p", null),
-		_react2.default.createElement("p", null),
 		_react2.default.createElement(
 			"p",
 			null,
