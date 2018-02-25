@@ -21766,7 +21766,7 @@ function render_student_table(data) {
 				var value = _ref.value;
 				return _react2.default.createElement(
 					"a",
-					{ href: "student_teacher_assign/" + String(value) },
+					{ href: "student_profile/" + String(value) },
 					"View"
 				);
 			}

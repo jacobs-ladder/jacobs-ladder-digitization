@@ -61,7 +61,7 @@ function render_student_table(data){
 		}, {
   			Header: '',
   			accessor: 'id',
-  			Cell: ({ value }) => (<a href={"student_teacher_assign/" + String(value)}>View</a>),
+  			Cell: ({ value }) => (<a href={"student_profile/" + String(value)}>View</a>),
   	  	}]
 	}];
 	const student_list_table = <ReactTable data={students} defaultPageSize={10} columns={columns} filterable defaultFilterMethod= { (filter, row, column) => String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase())}/>

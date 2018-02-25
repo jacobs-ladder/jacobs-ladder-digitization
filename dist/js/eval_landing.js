@@ -21762,6 +21762,17 @@ function render_student_table(data) {
 		}, {
 			Header: 'Last Name',
 			accessor: 'lastname'
+		}, {
+			Header: '',
+			accessor: 'id',
+			Cell: function Cell(_ref) {
+				var value = _ref.value;
+				return _react2.default.createElement(
+					"a",
+					{ href: "student_teacher_assign/" + String(value) },
+					"View"
+				);
+			}
 		}]
 	}];
 	var student_list_table = _react2.default.createElement(_reactTable2.default, { defaultPageSize: 10, data: students, columns: columns, filterable: true, defaultFilterMethod: function defaultFilterMethod(filter, row, column) {
@@ -21785,8 +21796,8 @@ function render_users_table(data) {
 			Header: 'By Role',
 			accessor: 'role_label',
 			id: 'role',
-			Cell: function Cell(_ref) {
-				var value = _ref.value;
+			Cell: function Cell(_ref2) {
+				var value = _ref2.value;
 				return value;
 			},
 			filterMethod: function filterMethod(filter, row) {
@@ -21803,9 +21814,9 @@ function render_users_table(data) {
 					return row[filter.id] == 'evaluator';
 				}
 			},
-			Filter: function Filter(_ref2) {
-				var filter = _ref2.filter,
-				    _onChange = _ref2.onChange;
+			Filter: function Filter(_ref3) {
+				var filter = _ref3.filter,
+				    _onChange = _ref3.onChange;
 				return _react2.default.createElement(
 					"select",
 					{
