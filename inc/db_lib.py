@@ -255,7 +255,7 @@ def get_user_id_by_username(db_conn, username):
 
 # creates an activity with the given information
 # returns the unique id of that activity
-def create_activity(db_conn, title, activity_type_label, description):
+def create_activity(db_conn, title, activity_type_label, instructions, columns_and_rows):
 
     cursor = db_conn.cursor()
 
@@ -264,13 +264,13 @@ def create_activity(db_conn, title, activity_type_label, description):
     query = '''
             SELECT fn_create_activity(
                 %(title)s,
+                %(instructions)s,
                 %(activity_type_label)s,
-                %(description)s
-
+                %(columns_and_rows)s::JSON
             )
     '''
 
-    cursor.execute(query, {"title":title, "activity_type_label":activity_type_label, "description":description})
+    cursor.execute(query, {"title":title, "activity_type_label":activity_type_label, "instructions":instructions, "columns_and_rows":columns_and_rows})
     rows = cursor.fetchall()
     db_conn.commit()
 
@@ -784,8 +784,6 @@ def get_activity_data_by_student_and_activity(db_conn, student_id, activity_id):
             ON acell.activity_column = acol.activity_column
     INNER JOIN tb_student_activity sa
             ON acell.student_activity = sa.student_activity
-    --INNER JOIN tb_student_activity sa_col -- this duplicate join is here to filter the cells based on columns as well as rows
-    --        ON acol.student_activity = sa_col.student_activity
     INNER JOIN tb_data_type dt
             ON acol.data_type = dt.data_type
          WHERE sa.student  = %(student)s

@@ -217,11 +217,12 @@ def activity():
 
     elif request.method == 'POST':
 
-        title         = request.form['title']
-        activity_type = request.form['activity_type']
-        instructions  = request.form['instructions']
+        title            = request.args['title']
+        activity_type    = request.args['activity_type']
+        instructions     = request.args['instructions']
+        columns_and_rows = request.data
 
-        created_activity_id = db_lib.create_activity(db_conn, title, activity_type, instructions)
+        created_activity_id = db_lib.create_activity(db_conn, title, activity_type, instructions, columns_and_rows)
 
         # close the database connection once we are done with it
         db_conn.close()
