@@ -577,7 +577,7 @@ module.exports = warning;
 if (process.env.NODE_ENV !== 'production') {
   var invariant = __webpack_require__(4);
   var warning = __webpack_require__(6);
-  var ReactPropTypesSecret = __webpack_require__(9);
+  var ReactPropTypesSecret = __webpack_require__(8);
   var loggedTypeFailures = {};
 }
 
@@ -631,6 +631,25 @@ module.exports = checkPropTypes;
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
+
+module.exports = ReactPropTypesSecret;
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
   Copyright (c) 2016 Jed Watson.
   Licensed under the MIT License (MIT), see
@@ -680,25 +699,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 		window.classNames = classNames;
 	}
 }());
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-
-
-var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
-
-module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
@@ -1024,7 +1024,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _classnames = __webpack_require__(8);
+var _classnames = __webpack_require__(9);
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -18565,7 +18565,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _classnames = __webpack_require__(8);
+var _classnames = __webpack_require__(9);
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -20298,7 +20298,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _classnames = __webpack_require__(8);
+var _classnames = __webpack_require__(9);
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -20624,7 +20624,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _classnames = __webpack_require__(8);
+var _classnames = __webpack_require__(9);
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -21068,7 +21068,7 @@ var invariant = __webpack_require__(4);
 var warning = __webpack_require__(6);
 var assign = __webpack_require__(3);
 
-var ReactPropTypesSecret = __webpack_require__(9);
+var ReactPropTypesSecret = __webpack_require__(8);
 var checkPropTypes = __webpack_require__(7);
 
 module.exports = function(isValidElement, throwOnDirectAccess) {
@@ -21615,7 +21615,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
 var emptyFunction = __webpack_require__(1);
 var invariant = __webpack_require__(4);
-var ReactPropTypesSecret = __webpack_require__(9);
+var ReactPropTypesSecret = __webpack_require__(8);
 
 module.exports = function() {
   function shim(props, propName, componentName, location, propFullName, secret) {
@@ -21744,9 +21744,22 @@ var body = _react2.default.createElement(
 		_react2.default.createElement("div", { id: "users_list_table", className: "column1" })
 	),
 	_react2.default.createElement(
-		"form",
-		{ action: "/studentlist" },
-		_react2.default.createElement("input", { type: "submit", value: "All Student List" })
+		"p",
+		null,
+		_react2.default.createElement(
+			"a",
+			{ href: "/studentlist", className: "fake-button" },
+			"Assign it is temporary"
+		)
+	),
+	_react2.default.createElement(
+		"p",
+		null,
+		_react2.default.createElement(
+			"a",
+			{ href: "/studentlist", className: "fake-button" },
+			"Full Student List"
+		)
 	)
 );
 
@@ -21762,6 +21775,17 @@ function render_student_table(data) {
 		}, {
 			Header: 'Last Name',
 			accessor: 'lastname'
+		}, {
+			Header: '',
+			accessor: 'id',
+			Cell: function Cell(_ref) {
+				var value = _ref.value;
+				return _react2.default.createElement(
+					"a",
+					{ href: "student_teacher_assign/" + String(value) },
+					"View"
+				);
+			}
 		}]
 	}];
 	var student_list_table = _react2.default.createElement(_reactTable2.default, { defaultPageSize: 10, data: students, columns: columns, filterable: true, defaultFilterMethod: function defaultFilterMethod(filter, row, column) {
@@ -21785,8 +21809,8 @@ function render_users_table(data) {
 			Header: 'By Role',
 			accessor: 'role_label',
 			id: 'role',
-			Cell: function Cell(_ref) {
-				var value = _ref.value;
+			Cell: function Cell(_ref2) {
+				var value = _ref2.value;
 				return value;
 			},
 			filterMethod: function filterMethod(filter, row) {
@@ -21803,9 +21827,9 @@ function render_users_table(data) {
 					return row[filter.id] == 'evaluator';
 				}
 			},
-			Filter: function Filter(_ref2) {
-				var filter = _ref2.filter,
-				    _onChange = _ref2.onChange;
+			Filter: function Filter(_ref3) {
+				var filter = _ref3.filter,
+				    _onChange = _ref3.onChange;
 				return _react2.default.createElement(
 					"select",
 					{

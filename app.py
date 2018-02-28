@@ -55,9 +55,9 @@ def home():
 	if current_user.get_role_label() == "administrator":
 		return redirect("/admin")
 	if current_user.get_role_label() == "teacher":
-		return redirect("/teacher")
+		return redirect("/teacher_landing")
 	if current_user.get_role_label() == "evaluator":
-		return redirect("/eval")
+		return redirect("/eval_landing")
 
 ##################################################
 ##### Delivering files to Client-Side Routes #####
@@ -162,6 +162,12 @@ def teacher_profile():
 # @role_required("administrator")
 def student_profile(sid):
     return render_template('student_profile.html', sid=sid)
+
+@app.route("/student_teacher_assign/<int:sid>")
+@login_required
+# @role_required("administrator")
+def student_teacher_assign(sid):
+    return render_template('student_teacher_assign.html', sid=sid)
 
 @app.route("/userlist")
 @login_required
