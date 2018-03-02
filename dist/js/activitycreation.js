@@ -72,75 +72,119 @@
 
 
 var activity_input = React.createElement(
-	"div",
-	null,
-	React.createElement(
-		"h2",
-		null,
-		"Create an Activity"
-	),
-	React.createElement(
-		"form",
-		{ action: "#", id: "activity_form" },
-		React.createElement(
-			"p",
-			null,
-			"Title: ",
-			React.createElement("input", { type: "text", name: "title", id: "activity_title" })
-		),
-		React.createElement(
-			"p",
-			null,
-			"Type of Activity: ",
-			React.createElement(
-				"select",
-				{ name: "activity_type", id: "activity_type" },
-				React.createElement(
-					"option",
-					{ value: "numbers" },
-					"Numbers"
-				),
-				React.createElement(
-					"option",
-					{ value: "reading" },
-					"Reading"
-				),
-				React.createElement(
-					"option",
-					{ value: "motor" },
-					"Motor"
-				),
-				React.createElement(
-					"option",
-					{ value: "visual" },
-					"Visual"
-				)
-			)
-		),
-		React.createElement(
-			"p",
-			null,
-			"Instructions: ",
-			React.createElement("textarea", { name: "instructions", id: "activity_instructions", rows: "10", cols: "30" })
-		),
-		React.createElement(
-			"p",
-			null,
-			React.createElement("input", { type: "submit", value: "Create Activity" })
-		)
-	)
+  "div",
+  null,
+  React.createElement(
+    "h2",
+    null,
+    "Create an Activity"
+  ),
+  React.createElement(
+    "form",
+    { action: "#", id: "activity_form" },
+    React.createElement(
+      "p",
+      null,
+      "Title: ",
+      React.createElement("input", { type: "text", name: "title", id: "activity_title" })
+    ),
+    React.createElement(
+      "p",
+      null,
+      "Type of Activity: ",
+      React.createElement(
+        "select",
+        { name: "activity_type", id: "activity_type" },
+        React.createElement(
+          "option",
+          { value: "numbers" },
+          "Numbers"
+        ),
+        React.createElement(
+          "option",
+          { value: "reading" },
+          "Reading"
+        ),
+        React.createElement(
+          "option",
+          { value: "motor" },
+          "Motor"
+        ),
+        React.createElement(
+          "option",
+          { value: "visual" },
+          "Visual"
+        )
+      )
+    ),
+    React.createElement(
+      "p",
+      null,
+      "Instructions: ",
+      React.createElement("textarea", { name: "instructions", id: "activity_instructions", rows: "10", cols: "30" })
+    ),
+    React.createElement(
+      "p",
+      null,
+      React.createElement("input", { type: "submit", value: "Create Activity" })
+    )
+  )
 );
 
 ReactDOM.render(activity_input, document.getElementById('body'));
 
+var rows_columns = { "columns": [{
+    "title": "first column title (test activity)",
+    "number": 1,
+    "data_type": "numeric"
+  }, {
+    "title": "second column title (test activity)",
+    "number": 1,
+    "data_type": "numeric"
+  }, {
+    "title": "third column title (test activity)",
+    "number": 1,
+    "data_type": "numeric"
+  }],
+  "rows": [{
+    "title": "first row title (test activity)",
+    "number": 1
+  }, {
+    "title": "second row title (test activity)",
+    "number": 1
+  }]
+};
+
 $("#activity_form").submit(function (event) {
-	alert("form submit");
-	event.preventDefault();
-	$.post('../api/activity', { title: $("#activity_title").val(),
-		activity_type: $('#activity_type').val(),
-		instructions: $('#activity_instructions').val() }, function (returnedData) {
-		console.log(returnedData);
-	});
+  event.preventDefault();
+  var columnsrows = JSON.stringify({ "columns": [{
+      "title": "first column title (test activity)",
+      "number": 1,
+      "data_type": "numeric"
+    }, {
+      "title": "second column title (test activity)",
+      "number": 1,
+      "data_type": "numeric"
+    }, {
+      "title": "third column title (test activity)",
+      "number": 1,
+      "data_type": "numeric"
+    }],
+    "rows": [{
+      "title": "first row title (test activity)",
+      "number": 1
+    }, {
+      "title": "second row title (test activity)",
+      "number": 1
+    }]
+  });
+  console.log(columnsrows);
+  $.post('../api/activity', { title: $("#activity_title").val(),
+    activity_type: $('#activity_type').val(),
+    instructions: $('#activity_instructions').val(),
+    columns_and_rows: columnsrows }, function (returnedData) {
+    console.log(returnedData);
+  });
 });
 
 /***/ })

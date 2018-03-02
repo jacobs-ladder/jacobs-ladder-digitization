@@ -226,13 +226,13 @@ def activity():
         title            = request.values['title']
         activity_type    = request.values['activity_type']
         instructions     = request.values['instructions']
-        columns_and_rows = '[]'
+        columns_and_rows = request.values['columns_and_rows']
 
         created_activity_id = db_lib.create_activity(db_conn, title, activity_type, instructions, columns_and_rows)
 
         # close the database connection once we are done with it
         db_conn.close()
-        return Response('{created_activity:' + str(created_activity_id) + '}')
+        return Response('{created_activity:' + title + ', ' + str(created_activity_id) + '}')
 
     elif request.method == 'PATCH':
         activity_id = request.args['activity']

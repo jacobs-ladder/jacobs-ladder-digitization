@@ -23,11 +23,42 @@ ReactDOM.render(
 );
 
 $( "#activity_form" ).submit(function( event ) {
-	alert("form submit");
  	event.preventDefault();
+	var columns_and_rows_json = JSON.stringify({"columns":
+	 [
+	   {
+		 "title":"first column title (test activity)",
+		 "number":1,
+		 "data_type":"numeric"
+	   },
+	   {
+		 "title":"second column title (test activity)",
+		 "number":1,
+		 "data_type":"numeric"
+	   },
+	   {
+		 "title":"third column title (test activity)",
+		 "number":1,
+		 "data_type":"numeric"
+	   }
+	 ],
+	 "rows":
+	 [
+	   {
+		 "title":"first row title (test activity)",
+		 "number":1
+	   },
+	   {
+		 "title":"second row title (test activity)",
+		 "number":1
+	   }
+	 ]
+	});
+	//console.log(columnsrows);
 	$.post('../api/activity', { title:$( "#activity_title" ).val(), 
 								activity_type:$('#activity_type').val(), 
-								instructions:$('#activity_instructions').val() }, 
+								instructions:$('#activity_instructions').val(),
+								columns_and_rows : columns_and_rows_json}, 
 		function(returnedData){
 			 console.log(returnedData);
 	});
