@@ -18275,57 +18275,57 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 $(document).ready(function () {
-  $.ajax({
-    type: 'GET',
-    url: '../api/student?student=' + String(sid),
+    $.ajax({
+        type: 'GET',
+        url: '../api/student?student=' + String(sid),
 
-    dataType: "json",
+        dataType: "json",
 
-    success: function success(data) {
-      render_student_view(data);
-    },
-    error: function error(request, status, _error) {
-      alert(_error);
-    }
-  });
+        success: function success(data) {
+            render_student_view(data);
+        },
+        error: function error(request, status, _error) {
+            alert(_error);
+        }
+    });
 });
 
 var body = _react2.default.createElement(
-  "div",
-  null,
-  _react2.default.createElement(
     "div",
-    { id: "student_view" },
-    " "
-  ),
-  _react2.default.createElement(
-    "form",
-    { action: "logout" },
-    _react2.default.createElement("input", { type: "submit", value: "Logout" })
-  )
+    null,
+    _react2.default.createElement(
+        "div",
+        { id: "student_view" },
+        " "
+    ),
+    _react2.default.createElement(
+        "form",
+        { action: "logout" },
+        _react2.default.createElement("input", { type: "submit", value: "Logout" })
+    )
 );
 
 _reactDom2.default.render(body, document.getElementById('body'));
 
 function render_student_view(data) {
-  var student_view = _react2.default.createElement(
-    "div",
-    null,
-    _react2.default.createElement(
-      "h1",
-      null,
-      "First Name: ",
-      data.firstname
-    ),
-    _react2.default.createElement(
-      "h1",
-      null,
-      "Last Name: ",
-      data.lastname
-    )
-  );
+    var student_view = _react2.default.createElement(
+        "div",
+        null,
+        _react2.default.createElement(
+            "h1",
+            null,
+            "First Name: ",
+            data.firstname
+        ),
+        _react2.default.createElement(
+            "h1",
+            null,
+            "Last Name: ",
+            data.lastname
+        )
+    );
 
-  _reactDom2.default.render(student_view, document.getElementById('student_view'));
+    _reactDom2.default.render(student_view, document.getElementById('student_view'));
 }
 
 /***/ })
