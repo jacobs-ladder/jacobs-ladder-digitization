@@ -1,21 +1,51 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 
-class Layout extends React.Component {
+class Layout extends React.Component{
+	constructor(props){
+		super(props);
+        this.state = {
+            username : "",
+			isadmin  : false,
+			iseval   : false
+        };
+    }
+
+    componentDidMount(){
+        var self = this;
+		$.ajax({
+			type: 'GET',
+		    url: '../api/current_user',
+
+		    dataType: "json",
+
+		    success: function(data){
+                if(data){
+					var admin = (data.role_label == 'administrator');
+					var evalu = admin || (data.role_label == 'evaluator')
+                    self.setState({ username : data.username, isadmin: admin, iseval : evalu});
+                }
+		    },
+		    error: function (request, status, error) {
+		        alert(error);
+		    }
+		});
+    }
+
 	render(){
 		return (
 		  <div className="container-fluid">
 			<div className="row">
 			  <div className="col-11 header">
 				<form action="/logout">
-				  Hello {this.props.username} &bull; <input type="submit" value="Logout"/>
+				  Hello {this.state.username} &bull; <input type="submit" value="Logout"/>
 				</form>
 			  </div>
 			</div>
 			<div className="row" id="nav">
 			  <div className="col-1 col-sm-2">
 			  </div>
-			  {this.props.isadmin &&
+			  {this.state.isadmin &&
 				<div className="col-md-2 col-3">
 				  <a href="admin" className="dropdown-toggle tab" data-toggle="dropdown" data-hover="dropdown"> Admin </a>
 				    <ul className="dropdown-menu">
@@ -25,7 +55,7 @@ class Layout extends React.Component {
 				    </ul>
 				</div>
 			  }
-			  {this.props.iseval &&
+			  {this.state.iseval &&
 				<div className="col-md-2 col-3">
 				  <a href="/eval_landing" className="dropdown-toggle tab" data-toggle="dropdown" data-hover="dropdown"> Evaluator </a>
 				    <ul className="dropdown-menu">
@@ -54,8 +84,8 @@ class Layout extends React.Component {
 		);
 	}
 }
-
+			
 ReactDOM.render(
-  <Layout username='Lando Calrissian' isadmin iseval/>,
+  <Layout />,
   document.getElementById('app')
 );

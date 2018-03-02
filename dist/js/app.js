@@ -18280,13 +18280,42 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Layout = function (_React$Component) {
 	_inherits(Layout, _React$Component);
 
-	function Layout() {
+	function Layout(props) {
 		_classCallCheck(this, Layout);
 
-		return _possibleConstructorReturn(this, (Layout.__proto__ || Object.getPrototypeOf(Layout)).apply(this, arguments));
+		var _this = _possibleConstructorReturn(this, (Layout.__proto__ || Object.getPrototypeOf(Layout)).call(this, props));
+
+		_this.state = {
+			username: "",
+			isadmin: false,
+			iseval: false
+		};
+		return _this;
 	}
 
 	_createClass(Layout, [{
+		key: "componentDidMount",
+		value: function componentDidMount() {
+			var self = this;
+			$.ajax({
+				type: 'GET',
+				url: '../api/current_user',
+
+				dataType: "json",
+
+				success: function success(data) {
+					if (data) {
+						var admin = data.role_label == 'administrator';
+						var evalu = admin || data.role_label == 'evaluator';
+						self.setState({ username: data.username, isadmin: admin, iseval: evalu });
+					}
+				},
+				error: function error(request, status, _error) {
+					alert(_error);
+				}
+			});
+		}
+	}, {
 		key: "render",
 		value: function render() {
 			return _react2.default.createElement(
@@ -18302,7 +18331,7 @@ var Layout = function (_React$Component) {
 							"form",
 							{ action: "/logout" },
 							"Hello ",
-							this.props.username,
+							this.state.username,
 							" \u2022 ",
 							_react2.default.createElement("input", { type: "submit", value: "Logout" })
 						)
@@ -18312,7 +18341,7 @@ var Layout = function (_React$Component) {
 					"div",
 					{ className: "row", id: "nav" },
 					_react2.default.createElement("div", { className: "col-1 col-sm-2" }),
-					this.props.isadmin && _react2.default.createElement(
+					this.state.isadmin && _react2.default.createElement(
 						"div",
 						{ className: "col-md-2 col-3" },
 						_react2.default.createElement(
@@ -18352,7 +18381,7 @@ var Layout = function (_React$Component) {
 							)
 						)
 					),
-					this.props.iseval && _react2.default.createElement(
+					this.state.iseval && _react2.default.createElement(
 						"div",
 						{ className: "col-md-2 col-3" },
 						_react2.default.createElement(
@@ -18440,7 +18469,7 @@ var Layout = function (_React$Component) {
 	return Layout;
 }(_react2.default.Component);
 
-_reactDom2.default.render(_react2.default.createElement(Layout, { username: "Lando Calrissian", isadmin: true, iseval: true }), document.getElementById('app'));
+_reactDom2.default.render(_react2.default.createElement(Layout, null), document.getElementById('app'));
 
 /***/ })
 /******/ ]);

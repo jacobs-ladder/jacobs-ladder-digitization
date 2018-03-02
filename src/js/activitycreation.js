@@ -25,7 +25,9 @@ ReactDOM.render(
 $( "#activity_form" ).submit(function( event ) {
 	alert("form submit");
  	event.preventDefault();
-	$.post('../api/activity', { title:$( "#activity_title" ).val(), activity_type:"numbers", instructions:"asdf" }, 
+	$.post('../api/activity', { title:$( "#activity_title" ).val(), 
+								activity_type:$('#activity_type').val(), 
+								instructions:$('#activity_instructions').val() }, 
 		function(returnedData){
 			 console.log(returnedData);
 	});
