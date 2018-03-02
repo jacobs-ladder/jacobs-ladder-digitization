@@ -72,66 +72,74 @@
 
 
 var activity_input = React.createElement(
-		"div",
+	"div",
+	null,
+	React.createElement(
+		"h2",
 		null,
+		"Create an Activity"
+	),
+	React.createElement(
+		"form",
+		{ action: "#", id: "activity_form" },
 		React.createElement(
-				"h2",
-				null,
-				"Create an Activity"
+			"p",
+			null,
+			"Title: ",
+			React.createElement("input", { type: "text", name: "title", id: "activity_title" })
 		),
 		React.createElement(
-				"form",
-				{ action: "../api/activity", method: "post" },
+			"p",
+			null,
+			"Type of Activity: ",
+			React.createElement(
+				"select",
+				{ name: "activity_type", id: "activity_type" },
 				React.createElement(
-						"p",
-						null,
-						"Title: ",
-						React.createElement("input", { type: "text", name: "title" })
+					"option",
+					{ value: "numbers" },
+					"Numbers"
 				),
 				React.createElement(
-						"p",
-						null,
-						"Type of Activity: ",
-						React.createElement(
-								"select",
-								{ name: "activity_type" },
-								React.createElement(
-										"option",
-										{ value: "numbers" },
-										"Numbers"
-								),
-								React.createElement(
-										"option",
-										{ value: "reading" },
-										"Reading"
-								),
-								React.createElement(
-										"option",
-										{ value: "motor" },
-										"Motor"
-								),
-								React.createElement(
-										"option",
-										{ value: "visual" },
-										"Visual"
-								)
-						)
+					"option",
+					{ value: "reading" },
+					"Reading"
 				),
 				React.createElement(
-						"p",
-						null,
-						"Instructions: ",
-						React.createElement("textarea", { name: "instructions", rows: "10", cols: "30" })
+					"option",
+					{ value: "motor" },
+					"Motor"
 				),
 				React.createElement(
-						"p",
-						null,
-						React.createElement("input", { type: "submit", value: "Create Activity" })
+					"option",
+					{ value: "visual" },
+					"Visual"
 				)
+			)
+		),
+		React.createElement(
+			"p",
+			null,
+			"Instructions: ",
+			React.createElement("textarea", { name: "instructions", id: "activity_instructions", rows: "10", cols: "30" })
+		),
+		React.createElement(
+			"p",
+			null,
+			React.createElement("input", { type: "submit", value: "Create Activity" })
 		)
+	)
 );
 
 ReactDOM.render(activity_input, document.getElementById('body'));
+
+$("#activity_form").submit(function (event) {
+	alert("form submit");
+	event.preventDefault();
+	$.post('../api/activity', { title: $("#activity_title").val(), activity_type: "numbers", instructions: "asdf" }, function (returnedData) {
+		console.log(returnedData);
+	});
+});
 
 /***/ })
 

@@ -223,10 +223,10 @@ def activity():
 
     elif request.method == 'POST':
 
-        title            = request.args['title']
-        activity_type    = request.args['activity_type']
-        instructions     = request.args['instructions']
-        columns_and_rows = request.data
+        title            = request.values['title']
+        activity_type    = request.values['activity_type']
+        instructions     = request.values['instructions']
+        columns_and_rows = '[]'
 
         created_activity_id = db_lib.create_activity(db_conn, title, activity_type, instructions, columns_and_rows)
 
