@@ -3,35 +3,33 @@ import ReactDOM from "react-dom";
 
 class Layout extends React.Component {
 	render(){
-
-        
 		return (
 		  <div className="container-fluid">
 			<div className="row">
 			  <div className="col-11 header">
-				<form action="logout">
-				  Hello {"username"} &bull; <input type="submit" value="Logout"/>
+				<form action="/logout">
+				  Hello {this.props.username} &bull; <input type="submit" value="Logout"/>
 				</form>
 			  </div>
 			</div>
 			<div className="row" id="nav">
 			  <div className="col-1 col-sm-2">
 			  </div>
-			  {true &&
+			  {this.props.isadmin &&
 				<div className="col-md-2 col-3">
 				  <a href="admin" className="dropdown-toggle tab" data-toggle="dropdown" data-hover="dropdown"> Admin </a>
 				    <ul className="dropdown-menu">
-				      <li><a href="/admin">Home</a></li>
+				      <li><a href="/admin">Admin Home</a></li>
 				      <li><a href="/activitylist">All Activities</a></li>
+				      <li><a href="/userlist">All Users</a></li>
 				    </ul>
 				</div>
 			  }
-			  {true &&
+			  {this.props.iseval &&
 				<div className="col-md-2 col-3">
 				  <a href="/eval_landing" className="dropdown-toggle tab" data-toggle="dropdown" data-hover="dropdown"> Evaluator </a>
 				    <ul className="dropdown-menu">
-				      <li><a href="/eval_landing">Home</a></li>
-				      <li><a href="#">Another action</a></li>
+				      <li><a href="/eval_landing">Evaluator Home</a></li>
 				    </ul>
 				</div>
 			  }
@@ -39,8 +37,7 @@ class Layout extends React.Component {
 			  <div className="col-md-2 col-3">
 				<a href="/teacher_landing" className="dropdown-toggle tab" data-toggle="dropdown" data-hover="dropdown"> Teacher </a>
 				  <ul className="dropdown-menu">
-				      <li><a href="/teacher_landing">Home</a></li>
-				      <li><a href="#">Another action</a></li>
+				      <li><a href="/teacher_landing">Teacher Home</a></li>
 				    </ul>
 			  </div>
 			</div>
@@ -58,8 +55,7 @@ class Layout extends React.Component {
 	}
 }
 
-
 ReactDOM.render(
-  <Layout />,
+  <Layout username='Lando Calrissian' isadmin iseval/>,
   document.getElementById('app')
 );

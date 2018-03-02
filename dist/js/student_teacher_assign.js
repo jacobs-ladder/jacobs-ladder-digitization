@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 37);
+/******/ 	return __webpack_require__(__webpack_require__.s = 49);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -18253,13 +18253,23 @@ module.exports = camelize;
 /* 34 */,
 /* 35 */,
 /* 36 */,
-/* 37 */
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(2);
 
@@ -18271,176 +18281,145 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+$(document).ready(function () {
+	$.ajax({
+		type: 'GET',
+		url: '../api/student?student=' + String(sid),
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+		dataType: "json",
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Layout = function (_React$Component) {
-	_inherits(Layout, _React$Component);
-
-	function Layout() {
-		_classCallCheck(this, Layout);
-
-		return _possibleConstructorReturn(this, (Layout.__proto__ || Object.getPrototypeOf(Layout)).apply(this, arguments));
-	}
-
-	_createClass(Layout, [{
-		key: "render",
-		value: function render() {
-			return _react2.default.createElement(
-				"div",
-				{ className: "container-fluid" },
-				_react2.default.createElement(
-					"div",
-					{ className: "row" },
-					_react2.default.createElement(
-						"div",
-						{ className: "col-11 header" },
-						_react2.default.createElement(
-							"form",
-							{ action: "/logout" },
-							"Hello ",
-							this.props.username,
-							" \u2022 ",
-							_react2.default.createElement("input", { type: "submit", value: "Logout" })
-						)
-					)
-				),
-				_react2.default.createElement(
-					"div",
-					{ className: "row", id: "nav" },
-					_react2.default.createElement("div", { className: "col-1 col-sm-2" }),
-					this.props.isadmin && _react2.default.createElement(
-						"div",
-						{ className: "col-md-2 col-3" },
-						_react2.default.createElement(
-							"a",
-							{ href: "admin", className: "dropdown-toggle tab", "data-toggle": "dropdown", "data-hover": "dropdown" },
-							" Admin "
-						),
-						_react2.default.createElement(
-							"ul",
-							{ className: "dropdown-menu" },
-							_react2.default.createElement(
-								"li",
-								null,
-								_react2.default.createElement(
-									"a",
-									{ href: "/admin" },
-									"Admin Home"
-								)
-							),
-							_react2.default.createElement(
-								"li",
-								null,
-								_react2.default.createElement(
-									"a",
-									{ href: "/activitylist" },
-									"All Activities"
-								)
-							),
-							_react2.default.createElement(
-								"li",
-								null,
-								_react2.default.createElement(
-									"a",
-									{ href: "/userlist" },
-									"All Users"
-								)
-							)
-						)
-					),
-					this.props.iseval && _react2.default.createElement(
-						"div",
-						{ className: "col-md-2 col-3" },
-						_react2.default.createElement(
-							"a",
-							{ href: "/eval_landing", className: "dropdown-toggle tab", "data-toggle": "dropdown", "data-hover": "dropdown" },
-							" Evaluator "
-						),
-						_react2.default.createElement(
-							"ul",
-							{ className: "dropdown-menu" },
-							_react2.default.createElement(
-								"li",
-								null,
-								_react2.default.createElement(
-									"a",
-									{ href: "/eval_landing" },
-									"Evaluator Home"
-								)
-							)
-						)
-					),
-					_react2.default.createElement(
-						"div",
-						{ className: "col-md-2 col-3" },
-						_react2.default.createElement(
-							"a",
-							{ href: "/teacher_landing", className: "dropdown-toggle tab", "data-toggle": "dropdown", "data-hover": "dropdown" },
-							" Teacher "
-						),
-						_react2.default.createElement(
-							"ul",
-							{ className: "dropdown-menu" },
-							_react2.default.createElement(
-								"li",
-								null,
-								_react2.default.createElement(
-									"a",
-									{ href: "/teacher_landing" },
-									"Teacher Home"
-								)
-							)
-						)
-					)
-				),
-				_react2.default.createElement(
-					"div",
-					{ className: "row" },
-					_react2.default.createElement(
-						"div",
-						{ className: "col-md-2 col-3", id: "sidebar" },
-						_react2.default.createElement(
-							"div",
-							{ className: "row" },
-							_react2.default.createElement(
-								"a",
-								{ href: "/studentlist" },
-								"Students"
-							)
-						),
-						_react2.default.createElement(
-							"div",
-							{ className: "row" },
-							_react2.default.createElement(
-								"a",
-								{ href: "/userlist" },
-								"Users"
-							)
-						),
-						_react2.default.createElement(
-							"div",
-							{ className: "row" },
-							_react2.default.createElement(
-								"a",
-								{ href: "/activitylist" },
-								"Activities"
-							)
-						)
-					),
-					_react2.default.createElement("div", { className: "col-md-9 col-9", id: "body" })
-				)
-			);
+		success: function success(data) {
+			get_assigned_students(data);
+		},
+		error: function error(request, status, _error) {
+			alert(_error);
 		}
-	}]);
+	});
+});
 
-	return Layout;
-}(_react2.default.Component);
+var body = _react2.default.createElement(
+	"div",
+	null,
+	_react2.default.createElement(
+		"div",
+		{ id: "student_view" },
+		" "
+	),
+	_react2.default.createElement(
+		"div",
+		{ id: "student_info" },
+		" "
+	),
+	_react2.default.createElement(
+		"p",
+		null,
+		_react2.default.createElement(
+			"a",
+			{ href: "/student_teacher_assign", className: "fake-button" },
+			"Edit"
+		)
+	)
+);
 
-_reactDom2.default.render(_react2.default.createElement(Layout, { username: "Lando Calrissian", isadmin: true, iseval: true }), document.getElementById('app'));
+_reactDom2.default.render(body, document.getElementById('body'));
+
+function get_assigned_students(data) {
+	render_student_view(data);
+
+	$.ajax({
+		type: 'GET',
+		url: '../api/student_teacher?student=' + String(data.id),
+
+		dataType: "json",
+
+		success: function success(data) {
+			render_student_table(data);
+		},
+		error: function error(request, status, _error2) {
+			alert(_error2);
+		}
+	});
+}
+
+function render_student_view(data) {
+	var spanStyle = {
+		// color: 'blue',
+	};
+	var h1Style = {
+		textAlign: 'center'
+	};
+
+	var student_view = _react2.default.createElement(
+		"div",
+		null,
+		_react2.default.createElement(
+			"h1",
+			{ style: h1Style },
+			_react2.default.createElement(
+				"span",
+				{ style: spanStyle },
+				data.firstname,
+				" ",
+				data.lastname
+			),
+			"'s Teacher Assignment"
+		),
+		_react2.default.createElement("p", null),
+		_react2.default.createElement("p", null),
+		_react2.default.createElement("p", null)
+	);
+
+	_reactDom2.default.render(student_view, document.getElementById('student_view'));
+}
+
+function render_student_table(data) {
+	var spanStyle = {
+		// color: 'green',//
+		fontSize: 25
+	};
+
+	var student_info = _react2.default.createElement(
+		"div",
+		null,
+		_react2.default.createElement(
+			"p",
+			null,
+			_react2.default.createElement(
+				"b",
+				null,
+				"Primary Teacher:   ",
+				_react2.default.createElement(
+					"span",
+					{ style: spanStyle },
+					data[0] != null ? data[0].first_name : "",
+					" ",
+					data[0] != null ? data[0].last_name : ""
+				)
+			)
+		),
+		_react2.default.createElement(
+			"p",
+			null,
+			_react2.default.createElement(
+				"b",
+				null,
+				"Evaluator: "
+			)
+		),
+		_react2.default.createElement(
+			"p",
+			null,
+			_react2.default.createElement(
+				"b",
+				null,
+				"Temps: "
+			)
+		),
+		_react2.default.createElement("p", null),
+		_react2.default.createElement("p", null)
+	);
+	_reactDom2.default.render(student_info, document.getElementById('student_info'));
+}
 
 /***/ })
 /******/ ]);

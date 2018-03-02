@@ -94,3 +94,22 @@ form {
     padding-top: 2em;
     padding-bottom: 2em;
 }
+
+.dropdown-menu {
+    padding-left: .5em;
+}
+
+/*Elliot will implement this later */
+/*.fake-button {
+    display: block;
+    padding: .5em;
+    color: #fff;
+    background-color: #4472C4;
+    width: 20em;
+}
+
+.fake-button:hover {
+    background-color: #87C6CE;
+    color: #fff;
+    text-decoration: none;
+}*/

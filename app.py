@@ -55,9 +55,9 @@ def home():
 	if current_user.get_role_label() == "administrator":
 		return redirect("/admin")
 	if current_user.get_role_label() == "teacher":
-		return redirect("/teacher")
+		return redirect("/teacher_landing")
 	if current_user.get_role_label() == "evaluator":
-		return redirect("/eval")
+		return redirect("/eval_landing")
 
 ##################################################
 ##### Delivering files to Client-Side Routes #####
@@ -163,6 +163,12 @@ def teacher_profile():
 def student_profile(sid):
     return render_template('student_profile.html', sid=sid)
 
+@app.route("/student_teacher_assign/<int:sid>")
+@login_required
+# @role_required("administrator")
+def student_teacher_assign(sid):
+    return render_template('student_teacher_assign.html', sid=sid)
+
 @app.route("/userlist")
 @login_required
 # @role_required("administrator")
@@ -217,11 +223,12 @@ def activity():
 
     elif request.method == 'POST':
 
-        title         = request.form['title']
-        activity_type = request.form['activity_type']
-        instructions  = request.form['instructions']
+        title            = request.args['title']
+        activity_type    = request.args['activity_type']
+        instructions     = request.args['instructions']
+        columns_and_rows = request.data
 
-        created_activity_id = db_lib.create_activity(db_conn, title, activity_type, instructions)
+        created_activity_id = db_lib.create_activity(db_conn, title, activity_type, instructions, columns_and_rows)
 
         # close the database connection once we are done with it
         db_conn.close()
