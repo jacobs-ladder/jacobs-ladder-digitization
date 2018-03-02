@@ -12,6 +12,7 @@ module.exports = {
     eval: "./src/js/eval.js",
     eval_landing: "./src/js/eval_landing.js",
     teacher_landing: "./src/js/teacher_landing.js",
+    activitycreation: "./src/js/activitycreation.js",
 },
 
   output: {

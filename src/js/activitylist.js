@@ -22,6 +22,7 @@ $(document).ready(function () {
 const body = (
 	  <div>
 		<h2>Activity List</h2>
+        <a href='/activitycreation'>Add New Activity</a>
 		<div id = "activity_list_table"></div>
 		<form action="logout">
 		  <input type="submit" value="Logout" />
