@@ -52,6 +52,7 @@ class ColumnsFieldSet extends React.Component{
 			  			<option value="numeric">Numeric</option>
 			  			<option value="boolean">Checkbox</option>
 			  			<option value="string">Text</option>
+			  			<option value="timestamp">Time</option>
 					</select>
 					<span>  </span>
 					<button onClick={() => this.remove(index)}>Remove</button> 
@@ -175,8 +176,6 @@ class ActivityInput extends React.Component{
 	  );
 	}
 }
-
-
 
 ReactDOM.render(
   <ActivityInput />,

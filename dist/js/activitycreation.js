@@ -173,6 +173,11 @@ var ColumnsFieldSet = function (_React$Component) {
 							"option",
 							{ value: "string" },
 							"Text"
+						),
+						React.createElement(
+							"option",
+							{ value: "timestamp" },
+							"Time"
 						)
 					),
 					React.createElement(
