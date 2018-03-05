@@ -1,15 +1,9 @@
-import NumericInput from 'react-numeric-input';
-
-function handle_num_columns_change(value){
-	alert(value);
-}
-
 class ColumnsFieldSet extends React.Component{
 	constructor(props){
 		super(props);
 
 		this.state = { 
-		  	columns: []
+		  	columns: [{ title: "", type:"numeric" }]
 		}
 
 		this.add = this.add.bind(this);
@@ -67,8 +61,65 @@ class ColumnsFieldSet extends React.Component{
 
 		return(
 			<div>
+				<p>Columns</p>
 		  		<button onClick={ this.add }>Add Column</button> <br/>
 		  		<div>{ columns }</div>
+			</div>
+		);
+  	}
+}
+class RowsFieldSet extends React.Component{
+	constructor(props){
+		super(props);
+
+		this.state = { 
+		  	rows: [""]
+		}
+
+		this.add = this.add.bind(this);
+	}
+
+	add() {
+		this.setState({ rows: this.state.rows.concat("") });
+	}
+
+	remove(index) {
+		this.setState({ rows : this.state.rows.filter((s, sidx) => index !== sidx) });
+	}
+
+	titleChange(index, value) {
+		var rows = this.state.rows
+		rows[index] = value
+		this.setState({ rows });
+	}
+
+	getRows(){
+		return this.state.rows.map((row,index) => {
+			return {
+				"title":row,
+		 		"number":index,
+			}
+		});
+	}
+  
+  	render () {
+    	const rows = this.state.rows.map((row, index) => {
+		  	return (
+				<div key={index}>
+					<br/>
+					Title: <input type="text" value={row}
+							onChange={(evt) => this.titleChange(index, evt.target.value)}/>
+					<span>  </span>
+					<button onClick={() => this.remove(index)}>Remove</button> 
+				</div>
+			)
+    	});
+
+		return(
+			<div>
+				<p>Rows</p>
+		  		<button onClick={ this.add }>Add Row</button> <br/>
+		  		<div>{ rows }</div>
 			</div>
 		);
   	}
@@ -86,18 +137,9 @@ class ActivityInput extends React.Component{
 	}
 
 	formSubmit(event){
-		var columns_and_rows_json = JSON.stringify({"columns": this.refs.columns.getColumns(),
-		 "rows":
-		 [
-		   {
-			 "title":"first row title (test activity)",
-			 "number":1
-		   },
-		   {
-			 "title":"second row title (test activity)",
-			 "number":2
-		   }
-		 ]
+		var columns_and_rows_json = JSON.stringify({
+			"columns": this.refs.columns.getColumns(), 
+			"rows":this.refs.rows.getRows()
 		});
 		console.log(columns_and_rows_json);
 		$.post('../api/activity', { title:this.state.title, 
@@ -125,6 +167,8 @@ class ActivityInput extends React.Component{
 			  	<p>Instructions: <textarea name="instructions"rows="10" cols="50" value={this.state.instructions}
 									onChange={(evt) => this.setState({ instructions:evt.target.value }) }></textarea></p>
 			  	<ColumnsFieldSet ref="columns"/>
+				<br/>
+			  	<RowsFieldSet ref="rows"/>
 				<br/>
 			  	<p><input type="submit" value="Create Activity" onClick={(evt) => this.formSubmit(evt)}/></p>
 		  </div>
