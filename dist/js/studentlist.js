@@ -21735,6 +21735,17 @@ function render_student_table(data) {
 		}, {
 			Header: 'Last Name',
 			accessor: 'lastname'
+		}, {
+			Header: '',
+			accessor: 'id',
+			Cell: function Cell(_ref) {
+				var value = _ref.value;
+				return _react2.default.createElement(
+					"a",
+					{ href: "student_profile/" + String(value) },
+					"View"
+				);
+			}
 		}]
 	}];
 	var student_list_table = _react2.default.createElement(_reactTable2.default, { data: students, defaultPageSize: 10, columns: columns, filterable: true, defaultFilterMethod: function defaultFilterMethod(filter, row, column) {

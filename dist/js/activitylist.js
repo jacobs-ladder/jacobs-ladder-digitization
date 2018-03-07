@@ -21711,6 +21711,11 @@ var body = _react2.default.createElement(
 		null,
 		"Activity List"
 	),
+	_react2.default.createElement(
+		"a",
+		{ href: "/activitycreation" },
+		"Add New Activity"
+	),
 	_react2.default.createElement("div", { id: "activity_list_table" }),
 	_react2.default.createElement(
 		"form",
