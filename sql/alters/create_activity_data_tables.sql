@@ -5,6 +5,7 @@ CREATE TABLE tb_student_activity -- an activity page in a student's binder
     student_activity INTEGER PRIMARY KEY DEFAULT nextval('sq_pk_student_activity'),
     student          INTEGER REFERENCES tb_student  NOT NULL,
     activity         INTEGER REFERENCES tb_activity NOT NULL,
+    disabled         BOOLEAN NOT NULL DEFAULT FALSE,
     UNIQUE(student, activity)
 );
 
@@ -16,7 +17,8 @@ CREATE TABLE tb_activity_row -- a row on an activity page
     activity_row     INTEGER PRIMARY KEY DEFAULT nextval('sq_pk_activity_row'),
     activity         INTEGER REFERENCES tb_activity NOT NULL,
     title            VARCHAR NOT NULL, -- the text in the left hand column of this row
-    number           INTEGER NOT NULL  -- the number of this row in the grid. Top row of cells is 0
+    number           INTEGER NOT NULL, -- the number of this row in the grid. Top row of cells is 0
+    disabled         BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 
@@ -28,7 +30,8 @@ CREATE TABLE tb_activity_column
     activity         INTEGER REFERENCES tb_activity NOT NULL,
     title            VARCHAR NOT NULL, -- the text in the top row of this row
     number           INTEGER NOT NULL, -- the number of this column in the grid. Left column of cells is 0
-    data_type        INTEGER REFERENCES tb_data_type NOT NULL -- tells us how to interpret the string thats in the data column
+    data_type        INTEGER REFERENCES tb_data_type NOT NULL, -- tells us how to interpret the string thats in the data column
+    disabled         BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 
@@ -43,5 +46,6 @@ CREATE TABLE tb_activity_cell
     activity_column  INTEGER REFERENCES tb_activity_column NOT NULL,
     -- the data itself, stored in string form because we could have multiple data types
     data             VARCHAR,
+    disabled         BOOLEAN NOT NULL DEFAULT FALSE,
     UNIQUE(activity_row, activity_column)
 );

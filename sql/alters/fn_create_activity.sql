@@ -22,7 +22,8 @@ $_$
         SELECT a.activity_type
           INTO my_activity_type
           FROM tb_activity_type a
-         WHERE a.label = my_activity_type_label;
+         WHERE a.label = my_activity_type_label
+           AND a.disabled = FALSE;
 
         INSERT INTO tb_activity
         (

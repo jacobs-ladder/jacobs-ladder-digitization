@@ -7,5 +7,6 @@ CREATE TABLE tb_entity
     password      VARCHAR NOT NULL,
     first_name    VARCHAR NOT NULL,
     last_name     VARCHAR NOT NULL,
-    email_address VARCHAR NOT NULL
+    email_address VARCHAR NOT NULL,
+    disabled      BOOLEAN NOT NULL DEFAULT FALSE
 );

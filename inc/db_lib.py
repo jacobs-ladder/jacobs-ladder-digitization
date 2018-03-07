@@ -108,6 +108,7 @@ def get_user_by_id(db_conn, id):
           JOIN tb_role r
             ON e.role = r.role
          WHERE e.entity = %(id)s
+           AND e.disabled = FALSE
     '''
 
     cursor.execute(query, {"id":id})
@@ -136,6 +137,7 @@ def get_all_users(db_conn):
           FROM tb_entity e
           JOIN tb_role r
             ON e.role = r.role
+         WHERE e.disabled = FALSE
     '''
 
     cursor.execute(query)
@@ -233,6 +235,7 @@ def get_user_id_by_username(db_conn, username):
         SELECT e.entity
           FROM tb_entity e
          WHERE e.username = %(username)s
+           AND e.disabled = FALSE
     '''
 
     cursor.execute(query, {"username":username})
@@ -296,12 +299,14 @@ def get_activity_by_id(db_conn, id):
               FROM tb_activity_column ac
         INNER JOIN tb_data_type dt
                 ON ac.data_type = dt.data_type
+             WHERE ac.disabled = FALSE
           ORDER BY ac.activity,
                    ac.number
         ), tt_rows AS (
             SELECT ar.title    AS title,
                    ar.activity AS activity
               FROM tb_activity_row ar
+             WHERE ar.disabled = FALSE
           ORDER BY ar.activity,
                    ar.number
         ), tt_activity_with_columns AS (
@@ -311,6 +316,7 @@ def get_activity_by_id(db_conn, id):
               FROM tb_activity a
         INNER JOIN tt_columns ttc
                 ON a.activity = ttc.activity
+             WHERE a.disabled = FALSE
           GROUP BY a.activity
         ), tt_activity_with_rows AS (
             SELECT a.activity,
@@ -318,6 +324,7 @@ def get_activity_by_id(db_conn, id):
               FROM tb_activity a
         INNER JOIN tt_rows ttr
                 ON a.activity = ttr.activity
+             WHERE a.disabled = FALSE
           GROUP BY a.activity
         )
         SELECT a.activity,
@@ -335,6 +342,8 @@ def get_activity_by_id(db_conn, id):
     INNER JOIN tt_activity_with_rows ttar
             ON a.activity = ttar.activity
          WHERE a.activity = %(id)s
+           AND a.disabled  = FALSE
+           AND at.disabled = FALSE
     '''
 
     cursor.execute(query, {"id":id})
@@ -368,12 +377,14 @@ def get_all_activities(db_conn):
               FROM tb_activity_column ac
         INNER JOIN tb_data_type dt
                 ON ac.data_type = dt.data_type
+             WHERE ac.disabled = FALSE
           ORDER BY ac.activity,
                    ac.number
         ), tt_rows AS (
             SELECT ar.title    AS title,
                    ar.activity AS activity
               FROM tb_activity_row ar
+             WHERE ar.disabled = FALSE
           ORDER BY ar.activity,
                    ar.number
         ), tt_activity_with_columns AS (
@@ -383,6 +394,7 @@ def get_all_activities(db_conn):
               FROM tb_activity a
         INNER JOIN tt_columns ttc
                 ON a.activity = ttc.activity
+             WHERE a.disabled = FALSE
           GROUP BY a.activity
         ), tt_activity_with_rows AS (
             SELECT a.activity,
@@ -390,6 +402,7 @@ def get_all_activities(db_conn):
               FROM tb_activity a
         INNER JOIN tt_rows ttr
                 ON a.activity = ttr.activity
+             WHERE a.disabled = FALSE
           GROUP BY a.activity
         )
         SELECT a.activity,
@@ -406,6 +419,8 @@ def get_all_activities(db_conn):
             ON a.activity = ttac.activity
     INNER JOIN tt_activity_with_rows ttar
             ON a.activity = ttar.activity
+         WHERE a.disabled  = FALSE
+           AND at.disabled = FALSE
     '''
 
     cursor.execute(query)
@@ -446,6 +461,7 @@ def update_activity(db_conn, id, attributes):
             SELECT at.activity_type
               FROM tb_activity_type at
              WHERE at.label = %(label)s
+               AND disabled = FALSE
         '''
         cursor.execute(activity_type_query, {"label":label})
         rows = cursor.fetchall()
@@ -556,6 +572,7 @@ def get_all_activity_types(db_conn):
         SELECT at.activity_type,
                at.label
           FROM tb_activity_type at
+         WHERE at.disabled = FALSE
     '''
 
     cursor.execute(query)
@@ -579,6 +596,7 @@ def get_activity_type_by_id(db_conn, id):
                at.label
           FROM tb_activity_type at
          WHERE at.activity_type = %(activity_type)s
+           AND at.disabled = FALSE
     '''
 
     cursor.execute(query, {"activity_type":id})
@@ -605,7 +623,8 @@ def get_activity_type_by_label(db_conn, label):
         SELECT at.activity_type,
                at.label
           FROM tb_activity_type at
-         WHERE at.label = %(label)s
+         WHERE at.label    = %(label)s
+           AND at.disabled = FALSE
     '''
 
     cursor.execute(query, {"label":label})
@@ -680,7 +699,8 @@ def get_student_by_id(db_conn, id):
                s.first_name,
                s.last_name
           FROM tb_student s
-         WHERE s.student = %(id)s
+         WHERE s.student  = %(id)s
+           AND s.disabled = FALSE
     '''
 
     cursor.execute(query, {"id":id})
@@ -705,6 +725,7 @@ def get_all_students(db_conn):
                s.first_name,
                s.last_name
           FROM tb_student s
+         WHERE s.disabled = FALSE
     '''
 
     cursor.execute(query)
@@ -814,6 +835,10 @@ def assign_activity_to_student(db_conn, student_id, activity_id):
           JOIN tb_activity_column acol
             ON acol.activity = a.activity
          WHERE sa.student_activity = %(student_activity)s
+           AND sa.disabled         = FALSE
+           AND a.disabled          = FALSE
+           AND arow.disabled       = FALSE
+           AND acol.disabled       = FALSE
      RETURNING activity_cell
     '''
 
@@ -903,8 +928,11 @@ def get_activity_data_by_student_and_activity(db_conn, student_id, activity_id):
             ON acell.student_activity = sa.student_activity
     INNER JOIN tb_data_type dt
             ON acol.data_type = dt.data_type
-         WHERE sa.student  = %(student)s
-           AND sa.activity = %(activity)s
+         WHERE sa.student     = %(student)s
+           AND sa.activity    = %(activity)s
+           AND acell.disabled = FALSE
+           AND acol.disabled  = FALSE
+           AND sa.disabled    = FALSE
       ORDER BY ar.number, acol.number
     '''
 
@@ -927,12 +955,14 @@ def get_activities_by_student(db_conn, student_id):
               FROM tb_activity_column ac
         INNER JOIN tb_data_type dt
                 ON ac.data_type = dt.data_type
+             WHERE ac.disabled = FALSE
           ORDER BY ac.activity,
                    ac.number
         ), tt_rows AS (
             SELECT ar.title    AS title,
                    ar.activity AS activity
               FROM tb_activity_row ar
+             WHERE ar.disabled = FALSE
           ORDER BY ar.activity,
                    ar.number
         ), tt_activity_with_columns AS (
@@ -942,6 +972,7 @@ def get_activities_by_student(db_conn, student_id):
               FROM tb_activity a
         INNER JOIN tt_columns ttc
                 ON a.activity = ttc.activity
+             WHERE a.disabled = FALSE
           GROUP BY a.activity
         ), tt_activity_with_rows AS (
             SELECT a.activity,
@@ -949,6 +980,7 @@ def get_activities_by_student(db_conn, student_id):
               FROM tb_activity a
         INNER JOIN tt_rows ttr
                 ON a.activity = ttr.activity
+             WHERE a.disabled = FALSE
           GROUP BY a.activity
         )
         SELECT a.activity,
@@ -967,7 +999,8 @@ def get_activities_by_student(db_conn, student_id):
             ON a.activity = ttar.activity
     INNER JOIN tb_student_activity sa
             ON a.activity = sa.activity
-         WHERE sa.student = %(student)s
+         WHERE sa.student  = %(student)s
+           AND at.disabled = FALSE
     '''
 
     cursor.execute(query, {"student":student_id})
@@ -1032,6 +1065,8 @@ def get_students_by_teacher(db_conn, teacher_id):
           JOIN tb_student_teacher st
             ON s.student = st.student
          WHERE st.teacher = %(teacher)s
+           AND s.disabled  = FALSE
+           AND st.disabled = FALSE
     '''
 
     cursor.execute(query, {"teacher":teacher_id})
@@ -1062,6 +1097,8 @@ def get_teachers_by_student(db_conn, student_id):
           JOIN tb_role r
             ON e.role = r.role
          WHERE st.student = %(student)s
+           AND e.disabled  = FALSE
+           AND st.disabled = FALSE
     '''
 
     cursor.execute(query, {"student":student_id})
