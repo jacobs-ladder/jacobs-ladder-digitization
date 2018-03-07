@@ -763,6 +763,123 @@ def update_student(db_conn, id, attributes):
 ##### Student Activity Functions #####
 ######################################
 
+##### Create #####
+
+# creates a student_activity association between the parameter student and the parameter activity
+def assign_activity_to_student(db_conn, student_id, activity_id):
+
+    cursor = db_conn.cursor()
+
+    student_activity_query = '''
+        INSERT INTO tb_student_activity
+        (
+            student,
+            activity
+        )
+        VALUES
+        (
+            %(student)s,
+            %(activity)s
+        )
+        RETURNING student_activity
+    '''
+
+    cursor.execute(student_activity_query, {"student": student_id, "activity":activity_id})
+    student_activity_rows = cursor.fetchall()
+
+    if len(student_activity_rows) < 1:
+        # this should never happen because the db function should stop it if there is a problem
+        raise ValueError, "Could not insert student_activity"
+
+    # have to make sure that we create empty activity_cell rows or else stuff will fail in the future
+    # TODO honestly this should probably be a trigger in the db and not in the
+    # python but thats not a big deal right now
+    activity_cells_query = '''
+        INSERT INTO tb_activity_cell
+        (
+            student_activity,
+            activity_row,
+            activity_column,
+            data
+        )
+        SELECT sa.student_activity,
+               arow.activity_row,
+               acol.activity_column,
+               null
+          FROM tb_student_activity sa
+          JOIN tb_activity a
+            ON a.activity = sa.activity
+          JOIN tb_activity_row arow
+            ON arow.activity = a.activity
+          JOIN tb_activity_column acol
+            ON acol.activity = a.activity
+         WHERE sa.student_activity = %(student_activity)s
+     RETURNING activity_cell
+    '''
+
+    cursor.execute(activity_cells_query, {"student_activity": student_activity_rows[0][0]})
+    activity_cells_rows = cursor.fetchall()
+
+    if len(activity_cells_rows) < 1:
+        # this should never happen because the db function should stop it if there is a problem
+        raise ValueError, "Could not insert student_activity"
+
+    # dont commit our changes until we've validated everything
+    db_conn.commit()
+
+    return student_activity_rows[0][0]
+
+# update the student_activity data based on the parameter student, activity, and data to update
+# returns true if we were successful with updating every cell. Raises an error if something failed
+def update_student_activity_data(db_conn, student_id, activity_id, data_to_update):
+
+    # this will implicitly check to see if we have malformed json
+    data_to_update_dict = json.loads(data_to_update)
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        UPDATE tb_activity_cell ac
+           SET data = %(data)s
+          FROM tb_student_activity sa
+          JOIN tb_activity a
+            ON sa.activity = a.activity
+          JOIN tb_activity_column acol
+            ON a.activity = acol.activity
+          JOIN tb_activity_row arow
+            ON a.activity = arow.activity
+         WHERE sa.student          = %(student)s
+           AND a.activity          = %(activity)s
+           AND acol.number         = %(column_number)s
+           AND arow.number         = %(row_number)s
+           AND ac.student_activity = sa.student_activity
+           AND ac.activity_column  = acol.activity_column
+           AND ac.activity_row     = arow.activity_row
+     RETURNING ac.activity_cell
+    '''
+    parameters = {}
+    parameters['student']       = student_id
+    parameters['activity']      = activity_id
+
+    # update each data cell with an individual query
+    for x in range(len(data_to_update_dict)): # for each data cell that we are updating
+
+        # grab the parameters for this data cell
+        parameters['data']          = data_to_update_dict[x]['data']
+        parameters['column_number'] = data_to_update_dict[x]['column_number']
+        parameters['row_number']    = data_to_update_dict[x]['row_number']
+
+        cursor.execute(query, parameters)
+        rows = cursor.fetchall()
+        db_conn.commit()
+
+        if len(rows) < 1:
+            # this should never happen because the db function should stop it if there is a problem
+            raise ValueError, "Could not update the student_activity data"
+
+    return True
+
+
 ##### Read #####
 
 # returns the data of a particular student's performance on a particular activity
@@ -829,8 +946,6 @@ def get_activities_by_student(db_conn, student_id):
 
 # creates a student_teacher association between the parameter student and the parameter teacher
 def assign_student_to_teacher(db_conn, student_id, teacher_id):
-
-    # TODO for now this function will throw an error from the SQL if the teacher id is some kind of entity that is not a teacher
 
     cursor = db_conn.cursor()
 

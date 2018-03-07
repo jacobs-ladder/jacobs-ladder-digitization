@@ -449,8 +449,32 @@ def student_activity():
             return Response(get_activities_json(student_activity_list))
 
     elif request.method == 'POST':
-        # TODO temp
-        pass
+
+        # if they pass back stuff in the data form then we create student-activity data
+        # if they dont pass back anything in the data form then we assign that activity to that student
+        if request.data is None or request.data is "":
+
+            student_id  = request.args['student']
+            activity_id = request.args['activity']
+
+            created_student_activity_id = db_lib.assign_activity_to_student(db_conn, student_id, activity_id)
+
+            # close the database connection once we are done with it
+            db_conn.close()
+            return Response('{created_student_activity: ' + str(created_student_activity_id) + '}')
+
+        else:
+
+            student_id     = request.args['student']
+            activity_id    = request.args['activity']
+            data_to_update = request.data
+
+            updated_student_activity_id = db_lib.update_student_activity_data(db_conn, student_id, activity_id, data_to_update)
+
+            # close the database connection once we are done with it
+            db_conn.close()
+            return Response('{updated_student_activity: ' + str(updated_student_activity_id) + '}')
+
 
 # routes for student-teacher interaction and assigning teachers to students and students to teachers
 @app.route("/api/student_teacher",methods=["GET","POST"])

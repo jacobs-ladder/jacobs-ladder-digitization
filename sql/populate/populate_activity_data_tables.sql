@@ -1,3 +1,5 @@
+-- NOTE: make sure when manually creating data here, that you create activity_cells with null data for student_activity new student_activity's if they aren't created with data
+
 INSERT INTO tb_student_activity
 (
     student,
