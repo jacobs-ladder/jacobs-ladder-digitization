@@ -429,6 +429,8 @@ def student_activity():
         #Otherwise return list of activities currently assigned to the student
         if 'activity' in request.args.keys():
 
+            # TODO right now we do not validate that the parameter student and activity are actually assigned yet so this might cause some weird error that doesn't appear to make sense at first glance
+
             student_id  = request.args['student']
             activity_id = request.args['activity']
 
