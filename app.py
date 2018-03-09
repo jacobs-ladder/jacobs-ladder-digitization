@@ -197,7 +197,7 @@ def teacher_landing():
 # TODO should probably switch from using ?key=value to using form[]
 # see here: http://flask.pocoo.org/docs/0.12/quickstart/
 
-@app.route("/api/activity", methods=["GET", "POST", "PATCH"])#, "DELETE"])
+@app.route("/api/activity", methods=["GET", "POST", "PATCH", "DELETE"])
 @login_required
 def activity():
 
@@ -249,12 +249,12 @@ def activity():
         db_conn.close()
         return Response('{updated_activity:' + str(updated_activity_id) + '}')
 
-    # TODO commented this route out until we get the db activity deleting working
-    #elif request.method == 'DELETE':
-    #    activity_id = request.args['activity']
-    #    deleted_activity_id = db_lib.delete_activity(db_conn, activity_id)
+    # TODO deleting activities using this route does not actually work because db_lib delete stuff isn't done yet
+    elif request.method == 'DELETE':
+        activity_id = request.args['activity']
+        deleted_activity_id = db_lib.delete_activity(db_conn, activity_id)
 
-    #    return Response('{deleted_activity:' + str(deleted_activity_id) + '}')
+        return Response('{deleted_activity:' + str(deleted_activity_id) + '}')
 
 
 @app.route("/api/activity_type", methods=["GET", "POST"])
