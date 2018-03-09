@@ -18259,6 +18259,8 @@ module.exports = camelize;
 "use strict";
 
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
@@ -18269,159 +18271,205 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var isAdmin = true; //TODO connect to backend (needs to see if the user is an Admin)
-var isEval = true; //TODO connect to backend (needs to see if the user is an Evaluator)
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var userName = "Valerie Frizzle"; //TODO get user's name
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var layout = _react2.default.createElement(
-  "div",
-  { className: "container-fluid" },
-  _react2.default.createElement(
-    "div",
-    { className: "row" },
-    _react2.default.createElement(
-      "div",
-      { className: "col-11 header" },
-      _react2.default.createElement(
-        "form",
-        { action: "logout" },
-        "Hello ",
-        userName,
-        " \u2022 ",
-        _react2.default.createElement("input", { type: "submit", value: "Logout" })
-      )
-    )
-  ),
-  _react2.default.createElement(
-    "div",
-    { className: "row", id: "nav" },
-    _react2.default.createElement("div", { className: "col-1 col-sm-2" }),
-    isAdmin && _react2.default.createElement(
-      "div",
-      { className: "col-md-2 col-3" },
-      _react2.default.createElement(
-        "a",
-        { href: "admin", className: "dropdown-toggle tab", "data-toggle": "dropdown", "data-hover": "dropdown" },
-        " Admin "
-      ),
-      _react2.default.createElement(
-        "ul",
-        { className: "dropdown-menu" },
-        _react2.default.createElement(
-          "li",
-          null,
-          _react2.default.createElement(
-            "a",
-            { href: "/admin" },
-            "Admin Home"
-          )
-        ),
-        _react2.default.createElement(
-          "li",
-          null,
-          _react2.default.createElement(
-            "a",
-            { href: "/activitylist" },
-            "All Activities"
-          )
-        ),
-        _react2.default.createElement(
-          "li",
-          null,
-          _react2.default.createElement(
-            "a",
-            { href: "/userlist" },
-            "All Users"
-          )
-        )
-      )
-    ),
-    isEval && _react2.default.createElement(
-      "div",
-      { className: "col-md-2 col-3" },
-      _react2.default.createElement(
-        "a",
-        { href: "/eval_landing", className: "dropdown-toggle tab", "data-toggle": "dropdown", "data-hover": "dropdown" },
-        " Evaluator "
-      ),
-      _react2.default.createElement(
-        "ul",
-        { className: "dropdown-menu" },
-        _react2.default.createElement(
-          "li",
-          null,
-          _react2.default.createElement(
-            "a",
-            { href: "/eval_landing" },
-            "Evaluator Home"
-          )
-        )
-      )
-    ),
-    _react2.default.createElement(
-      "div",
-      { className: "col-md-2 col-3" },
-      _react2.default.createElement(
-        "a",
-        { href: "/teacher_landing", className: "dropdown-toggle tab", "data-toggle": "dropdown", "data-hover": "dropdown" },
-        " Teacher "
-      ),
-      _react2.default.createElement(
-        "ul",
-        { className: "dropdown-menu" },
-        _react2.default.createElement(
-          "li",
-          null,
-          _react2.default.createElement(
-            "a",
-            { href: "/teacher_landing" },
-            "Teacher Home"
-          )
-        )
-      )
-    )
-  ),
-  _react2.default.createElement(
-    "div",
-    { className: "row" },
-    _react2.default.createElement(
-      "div",
-      { className: "col-md-2 col-3", id: "sidebar" },
-      _react2.default.createElement(
-        "div",
-        { className: "row" },
-        _react2.default.createElement(
-          "a",
-          { href: "/studentlist" },
-          "Students"
-        )
-      ),
-      _react2.default.createElement(
-        "div",
-        { className: "row" },
-        _react2.default.createElement(
-          "a",
-          { href: "/userlist" },
-          "Users"
-        )
-      ),
-      _react2.default.createElement(
-        "div",
-        { className: "row" },
-        _react2.default.createElement(
-          "a",
-          { href: "/activitylist" },
-          "Activities"
-        )
-      )
-    ),
-    _react2.default.createElement("div", { className: "col-md-9 col-9", id: "body" })
-  )
-);
+var Layout = function (_React$Component) {
+	_inherits(Layout, _React$Component);
 
-_reactDom2.default.render(layout, document.getElementById('app'));
+	function Layout(props) {
+		_classCallCheck(this, Layout);
+
+		var _this = _possibleConstructorReturn(this, (Layout.__proto__ || Object.getPrototypeOf(Layout)).call(this, props));
+
+		_this.state = {
+			username: "",
+			isadmin: false,
+			iseval: false
+		};
+		return _this;
+	}
+
+	_createClass(Layout, [{
+		key: "componentDidMount",
+		value: function componentDidMount() {
+			var self = this;
+			$.ajax({
+				type: 'GET',
+				url: '../api/current_user',
+
+				dataType: "json",
+
+				success: function success(data) {
+					if (data) {
+						var admin = data.role_label == 'administrator';
+						var evalu = admin || data.role_label == 'evaluator';
+						self.setState({ username: data.username, isadmin: admin, iseval: evalu });
+					}
+				},
+				error: function error(request, status, _error) {
+					alert(_error);
+				}
+			});
+		}
+	}, {
+		key: "render",
+		value: function render() {
+			return _react2.default.createElement(
+				"div",
+				{ className: "container-fluid" },
+				_react2.default.createElement(
+					"div",
+					{ className: "row" },
+					_react2.default.createElement(
+						"div",
+						{ className: "col-11 header" },
+						_react2.default.createElement(
+							"form",
+							{ action: "/logout" },
+							"Hello ",
+							this.state.username,
+							" \u2022 ",
+							_react2.default.createElement("input", { type: "submit", value: "Logout" })
+						)
+					)
+				),
+				_react2.default.createElement(
+					"div",
+					{ className: "row", id: "nav" },
+					_react2.default.createElement("div", { className: "col-1 col-sm-2" }),
+					this.state.isadmin && _react2.default.createElement(
+						"div",
+						{ className: "col-md-2 col-3" },
+						_react2.default.createElement(
+							"a",
+							{ href: "admin", className: "dropdown-toggle tab", "data-toggle": "dropdown", "data-hover": "dropdown" },
+							" Admin "
+						),
+						_react2.default.createElement(
+							"ul",
+							{ className: "dropdown-menu" },
+							_react2.default.createElement(
+								"li",
+								null,
+								_react2.default.createElement(
+									"a",
+									{ href: "/admin" },
+									"Admin Home"
+								)
+							),
+							_react2.default.createElement(
+								"li",
+								null,
+								_react2.default.createElement(
+									"a",
+									{ href: "/activitylist" },
+									"All Activities"
+								)
+							),
+							_react2.default.createElement(
+								"li",
+								null,
+								_react2.default.createElement(
+									"a",
+									{ href: "/userlist" },
+									"All Users"
+								)
+							)
+						)
+					),
+					this.state.iseval && _react2.default.createElement(
+						"div",
+						{ className: "col-md-2 col-3" },
+						_react2.default.createElement(
+							"a",
+							{ href: "/eval_landing", className: "dropdown-toggle tab", "data-toggle": "dropdown", "data-hover": "dropdown" },
+							" Evaluator "
+						),
+						_react2.default.createElement(
+							"ul",
+							{ className: "dropdown-menu" },
+							_react2.default.createElement(
+								"li",
+								null,
+								_react2.default.createElement(
+									"a",
+									{ href: "/eval_landing" },
+									"Evaluator Home"
+								)
+							)
+						)
+					),
+					_react2.default.createElement(
+						"div",
+						{ className: "col-md-2 col-3" },
+						_react2.default.createElement(
+							"a",
+							{ href: "/teacher_landing", className: "dropdown-toggle tab", "data-toggle": "dropdown", "data-hover": "dropdown" },
+							" Teacher "
+						),
+						_react2.default.createElement(
+							"ul",
+							{ className: "dropdown-menu" },
+							_react2.default.createElement(
+								"li",
+								null,
+								_react2.default.createElement(
+									"a",
+									{ href: "/teacher_landing" },
+									"Teacher Home"
+								)
+							)
+						)
+					)
+				),
+				_react2.default.createElement(
+					"div",
+					{ className: "row" },
+					_react2.default.createElement(
+						"div",
+						{ className: "col-md-2 col-3", id: "sidebar" },
+						_react2.default.createElement(
+							"div",
+							{ className: "row" },
+							_react2.default.createElement(
+								"a",
+								{ href: "/studentlist" },
+								"Students"
+							)
+						),
+						_react2.default.createElement(
+							"div",
+							{ className: "row" },
+							_react2.default.createElement(
+								"a",
+								{ href: "/userlist" },
+								"Users"
+							)
+						),
+						_react2.default.createElement(
+							"div",
+							{ className: "row" },
+							_react2.default.createElement(
+								"a",
+								{ href: "/activitylist" },
+								"Activities"
+							)
+						)
+					),
+					_react2.default.createElement("div", { className: "col-md-9 col-9", id: "body" })
+				)
+			);
+		}
+	}]);
+
+	return Layout;
+}(_react2.default.Component);
+
+_reactDom2.default.render(_react2.default.createElement(Layout, null), document.getElementById('app'));
 
 /***/ })
 /******/ ]);

@@ -46,9 +46,8 @@ const body = (
 				<div id = "student_list_table" className="column1"></div>
 				<div id = "users_list_table" className="column1"></div>
 			</div>
-			<form action="/studentlist">
-			  <input type="submit" value="All Student List" />
-			</form>
+			<p><a href="/studentlist" className="fake-button">Assign it is temporary</a></p>
+			<p><a href="/studentlist" className="fake-button">Full Student List</a></p>
 	  </div>
   	);
 
@@ -67,7 +66,11 @@ function render_student_table(data){
 		  }, {
 			Header: 'Last Name',
 			accessor: 'lastname',
-		  }]
+		}, {
+  			Header: '',
+  			accessor: 'id',
+  			Cell: ({ value }) => (<a href={"student_teacher_assign/" + String(value)}>View</a>),
+  	  	}]
 	}];
 	const student_list_table = <ReactTable defaultPageSize={10} data={students} columns={columns} filterable defaultFilterMethod= { (filter, row, column) => String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase())}/>
 

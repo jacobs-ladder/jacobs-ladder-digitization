@@ -21,8 +21,8 @@ class student_activity_data_aggregation:
 
         # get the row num and col num of last element in query results in order to
         # figure out the total number of rows and columns in the data grid
-        num_of_rows = query_rows[-1][0] + 1
-        num_of_cols = query_rows[-1][2] + 1
+        num_of_rows = query_rows[-1][0]
+        num_of_cols = query_rows[-1][2]
 
         data_grid = []
         for y in range(num_of_rows):
@@ -30,32 +30,26 @@ class student_activity_data_aggregation:
             for x in range(num_of_cols):
                 data_grid[y].append(None)
 
+        row_titles        = []
+        column_titles     = []
+        current_query_row = None
 
-        current_data_row = 0
-        current_data_col = 0
-        row_titles    = []
-        column_titles = []
+        for current_data_row_index in range(num_of_rows):
+            for current_data_col_index in range(num_of_cols):
+                # find the current query row
+                for query_row in query_rows:
+                    if query_row[0] - 1 == current_data_row_index and query_row[2] - 1 == current_data_col_index:
+                        current_query_row = query_row
 
-        # this should work because the query results are ordered by the row number then column number
-        for query_row in query_rows:
-            # grab the first row title
-            if current_data_row == 0 and current_data_col == 0:
-                row_titles.append(query_row[1])
 
-            if query_row[0] != current_data_row:
-                current_data_row += 1
-                current_data_col  = 0
+                # pull out stuff from current_query_row
+                if current_data_row_index == 0: # only grab the column titles on the first pass through so we don't get duplicates
+                    column_titles.append(current_query_row[3])
 
-                # grab the rest of the rows titles while im here
-                row_titles.append(query_row[1])
+                data_grid[current_data_row_index][current_data_col_index] = {"data":current_query_row[4], "data_type":current_query_row[5]}
 
-            # grab the column titles from the first row
-            if current_data_row == 0:
-                column_titles.append(query_row[3])
-
-            data_grid[current_data_row][current_data_col] = {"data":query_row[4], "data_type":query_row[5]}
-            current_data_col += 1
-
+            # grab the row title after we exit the column loop so we don't get duplicates
+            row_titles.append(current_query_row[1])
 
         self.row_titles    = row_titles
         self.column_titles = column_titles

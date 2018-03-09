@@ -55,9 +55,9 @@ def home():
 	if current_user.get_role_label() == "administrator":
 		return redirect("/admin")
 	if current_user.get_role_label() == "teacher":
-		return redirect("/teacher")
+		return redirect("/teacher_landing")
 	if current_user.get_role_label() == "evaluator":
-		return redirect("/eval")
+		return redirect("/eval_landing")
 
 ##################################################
 ##### Delivering files to Client-Side Routes #####
@@ -163,6 +163,12 @@ def teacher_profile():
 def student_profile(sid):
     return render_template('student_profile.html', sid=sid)
 
+@app.route("/student_teacher_assign/<int:sid>")
+@login_required
+# @role_required("administrator")
+def student_teacher_assign(sid):
+    return render_template('student_teacher_assign.html', sid=sid)
+
 @app.route("/userlist")
 @login_required
 # @role_required("administrator")
@@ -191,7 +197,7 @@ def teacher_landing():
 # TODO should probably switch from using ?key=value to using form[]
 # see here: http://flask.pocoo.org/docs/0.12/quickstart/
 
-@app.route("/api/activity", methods=["GET", "POST", "PATCH"])#, "DELETE"])
+@app.route("/api/activity", methods=["GET", "POST", "PATCH", "DELETE"])
 @login_required
 def activity():
 
@@ -217,15 +223,16 @@ def activity():
 
     elif request.method == 'POST':
 
-        title         = request.form['title']
-        activity_type = request.form['activity_type']
-        instructions  = request.form['instructions']
+        title            = request.values['title']
+        activity_type    = request.values['activity_type']
+        instructions     = request.values['instructions']
+        columns_and_rows = request.values['columns_and_rows']
 
-        created_activity_id = db_lib.create_activity(db_conn, title, activity_type, instructions)
+        created_activity_id = db_lib.create_activity(db_conn, title, activity_type, instructions, columns_and_rows)
 
         # close the database connection once we are done with it
         db_conn.close()
-        return Response('{created_activity:' + str(created_activity_id) + '}')
+        return Response('{created_activity:' + title + ', ' + str(created_activity_id) + '}')
 
     elif request.method == 'PATCH':
         activity_id = request.args['activity']
@@ -242,12 +249,12 @@ def activity():
         db_conn.close()
         return Response('{updated_activity:' + str(updated_activity_id) + '}')
 
-    # TODO commented this route out until we get the db activity deleting working
-    #elif request.method == 'DELETE':
-    #    activity_id = request.args['activity']
-    #    deleted_activity_id = db_lib.delete_activity(db_conn, activity_id)
+    # TODO deleting activities using this route does not actually work because db_lib delete stuff isn't done yet
+    elif request.method == 'DELETE':
+        activity_id = request.args['activity']
+        deleted_activity_id = db_lib.delete_activity(db_conn, activity_id)
 
-    #    return Response('{deleted_activity:' + str(deleted_activity_id) + '}')
+        return Response('{deleted_activity:' + str(deleted_activity_id) + '}')
 
 
 @app.route("/api/activity_type", methods=["GET", "POST"])
@@ -422,6 +429,8 @@ def student_activity():
         #Otherwise return list of activities currently assigned to the student
         if 'activity' in request.args.keys():
 
+            # TODO right now we do not validate that the parameter student and activity are actually assigned yet so this might cause some weird error that doesn't appear to make sense at first glance
+
             student_id  = request.args['student']
             activity_id = request.args['activity']
 
@@ -440,8 +449,32 @@ def student_activity():
             return Response(get_activities_json(student_activity_list))
 
     elif request.method == 'POST':
-        # TODO temp
-        pass
+
+        # if they pass back stuff in the data form then we create student-activity data
+        # if they dont pass back anything in the data form then we assign that activity to that student
+        if request.data is None or request.data is "":
+
+            student_id  = request.args['student']
+            activity_id = request.args['activity']
+
+            created_student_activity_id = db_lib.assign_activity_to_student(db_conn, student_id, activity_id)
+
+            # close the database connection once we are done with it
+            db_conn.close()
+            return Response('{created_student_activity: ' + str(created_student_activity_id) + '}')
+
+        else:
+
+            student_id     = request.args['student']
+            activity_id    = request.args['activity']
+            data_to_update = request.data
+
+            updated_student_activity_id = db_lib.update_student_activity_data(db_conn, student_id, activity_id, data_to_update)
+
+            # close the database connection once we are done with it
+            db_conn.close()
+            return Response('{updated_student_activity: ' + str(updated_student_activity_id) + '}')
+
 
 # routes for student-teacher interaction and assigning teachers to students and students to teachers
 @app.route("/api/student_teacher",methods=["GET","POST"])

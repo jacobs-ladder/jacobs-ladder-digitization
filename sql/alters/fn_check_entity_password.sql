@@ -21,7 +21,8 @@ $_$
           INTO my_returned_entity
           FROM tb_entity e
          WHERE username = my_username
-           AND password_hash = crypt(my_password, password_hash);
+           AND password_hash = crypt(my_password, password_hash)
+           AND e.disabled = FALSE;
 
         RETURN my_returned_entity IS NOT NULL;
 

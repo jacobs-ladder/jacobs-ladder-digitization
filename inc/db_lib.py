@@ -108,6 +108,7 @@ def get_user_by_id(db_conn, id):
           JOIN tb_role r
             ON e.role = r.role
          WHERE e.entity = %(id)s
+           AND e.disabled = FALSE
     '''
 
     cursor.execute(query, {"id":id})
@@ -136,6 +137,7 @@ def get_all_users(db_conn):
           FROM tb_entity e
           JOIN tb_role r
             ON e.role = r.role
+         WHERE e.disabled = FALSE
     '''
 
     cursor.execute(query)
@@ -233,6 +235,7 @@ def get_user_id_by_username(db_conn, username):
         SELECT e.entity
           FROM tb_entity e
          WHERE e.username = %(username)s
+           AND e.disabled = FALSE
     '''
 
     cursor.execute(query, {"username":username})
@@ -255,7 +258,7 @@ def get_user_id_by_username(db_conn, username):
 
 # creates an activity with the given information
 # returns the unique id of that activity
-def create_activity(db_conn, title, activity_type_label, description):
+def create_activity(db_conn, title, activity_type_label, instructions, columns_and_rows):
 
     cursor = db_conn.cursor()
 
@@ -264,13 +267,13 @@ def create_activity(db_conn, title, activity_type_label, description):
     query = '''
             SELECT fn_create_activity(
                 %(title)s,
+                %(instructions)s,
                 %(activity_type_label)s,
-                %(description)s
-
+                %(columns_and_rows)s::JSON
             )
     '''
 
-    cursor.execute(query, {"title":title, "activity_type_label":activity_type_label, "description":description})
+    cursor.execute(query, {"title":title, "activity_type_label":activity_type_label, "instructions":instructions, "columns_and_rows":columns_and_rows})
     rows = cursor.fetchall()
     db_conn.commit()
 
@@ -296,12 +299,14 @@ def get_activity_by_id(db_conn, id):
               FROM tb_activity_column ac
         INNER JOIN tb_data_type dt
                 ON ac.data_type = dt.data_type
+             WHERE ac.disabled = FALSE
           ORDER BY ac.activity,
                    ac.number
         ), tt_rows AS (
             SELECT ar.title    AS title,
                    ar.activity AS activity
               FROM tb_activity_row ar
+             WHERE ar.disabled = FALSE
           ORDER BY ar.activity,
                    ar.number
         ), tt_activity_with_columns AS (
@@ -311,6 +316,7 @@ def get_activity_by_id(db_conn, id):
               FROM tb_activity a
         INNER JOIN tt_columns ttc
                 ON a.activity = ttc.activity
+             WHERE a.disabled = FALSE
           GROUP BY a.activity
         ), tt_activity_with_rows AS (
             SELECT a.activity,
@@ -318,6 +324,7 @@ def get_activity_by_id(db_conn, id):
               FROM tb_activity a
         INNER JOIN tt_rows ttr
                 ON a.activity = ttr.activity
+             WHERE a.disabled = FALSE
           GROUP BY a.activity
         )
         SELECT a.activity,
@@ -335,6 +342,8 @@ def get_activity_by_id(db_conn, id):
     INNER JOIN tt_activity_with_rows ttar
             ON a.activity = ttar.activity
          WHERE a.activity = %(id)s
+           AND a.disabled  = FALSE
+           AND at.disabled = FALSE
     '''
 
     cursor.execute(query, {"id":id})
@@ -368,12 +377,14 @@ def get_all_activities(db_conn):
               FROM tb_activity_column ac
         INNER JOIN tb_data_type dt
                 ON ac.data_type = dt.data_type
+             WHERE ac.disabled = FALSE
           ORDER BY ac.activity,
                    ac.number
         ), tt_rows AS (
             SELECT ar.title    AS title,
                    ar.activity AS activity
               FROM tb_activity_row ar
+             WHERE ar.disabled = FALSE
           ORDER BY ar.activity,
                    ar.number
         ), tt_activity_with_columns AS (
@@ -383,6 +394,7 @@ def get_all_activities(db_conn):
               FROM tb_activity a
         INNER JOIN tt_columns ttc
                 ON a.activity = ttc.activity
+             WHERE a.disabled = FALSE
           GROUP BY a.activity
         ), tt_activity_with_rows AS (
             SELECT a.activity,
@@ -390,6 +402,7 @@ def get_all_activities(db_conn):
               FROM tb_activity a
         INNER JOIN tt_rows ttr
                 ON a.activity = ttr.activity
+             WHERE a.disabled = FALSE
           GROUP BY a.activity
         )
         SELECT a.activity,
@@ -406,6 +419,8 @@ def get_all_activities(db_conn):
             ON a.activity = ttac.activity
     INNER JOIN tt_activity_with_rows ttar
             ON a.activity = ttar.activity
+         WHERE a.disabled  = FALSE
+           AND at.disabled = FALSE
     '''
 
     cursor.execute(query)
@@ -446,6 +461,7 @@ def update_activity(db_conn, id, attributes):
             SELECT at.activity_type
               FROM tb_activity_type at
              WHERE at.label = %(label)s
+               AND disabled = FALSE
         '''
         cursor.execute(activity_type_query, {"label":label})
         rows = cursor.fetchall()
@@ -556,6 +572,7 @@ def get_all_activity_types(db_conn):
         SELECT at.activity_type,
                at.label
           FROM tb_activity_type at
+         WHERE at.disabled = FALSE
     '''
 
     cursor.execute(query)
@@ -579,6 +596,7 @@ def get_activity_type_by_id(db_conn, id):
                at.label
           FROM tb_activity_type at
          WHERE at.activity_type = %(activity_type)s
+           AND at.disabled = FALSE
     '''
 
     cursor.execute(query, {"activity_type":id})
@@ -605,7 +623,8 @@ def get_activity_type_by_label(db_conn, label):
         SELECT at.activity_type,
                at.label
           FROM tb_activity_type at
-         WHERE at.label = %(label)s
+         WHERE at.label    = %(label)s
+           AND at.disabled = FALSE
     '''
 
     cursor.execute(query, {"label":label})
@@ -680,7 +699,8 @@ def get_student_by_id(db_conn, id):
                s.first_name,
                s.last_name
           FROM tb_student s
-         WHERE s.student = %(id)s
+         WHERE s.student  = %(id)s
+           AND s.disabled = FALSE
     '''
 
     cursor.execute(query, {"id":id})
@@ -705,6 +725,7 @@ def get_all_students(db_conn):
                s.first_name,
                s.last_name
           FROM tb_student s
+         WHERE s.disabled = FALSE
     '''
 
     cursor.execute(query)
@@ -763,6 +784,127 @@ def update_student(db_conn, id, attributes):
 ##### Student Activity Functions #####
 ######################################
 
+##### Create #####
+
+# creates a student_activity association between the parameter student and the parameter activity
+def assign_activity_to_student(db_conn, student_id, activity_id):
+
+    cursor = db_conn.cursor()
+
+    student_activity_query = '''
+        INSERT INTO tb_student_activity
+        (
+            student,
+            activity
+        )
+        VALUES
+        (
+            %(student)s,
+            %(activity)s
+        )
+        RETURNING student_activity
+    '''
+
+    cursor.execute(student_activity_query, {"student": student_id, "activity":activity_id})
+    student_activity_rows = cursor.fetchall()
+
+    if len(student_activity_rows) < 1:
+        # this should never happen because the db function should stop it if there is a problem
+        raise ValueError, "Could not insert student_activity"
+
+    # have to make sure that we create empty activity_cell rows or else stuff will fail in the future
+    # TODO honestly this should probably be a trigger in the db and not in the
+    # python but thats not a big deal right now
+    activity_cells_query = '''
+        INSERT INTO tb_activity_cell
+        (
+            student_activity,
+            activity_row,
+            activity_column,
+            data
+        )
+        SELECT sa.student_activity,
+               arow.activity_row,
+               acol.activity_column,
+               null
+          FROM tb_student_activity sa
+          JOIN tb_activity a
+            ON a.activity = sa.activity
+          JOIN tb_activity_row arow
+            ON arow.activity = a.activity
+          JOIN tb_activity_column acol
+            ON acol.activity = a.activity
+         WHERE sa.student_activity = %(student_activity)s
+           AND sa.disabled         = FALSE
+           AND a.disabled          = FALSE
+           AND arow.disabled       = FALSE
+           AND acol.disabled       = FALSE
+     RETURNING activity_cell
+    '''
+
+    cursor.execute(activity_cells_query, {"student_activity": student_activity_rows[0][0]})
+    activity_cells_rows = cursor.fetchall()
+
+    if len(activity_cells_rows) < 1:
+        # this should never happen because the db function should stop it if there is a problem
+        raise ValueError, "Could not insert student_activity"
+
+    # dont commit our changes until we've validated everything
+    db_conn.commit()
+
+    return student_activity_rows[0][0]
+
+# update the student_activity data based on the parameter student, activity, and data to update
+# returns true if we were successful with updating every cell. Raises an error if something failed
+def update_student_activity_data(db_conn, student_id, activity_id, data_to_update):
+
+    # this will implicitly check to see if we have malformed json
+    data_to_update_dict = json.loads(data_to_update)
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        UPDATE tb_activity_cell ac
+           SET data = %(data)s
+          FROM tb_student_activity sa
+          JOIN tb_activity a
+            ON sa.activity = a.activity
+          JOIN tb_activity_column acol
+            ON a.activity = acol.activity
+          JOIN tb_activity_row arow
+            ON a.activity = arow.activity
+         WHERE sa.student          = %(student)s
+           AND a.activity          = %(activity)s
+           AND acol.number         = %(column_number)s
+           AND arow.number         = %(row_number)s
+           AND ac.student_activity = sa.student_activity
+           AND ac.activity_column  = acol.activity_column
+           AND ac.activity_row     = arow.activity_row
+     RETURNING ac.activity_cell
+    '''
+    parameters = {}
+    parameters['student']       = student_id
+    parameters['activity']      = activity_id
+
+    # update each data cell with an individual query
+    for x in range(len(data_to_update_dict)): # for each data cell that we are updating
+
+        # grab the parameters for this data cell
+        parameters['data']          = data_to_update_dict[x]['data']
+        parameters['column_number'] = data_to_update_dict[x]['column_number']
+        parameters['row_number']    = data_to_update_dict[x]['row_number']
+
+        cursor.execute(query, parameters)
+        rows = cursor.fetchall()
+        db_conn.commit()
+
+        if len(rows) < 1:
+            # this should never happen because the db function should stop it if there is a problem
+            raise ValueError, "Could not update the student_activity data"
+
+    return True
+
+
 ##### Read #####
 
 # returns the data of a particular student's performance on a particular activity
@@ -784,12 +926,13 @@ def get_activity_data_by_student_and_activity(db_conn, student_id, activity_id):
             ON acell.activity_column = acol.activity_column
     INNER JOIN tb_student_activity sa
             ON acell.student_activity = sa.student_activity
-    --INNER JOIN tb_student_activity sa_col -- this duplicate join is here to filter the cells based on columns as well as rows
-    --        ON acol.student_activity = sa_col.student_activity
     INNER JOIN tb_data_type dt
             ON acol.data_type = dt.data_type
-         WHERE sa.student  = %(student)s
-           AND sa.activity = %(activity)s
+         WHERE sa.student     = %(student)s
+           AND sa.activity    = %(activity)s
+           AND acell.disabled = FALSE
+           AND acol.disabled  = FALSE
+           AND sa.disabled    = FALSE
       ORDER BY ar.number, acol.number
     '''
 
@@ -805,16 +948,56 @@ def get_activities_by_student(db_conn, student_id):
     cursor = db_conn.cursor()
 
     query = '''
+        WITH tt_columns AS (
+            SELECT ac.title    AS title,
+                   dt.label    AS data_type_label,
+                   ac.activity AS activity
+              FROM tb_activity_column ac
+        INNER JOIN tb_data_type dt
+                ON ac.data_type = dt.data_type
+          ORDER BY ac.activity,
+                   ac.number
+        ), tt_rows AS (
+            SELECT ar.title    AS title,
+                   ar.activity AS activity
+              FROM tb_activity_row ar
+          ORDER BY ar.activity,
+                   ar.number
+        ), tt_activity_with_columns AS (
+            SELECT a.activity,
+                   array_agg(ttc.title)           AS column_titles,
+                   array_agg(ttc.data_type_label) AS column_data_type_labels
+              FROM tb_activity a
+        INNER JOIN tt_columns ttc
+                ON a.activity = ttc.activity
+          GROUP BY a.activity
+        ), tt_activity_with_rows AS (
+            SELECT a.activity,
+                   array_agg(ttr.title) AS row_titles
+              FROM tb_activity a
+        INNER JOIN tt_rows ttr
+                ON a.activity = ttr.activity
+             WHERE a.disabled = FALSE
+          GROUP BY a.activity
+        )
         SELECT a.activity,
                a.title,
                at.label,
-               a.instructions
+               a.instructions,
+               ttac.column_titles,
+               ttac.column_data_type_labels,
+               ttar.row_titles
           FROM tb_activity a
     INNER JOIN tb_activity_type at
             ON a.activity_type = at.activity_type
+    INNER JOIN tt_activity_with_columns ttac
+            ON a.activity = ttac.activity
+    INNER JOIN tt_activity_with_rows ttar
+            ON a.activity = ttar.activity
     INNER JOIN tb_student_activity sa
             ON a.activity = sa.activity
-         WHERE sa.student = %(student)s
+         WHERE sa.student  = %(student)s
+           AND at.disabled = FALSE
     '''
 
     cursor.execute(query, {"student":student_id})
@@ -831,8 +1014,6 @@ def get_activities_by_student(db_conn, student_id):
 
 # creates a student_teacher association between the parameter student and the parameter teacher
 def assign_student_to_teacher(db_conn, student_id, teacher_id):
-
-    # TODO for now this function will throw an error from the SQL if the teacher id is some kind of entity that is not a teacher
 
     cursor = db_conn.cursor()
 
@@ -881,6 +1062,8 @@ def get_students_by_teacher(db_conn, teacher_id):
           JOIN tb_student_teacher st
             ON s.student = st.student
          WHERE st.teacher = %(teacher)s
+           AND s.disabled  = FALSE
+           AND st.disabled = FALSE
     '''
 
     cursor.execute(query, {"teacher":teacher_id})
@@ -911,6 +1094,8 @@ def get_teachers_by_student(db_conn, student_id):
           JOIN tb_role r
             ON e.role = r.role
          WHERE st.student = %(student)s
+           AND e.disabled  = FALSE
+           AND st.disabled = FALSE
     '''
 
     cursor.execute(query, {"student":student_id})
