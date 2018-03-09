@@ -955,14 +955,12 @@ def get_activities_by_student(db_conn, student_id):
               FROM tb_activity_column ac
         INNER JOIN tb_data_type dt
                 ON ac.data_type = dt.data_type
-             WHERE ac.disabled = FALSE
           ORDER BY ac.activity,
                    ac.number
         ), tt_rows AS (
             SELECT ar.title    AS title,
                    ar.activity AS activity
               FROM tb_activity_row ar
-             WHERE ar.disabled = FALSE
           ORDER BY ar.activity,
                    ar.number
         ), tt_activity_with_columns AS (
@@ -972,7 +970,6 @@ def get_activities_by_student(db_conn, student_id):
               FROM tb_activity a
         INNER JOIN tt_columns ttc
                 ON a.activity = ttc.activity
-             WHERE a.disabled = FALSE
           GROUP BY a.activity
         ), tt_activity_with_rows AS (
             SELECT a.activity,
