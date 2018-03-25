@@ -205,6 +205,33 @@ def update_user(db_conn, id, attributes):
 
     return rows[0][0]
 
+##### Delete #####
+
+def delete_user(db_conn, id):
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        UPDATE tb_student_teacher
+           SET disabled = TRUE
+         WHERE teacher = %(id)s;
+
+        UPDATE tb_entity
+           SET disabled = TRUE
+         WHERE entity = %(id)s
+     RETURNING entity
+    '''
+
+    cursor.execute(query, {"id": id})
+    rows = cursor.fetchall()
+    db_conn.commit()
+
+    if len(rows) < 1:
+        # this should never happen because the db function should stop it if there is a problem
+        raise ValueError, "Could not delete entity"
+
+    return rows[0][0]
+
 
 ##### Misc #####
 
@@ -491,36 +518,44 @@ def update_activity(db_conn, id, attributes):
 ##### Delete #####
 
 # deletes the activity from the database with the parameter id
-# TODO commenting this out until ryan has a chance to actually fix it
-#def delete_activity(db_conn, id):
-#
-#    # TODO for now this actually deletes from the db rather than using a disabled column or something like that
-#
-#    cursor = db_conn.cursor()
-#
-#    query = '''
-#        DELETE
-#          FROM tb_student_activity
-#         WHERE activity = %(id)s;
-#
-#        DELETE
-#          FROM tb_activity
-#         WHERE activity = %(id)s
-#     RETURNING activity
-#    '''
-#
-#    parameters = {}
-#    parameters['id'] = id
-#
-#    cursor.execute(query, parameters)
-#    rows = cursor.fetchall()
-#    db_conn.commit()
-#
-#    if len(rows) < 1:
-#        # this should never happen because the db function should stop it if there is a problem
-#        raise ValueError, "Could not delete activity"
-#
-#    return rows[0][0]
+def delete_activity(db_conn, id):
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        UPDATE tb_student_activity
+           SET disabled = TRUE
+         WHERE activity = %(id)s;
+
+        UPDATE tb_activity_column
+           SET disabled = TRUE
+         WHERE activity = %(id)s;
+
+        UPDATE tb_activity_row
+           SET disabled = TRUE
+         WHERE activity = %(id)s;
+
+        UPDATE tb_activity_cell ac
+           SET disabled = TRUE
+          FROM tb_activity_column acol
+         WHERE ac.activity_column = acol.activity_column
+           AND acol.activity = %(id)s;
+
+        UPDATE tb_activity
+           SET disabled = TRUE
+         WHERE activity = %(id)s
+     RETURNING activity
+    '''
+
+    cursor.execute(query, {"id": id})
+    rows = cursor.fetchall()
+    db_conn.commit()
+
+    if len(rows) < 1:
+        # this should never happen because the db function should stop it if there is a problem
+        raise ValueError, "Could not delete activity"
+
+    return rows[0][0]
 
 
 
@@ -578,10 +613,13 @@ def get_all_activity_types(db_conn):
     cursor.execute(query)
     rows = cursor.fetchall()
 
-    json_rows = {}
+    json_rows = []
+    current_row = 0
     for row in rows:
-        json_rows['id']    = row[0]
-        json_rows['label'] = row[1]
+        json_rows.append({})
+        json_rows[current_row]['id']    = row[0]
+        json_rows[current_row]['label'] = row[1]
+        current_row = current_row + 1;
 
     return json.dumps(json_rows)
 
@@ -644,9 +682,57 @@ def get_activity_type_by_label(db_conn, label):
 
 ##### Delete #####
 
-def delete_activity_type_by_id(db_conn, id):
-    # TODO
-    pass
+def delete_activity_type(db_conn, id):
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        UPDATE tb_student_activity sa
+           SET disabled = TRUE
+          FROM tb_activity a
+         WHERE sa.activity = a.activity
+           AND a.activity_type = %(id)s;
+
+        UPDATE tb_activity_column ac
+           SET disabled = TRUE
+          FROM tb_activity a
+         WHERE ac.activity = a.activity
+           AND a.activity_type = %(id)s;
+
+        UPDATE tb_activity_row ar
+           SET disabled = TRUE
+          FROM tb_activity a
+         WHERE ar.activity = a.activity
+           AND a.activity_type = %(id)s;
+
+        UPDATE tb_activity_cell ac
+           SET disabled = TRUE
+          FROM tb_activity_column acol
+          JOIN tb_activity a
+            ON acol.activity = a.activity
+         WHERE ac.activity_column = acol.activity_column
+           AND a.activity_type = %(id)s;
+
+        UPDATE tb_activity
+           SET disabled = TRUE
+         WHERE activity_type = %(id)s;
+
+        UPDATE tb_activity_type
+           SET disabled = TRUE
+         WHERE activity_type = %(id)s
+     RETURNING activity_type
+    '''
+
+    cursor.execute(query, {"id": id})
+    rows = cursor.fetchall()
+    db_conn.commit()
+
+    if len(rows) < 1:
+        # this should never happen because the db function should stop it if there is a problem
+        raise ValueError, "Could not delete activity type"
+
+    return rows[0][0]
+
 
 
 #############################
@@ -778,6 +864,41 @@ def update_student(db_conn, id, attributes):
         raise ValueError, "Could not update student"
 
     return rows[0][0]
+
+
+##### Delete #####
+
+
+def delete_student(db_conn, id):
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        UPDATE tb_student_teacher
+           SET disabled = TRUE
+         WHERE student = %(id)s;
+
+        UPDATE tb_student_activity
+           SET disabled = TRUE
+         WHERE student = %(id)s;
+
+        UPDATE tb_student
+           SET disabled = TRUE
+         WHERE student = %(id)s
+     RETURNING student
+    '''
+
+    cursor.execute(query, {"id": id})
+    rows = cursor.fetchall()
+    db_conn.commit()
+
+    if len(rows) < 1:
+        # this should never happen because the db function should stop it if there is a problem
+        raise ValueError, "Could not delete student"
+
+    return rows[0][0]
+
+
 
 
 ######################################
@@ -998,12 +1119,46 @@ def get_activities_by_student(db_conn, student_id):
             ON a.activity = sa.activity
          WHERE sa.student  = %(student)s
            AND at.disabled = FALSE
+           AND sa.disabled = FALSE
     '''
 
     cursor.execute(query, {"student":student_id})
     rows = cursor.fetchall()
 
     return activity.get_activity_objects(rows)
+
+
+##### Delete #####
+
+def delete_student_activity(db_conn, student_id, activity_id):
+
+    cursor = db_conn.cursor()
+
+    query = '''
+        UPDATE tb_activity_cell ac
+           SET disabled = TRUE
+          FROM tb_student_activity sa
+         WHERE ac.student_activity = sa.student_activity
+           AND sa.student  = %(student_id)s
+           AND sa.activity = %(activity_id)s;
+
+        UPDATE tb_student_activity
+           SET disabled = TRUE
+         WHERE student  = %(student_id)s
+           AND activity = %(activity_id)s
+     RETURNING student_activity
+    '''
+
+    cursor.execute(query, {"student_id": student_id, "activity_id": activity_id})
+    rows = cursor.fetchall()
+    db_conn.commit()
+
+    if len(rows) < 1:
+        # this should never happen because the db function should stop it if there is a problem
+        raise ValueError, "Could not delete student_activity"
+
+    return rows[0][0]
+
 
 
 #####################################
@@ -1104,3 +1259,29 @@ def get_teachers_by_student(db_conn, student_id):
     # no need to do error checking like if the teacher is a teacher etc cuz the SQL will handle it
 
     return user.get_user_objects(rows)
+
+
+##### Delete #####
+
+def delete_student_teacher(db_conn, student_id, teacher_id):
+    cursor = db_conn.cursor()
+
+    query = '''
+        UPDATE tb_student_teacher
+           SET disabled = TRUE
+         WHERE student = %(student_id)s
+           AND teacher = %(teacher_id)s
+     RETURNING student_teacher
+    '''
+
+    cursor.execute(query, {"student_id": student_id, "teacher_id": teacher_id})
+    rows = cursor.fetchall()
+    db_conn.commit()
+
+    if len(rows) < 1:
+        # this should never happen because the db function should stop it if there is a problem
+        raise ValueError, "Could not delete student_teacher"
+
+    return rows[0][0]
+
+

@@ -194,9 +194,6 @@ def teacher_landing():
 ##### API Routes (Data) #####
 #############################
 
-# TODO should probably switch from using ?key=value to using form[]
-# see here: http://flask.pocoo.org/docs/0.12/quickstart/
-
 @app.route("/api/activity", methods=["GET", "POST", "PATCH", "DELETE"])
 @login_required
 def activity():
@@ -249,7 +246,6 @@ def activity():
         db_conn.close()
         return Response('{updated_activity:' + str(updated_activity_id) + '}')
 
-    # TODO deleting activities using this route does not actually work because db_lib delete stuff isn't done yet
     elif request.method == 'DELETE':
         activity_id = request.args['activity']
         deleted_activity_id = db_lib.delete_activity(db_conn, activity_id)
@@ -298,14 +294,14 @@ def activity_type():
         # close the database connection once we are done with it
         db_conn.close()
         return Response('{created_activity_type_id:' + str(created_activity_type_id) + '}')
-    
+
     #Deletes activity type
     elif request.method == 'DELETE':
         activity_type_id = request.args['activity_type']
         deleted_activity_type_id = db_lib.delete_activity_type(db_conn, activity_type_id)
         db_conn.close()
         return Response('{deleted_activity_type:' + str(deleted_activity_type_id) + '}')
-        
+
 
 
 # route for users (creation and retrieval)
@@ -364,14 +360,14 @@ def user():
         # close the database connection once we are done with it
         db_conn.close()
         return Response('{updated_user:' + str(updated_user_id) + '}')
-    
+
     #Deletes users
     elif request.method == 'DELETE':
         user_id = request.args['user']
         deleted_user_id = db_lib.delete_user(db_conn, user_id)
         db_conn.close()
         return Response('{deleted_user:' + str(deleted_user_id) + '}')
-        
+
 
 @app.route("/api/current_user", methods=["GET"])
 @login_required
@@ -430,14 +426,17 @@ def student():
         # close the database connection once we are done with it
         db_conn.close()
         return Response('{updated_student:' + str(updated_student_id) + '}')
-    
-    #Deletes Students
+
     elif request.method == 'DELETE':
+
         user_id = request.args['student']
+
         deleted_student_id = db_lib.delete_student(db_conn, user_id)
         db_conn.close()
-        return Response('{deleted_student_id:' + str(deleted_student_id_id) + '}')
-        
+
+        return Response('{deleted_student_id:' + str(deleted_student_id) + '}')
+
+
 # route for the activity data of a particular student (creation and retrieval)
 @app.route("/api/student_activity", methods=["GET", "POST", "DELETE"])
 @login_required
@@ -497,13 +496,17 @@ def student_activity():
             db_conn.close()
             return Response('{updated_student_activity: ' + str(updated_student_activity_id) + '}')
 
-    #TODO Implement delete changes for specific routes (May need student, activity and date)
     elif request.method == 'DELETE':
+
+        student_id  = request.args['student']
         activity_id = request.args['activity']
-        deleted_activity_id = db_lib.delete_activity(db_conn, activity_id)
+
+        deleted_student_activity_id = db_lib.delete_student_activity(db_conn, student_id, activity_id)
         db_conn.close()
-        return Response('{deleted_activity:' + str(deleted_activity_id) + '}')
-        
+
+        return Response('{deleted_student_activity:' + str(deleted_student_activity_id) + '}')
+
+
 # routes for student-teacher interaction and assigning teachers to students and students to teachers
 @app.route("/api/student_teacher",methods=["GET","POST","DELETE"])
 @login_required
@@ -542,13 +545,16 @@ def student_teacher():
         db_conn.close()
         return Response('{student_teacher:' + str(student_teacher_assignment) + '}')
 
-    #TODO Implement delete changes for specific routes (needs student and teacher)
     elif request.method == 'DELETE':
-        activity_id = request.args['activity']
-        deleted_activity_id = db_lib.delete_activity(db_conn, activity_id)
+
+        student_id = request.args['student']
+        teacher_id = request.args['teacher']
+
+        deleted_student_teacher_id = db_lib.delete_student_teacher(db_conn, student_id, teacher_id)
         db_conn.close()
-        return Response('{deleted_activity:' + str(deleted_activity_id) + '}')
-        
+
+        return Response('{deleted_student_teacher:' + str(deleted_student_teacher_id) + '}')
+
 
 #######################
 ##### Error Pages #####
