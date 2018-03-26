@@ -188,6 +188,10 @@ def update_user(db_conn, id, attributes):
         query += 'role = (SELECT r.role FROM tb_role r WHERE r.label = %(role_label)s),'
         parameters['role_label'] = attributes['role_label']
 
+    if attributes['password'] is not None:
+        query += 'password_hash = crypt(%(password)s, gen_salt(\'md5\'::TEXT)),'
+        parameters['password'] = attributes['password']
+
     query = query[:-1] # remove last character from query string (the comma of the last attribute to be updated)
 
     query += '''
