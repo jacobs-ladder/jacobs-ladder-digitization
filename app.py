@@ -229,7 +229,7 @@ def activity():
 
         # close the database connection once we are done with it
         db_conn.close()
-        return Response('{created_activity:' + title + ', ' + str(created_activity_id) + '}')
+        return Response('{created_activity:' + str(created_activity_id) + '}')
 
     elif request.method == 'PATCH':
         activity_id = request.args['activity']

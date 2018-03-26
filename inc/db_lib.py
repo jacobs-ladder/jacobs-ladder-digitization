@@ -304,7 +304,12 @@ def create_activity(db_conn, title, activity_type_label, instructions, columns_a
             )
     '''
 
-    cursor.execute(query, {"title":title, "activity_type_label":activity_type_label, "instructions":instructions, "columns_and_rows":columns_and_rows})
+    try:
+        cursor.execute(query, {"title":title, "activity_type_label":activity_type_label, "instructions":instructions, "columns_and_rows":columns_and_rows})
+    except:
+        # this handles the case where we create duplicate activities and want to notify the user so they can fix it
+        return -1
+
     rows = cursor.fetchall()
     db_conn.commit()
 
