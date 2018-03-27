@@ -1073,6 +1073,7 @@ def get_activity_data_by_student_and_activity(db_conn, student_id, activity_id):
 
 
 # returns a list of activity objects that are associated with the student with the parameter ID
+# actually also includes the student_activity created field in the returned json so that way students can have the same activity assigned to them multiple times
 def get_activities_by_student(db_conn, student_id):
 
     cursor = db_conn.cursor()
@@ -1116,7 +1117,8 @@ def get_activities_by_student(db_conn, student_id):
                a.instructions,
                ttac.column_titles,
                ttac.column_data_type_labels,
-               ttar.row_titles
+               ttar.row_titles,
+               sa.created
           FROM tb_activity a
     INNER JOIN tb_activity_type at
             ON a.activity_type = at.activity_type
@@ -1134,7 +1136,16 @@ def get_activities_by_student(db_conn, student_id):
     cursor.execute(query, {"student":student_id})
     rows = cursor.fetchall()
 
-    return activity.get_activity_objects(rows)
+    # TODO TODO TODO need to change this so that we have the desirable structure for our output that will get dumped into json later
+    # TODO TODO TODO we'll need to grab the student_activity dates in our SQL results
+    activity_objects = activity.get_activity_objects(rows)
+    result = []
+    for current_row_index in range(len(rows)):
+        result.append({})
+        result[current_row_index]['activity']                 = activity_objects[current_row_index]
+        result[current_row_index]['student_activity_created'] = rows[current_row_index][7]
+
+    return result
 
 
 ##### Delete #####

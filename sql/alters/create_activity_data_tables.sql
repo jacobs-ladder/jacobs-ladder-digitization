@@ -5,6 +5,7 @@ CREATE TABLE tb_student_activity -- an activity page in a student's binder
     student_activity INTEGER PRIMARY KEY DEFAULT nextval('sq_pk_student_activity'),
     student          INTEGER REFERENCES tb_student  NOT NULL,
     activity         INTEGER REFERENCES tb_activity NOT NULL,
+    created          TIMESTAMP NOT NULL DEFAULT now(),
     disabled         BOOLEAN NOT NULL DEFAULT FALSE,
     UNIQUE(student, activity)
 );

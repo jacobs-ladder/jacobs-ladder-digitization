@@ -65,6 +65,24 @@ def get_activity_objects(db_rows):
 
     return activites
 
+def get_student_activities_json(student_activities):
+
+    result  = "["
+
+    for student_activity in student_activities:
+
+        result += "{"
+        result += "\"student_activity_created\":\"" + str(student_activity['student_activity_created']) + "\", "
+        result += "\"activity\":" + json.dumps(student_activity['activity'].__dict__)
+        result += "},"
+
+    if len(student_activities) > 0:
+        result = result[:-1] # remove most recent comma
+    result += "]"
+
+    return result
+
+
 def get_activities_json(activities):
     return json.dumps(activities, cls=ActivityEncoder)
 

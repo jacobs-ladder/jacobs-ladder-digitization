@@ -8,6 +8,7 @@ sys.path.insert(0, 'inc')
 
 import db_lib
 from activity import get_activities_json
+from activity import get_student_activities_json
 from user import get_users_json
 from student import get_students_json
 
@@ -469,7 +470,7 @@ def student_activity():
 
             # close the database connection once we are done with it
             db_conn.close()
-            return Response(get_activities_json(student_activity_list))
+            return Response(get_student_activities_json(student_activity_list))
 
     elif request.method == 'POST':
 
