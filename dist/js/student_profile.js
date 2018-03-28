@@ -21737,10 +21737,20 @@ var AssignedActivities = function (_React$Component) {
 		value: function render() {
 			var columns = [{
 				Header: 'Title',
-				accessor: 'title'
+				accessor: 'activity.title'
 			}, {
 				Header: 'Type',
-				accessor: 'activity_type_label'
+				accessor: 'activity.activity_type_label'
+			}, {
+				Header: 'View',
+				Cell: function Cell(_ref) {
+					var row = _ref.row;
+					return _react2.default.createElement(
+						"a",
+						{ href: "student_activity/" + String(row._original.activity.id) + "/" + String(row._original.student_activity_created) },
+						"View"
+					);
+				}
 			}];
 			return _react2.default.createElement(_reactTable2.default, {
 				data: this.state.activities,
@@ -21805,6 +21815,11 @@ function render_student_view(data) {
 			null,
 			"Last Name: ",
 			data.lastname
+		),
+		_react2.default.createElement(
+			"h3",
+			null,
+			"Assigned Activities"
 		),
 		_react2.default.createElement(AssignedActivities, { studentid: data.id })
 	);

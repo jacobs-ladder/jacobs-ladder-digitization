@@ -14,6 +14,7 @@ module.exports = {
     teacher_landing: "./src/js/teacher_landing.js",
     activitycreation: "./src/js/activitycreation.js",
     student_teacher_assign: "./src/js/student_teacher_assign.js",
+    student_activity: "./src/js/student_activity.js",
 },
 
   output: {

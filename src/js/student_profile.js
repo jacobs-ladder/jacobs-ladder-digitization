@@ -33,10 +33,13 @@ class AssignedActivities extends React.Component{
 	render(){
 		const columns = [{
 			Header: 'Title',
-			accessor: 'title'
+			accessor: 'activity.title'
 		}, {
 			Header: 'Type',
-			accessor: 'activity_type_label',
+			accessor: 'activity.activity_type_label',
+		}, {
+			Header: 'View',
+			Cell: ({ row }) => (<a href={"student_activity/" + String(row._original.activity.id) + "/" + String(row._original.student_activity_created)}>View</a>),
 		}];
 		return (
 			<ReactTable
@@ -87,6 +90,7 @@ function render_student_view(data){
 		<div>
 		   	<p>First Name: {data.firstname}</p>
 		   	<p>Last Name: {data.lastname}</p>
+			<h3>Assigned Activities</h3>
 			<AssignedActivities studentid={data.id} />
 		</div>
 	);

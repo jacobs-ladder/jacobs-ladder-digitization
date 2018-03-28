@@ -164,6 +164,12 @@ def teacher_profile():
 def student_profile(sid):
     return render_template('student_profile.html', sid=sid)
 
+@app.route("/student_activity/<int:activity_id>/<activity_created>")
+@login_required
+# @role_required("administrator")
+def student_activity_page(activity_id, activity_created):
+    return render_template('student_activity.html', activity_id=activity_id, activity_created=activity_created)
+
 @app.route("/student_teacher_assign/<int:sid>")
 @login_required
 # @role_required("administrator")
