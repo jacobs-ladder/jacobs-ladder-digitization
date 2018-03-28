@@ -986,7 +986,7 @@ def assign_activity_to_student(db_conn, student_id, activity_id):
 
 # update the student_activity data based on the parameter student, activity, and data to update
 # returns true if we were successful with updating every cell. Raises an error if something failed
-def update_student_activity_data(db_conn, student_id, activity_id, data_to_update):
+def update_student_activity_data(db_conn, student_id, activity_id, student_activity_created, data_to_update):
 
     # this will implicitly check to see if we have malformed json
     data_to_update_dict = json.loads(data_to_update)
@@ -1004,6 +1004,7 @@ def update_student_activity_data(db_conn, student_id, activity_id, data_to_updat
           JOIN tb_activity_row arow
             ON a.activity = arow.activity
          WHERE sa.student          = %(student)s
+           AND sa.created          = %(student_activity_created)s
            AND a.activity          = %(activity)s
            AND acol.number         = %(column_number)s
            AND arow.number         = %(row_number)s
@@ -1013,8 +1014,9 @@ def update_student_activity_data(db_conn, student_id, activity_id, data_to_updat
      RETURNING ac.activity_cell
     '''
     parameters = {}
-    parameters['student']       = student_id
-    parameters['activity']      = activity_id
+    parameters['student']                  = student_id
+    parameters['activity']                 = activity_id
+    parameters['student_activity_created'] = student_activity_created
 
     # update each data cell with an individual query
     for x in range(len(data_to_update_dict)): # for each data cell that we are updating
@@ -1038,7 +1040,7 @@ def update_student_activity_data(db_conn, student_id, activity_id, data_to_updat
 ##### Read #####
 
 # returns the data of a particular student's performance on a particular activity
-def get_activity_data_by_student_and_activity(db_conn, student_id, activity_id):
+def get_activity_data_by_student_and_activity(db_conn, student_id, activity_id, student_activity_created):
 
     cursor = db_conn.cursor()
 
@@ -1060,13 +1062,14 @@ def get_activity_data_by_student_and_activity(db_conn, student_id, activity_id):
             ON acol.data_type = dt.data_type
          WHERE sa.student     = %(student)s
            AND sa.activity    = %(activity)s
+           AND sa.created     = %(student_activity_created)s
            AND acell.disabled = FALSE
            AND acol.disabled  = FALSE
            AND sa.disabled    = FALSE
       ORDER BY ar.number, acol.number
     '''
 
-    cursor.execute(query, {"student":student_id, "activity":activity_id})
+    cursor.execute(query, {"student":student_id, "activity":activity_id, "student_activity_created":student_activity_created})
     rows = cursor.fetchall()
 
     return student_activity_data_aggregation.student_activity_data_aggregation(rows)
@@ -1150,7 +1153,7 @@ def get_activities_by_student(db_conn, student_id):
 
 ##### Delete #####
 
-def delete_student_activity(db_conn, student_id, activity_id):
+def delete_student_activity(db_conn, student_id, activity_id, student_activity_created):
 
     cursor = db_conn.cursor()
 
@@ -1160,16 +1163,18 @@ def delete_student_activity(db_conn, student_id, activity_id):
           FROM tb_student_activity sa
          WHERE ac.student_activity = sa.student_activity
            AND sa.student  = %(student_id)s
-           AND sa.activity = %(activity_id)s;
+           AND sa.activity = %(activity_id)s
+           AND sa.created  = %(student_activity_created)s;
 
         UPDATE tb_student_activity
            SET disabled = TRUE
          WHERE student  = %(student_id)s
            AND activity = %(activity_id)s
+           AND created  = %(student_activity_created)s
      RETURNING student_activity
     '''
 
-    cursor.execute(query, {"student_id": student_id, "activity_id": activity_id})
+    cursor.execute(query, {"student_id": student_id, "activity_id": activity_id, "student_activity_created": student_activity_created})
     rows = cursor.fetchall()
     db_conn.commit()
 
