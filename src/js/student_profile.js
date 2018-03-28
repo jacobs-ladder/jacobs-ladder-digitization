@@ -39,7 +39,7 @@ class AssignedActivities extends React.Component{
 			accessor: 'activity.activity_type_label',
 		}, {
 			Header: 'View',
-			Cell: ({ row }) => (<a href={"student_activity/" + String(row._original.activity.id) + "/" + String(row._original.student_activity_created)}>View</a>),
+			Cell: ({ row }) => (<a href={"/student_activity/" + String(row._original.activity.id) + "/" + String(row._original.student_activity_created)}>View</a>),
 		}];
 		return (
 			<ReactTable

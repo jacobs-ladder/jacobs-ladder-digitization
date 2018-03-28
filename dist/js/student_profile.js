@@ -21747,7 +21747,7 @@ var AssignedActivities = function (_React$Component) {
 					var row = _ref.row;
 					return _react2.default.createElement(
 						"a",
-						{ href: "student_activity/" + String(row._original.activity.id) + "/" + String(row._original.student_activity_created) },
+						{ href: "/student_activity/" + String(row._original.activity.id) + "/" + String(row._original.student_activity_created) },
 						"View"
 					);
 				}
