@@ -188,6 +188,12 @@ def eval_landing():
 def teacher_landing():
     return app.send_static_file('teacher_landing.html')
 
+@app.route("/usercreation")
+@login_required
+# @role_required("administrator")
+def usercreation():
+	return app.send_static_file('usercreation.html')
+
 
 
 
