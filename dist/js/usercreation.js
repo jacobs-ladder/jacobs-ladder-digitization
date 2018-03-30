@@ -89,9 +89,11 @@ var ActivityInput = function (_React$Component) {
 
 		_this.state = {
 			username: "",
-			roles: "Roles",
+			roles: "",
 			first_name: "",
-			last_name: ""
+			last_name: "",
+			password: "",
+			email_address: ""
 		};
 		return _this;
 	}
@@ -102,7 +104,9 @@ var ActivityInput = function (_React$Component) {
 			$.post('../api/user', { username: this.state.username,
 				role_label: this.state.roles,
 				first_name: this.state.first_name,
-				last_name: this.state.last_name
+				last_name: this.state.last_name,
+				password: this.state.password,
+				email_address: this.state.email_address
 			}, function (returnedData) {
 				console.log(returnedData);
 			});
@@ -126,7 +130,25 @@ var ActivityInput = function (_React$Component) {
 					"User Name: ",
 					React.createElement("input", { type: "text", name: "username", value: this.state.username,
 						onChange: function onChange(evt) {
-							return _this2.setState({ title: evt.target.value });
+							return _this2.setState({ username: evt.target.value });
+						} })
+				),
+				React.createElement(
+					"p",
+					null,
+					"Password: ",
+					React.createElement("input", { type: "text", name: "password", value: this.state.password,
+						onChange: function onChange(evt) {
+							return _this2.setState({ password: evt.target.value });
+						} })
+				),
+				React.createElement(
+					"p",
+					null,
+					"Email: ",
+					React.createElement("input", { type: "text", name: "email_address", value: this.state.email_address,
+						onChange: function onChange(evt) {
+							return _this2.setState({ email_address: evt.target.value });
 						} })
 				),
 				React.createElement(
@@ -137,7 +159,7 @@ var ActivityInput = function (_React$Component) {
 						"select",
 						{ name: "role_label", value: this.state.roles,
 							onChange: function onChange(evt) {
-								return _this2.setState({ type: evt.target.value });
+								return _this2.setState({ roles: evt.target.value });
 							} },
 						React.createElement(
 							"option",
@@ -162,7 +184,7 @@ var ActivityInput = function (_React$Component) {
 					"First Name: ",
 					React.createElement("input", { type: "text", name: "first_name", value: this.state.first_name,
 						onChange: function onChange(evt) {
-							return _this2.setState({ title: evt.target.value });
+							return _this2.setState({ first_name: evt.target.value });
 						} })
 				),
 				React.createElement(
@@ -171,7 +193,7 @@ var ActivityInput = function (_React$Component) {
 					"Last Name: ",
 					React.createElement("input", { type: "text", name: "last_name", value: this.state.last_name,
 						onChange: function onChange(evt) {
-							return _this2.setState({ title: evt.target.value });
+							return _this2.setState({ last_name: evt.target.value });
 						} })
 				),
 				React.createElement("br", null),

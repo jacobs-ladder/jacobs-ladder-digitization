@@ -344,12 +344,12 @@ def user():
 
     elif request.method == 'POST':
 
-        username      = request.args['username']
-        password      = request.args['password']
-        first_name    = request.args['first_name']
-        last_name     = request.args['last_name']
-        email_address = request.args['email_address']
-        role_label    = request.args['role_label']
+        username      = request.values['username']
+        password      = request.values['password']
+        first_name    = request.values['first_name']
+        last_name     = request.values['last_name']
+        email_address = request.values['email_address']
+        role_label    = request.values['role_label']
 
         created_user_id = db_lib.create_user(db_conn, username, password, first_name, last_name, email_address, role_label)
 
