@@ -164,6 +164,12 @@ def teacher_profile():
 def student_profile(sid):
     return render_template('student_profile.html', sid=sid)
 
+@app.route("/student_activity/<int:activity_id>/<activity_created>")
+@login_required
+# @role_required("administrator")
+def student_activity_page(activity_id, activity_created):
+    return render_template('student_activity.html', activity_id=activity_id, activity_created=activity_created)
+
 @app.route("/student_teacher_assign/<int:sid>")
 @login_required
 # @role_required("administrator")
@@ -461,10 +467,11 @@ def student_activity():
 
             # TODO right now we do not validate that the parameter student and activity are actually assigned yet so this might cause some weird error that doesn't appear to make sense at first glance
 
-            student_id  = request.args['student']
-            activity_id = request.args['activity']
+            student_id               = request.args['student']
+            activity_id              = request.args['activity']
+            student_activity_created = request.args['student_activity_created']
 
-            student_activity_data_aggregation = db_lib.get_activity_data_by_student_and_activity(db_conn, student_id, activity_id)
+            student_activity_data_aggregation = db_lib.get_activity_data_by_student_and_activity(db_conn, student_id, activity_id, student_activity_created)
 
             # close the database connection once we are done with it
             db_conn.close()
@@ -495,11 +502,12 @@ def student_activity():
 
         else:
 
-            student_id     = request.args['student']
-            activity_id    = request.args['activity']
+            student_id               = request.args['student']
+            activity_id              = request.args['activity']
+            student_activity_created = request.args['student_activity_created']
             data_to_update = request.data
 
-            updated_student_activity_id = db_lib.update_student_activity_data(db_conn, student_id, activity_id, data_to_update)
+            updated_student_activity_id = db_lib.update_student_activity_data(db_conn, student_id, activity_id, student_activity_created, data_to_update)
 
             # close the database connection once we are done with it
             db_conn.close()
@@ -507,10 +515,11 @@ def student_activity():
 
     elif request.method == 'DELETE':
 
-        student_id  = request.args['student']
-        activity_id = request.args['activity']
+        student_id               = request.args['student']
+        activity_id              = request.args['activity']
+        student_activity_created = request.args['student_activity_created']
 
-        deleted_student_activity_id = db_lib.delete_student_activity(db_conn, student_id, activity_id)
+        deleted_student_activity_id = db_lib.delete_student_activity(db_conn, student_id, activity_id, student_activity_created)
         db_conn.close()
 
         return Response('{deleted_student_activity:' + str(deleted_student_activity_id) + '}')

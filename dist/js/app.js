@@ -18299,7 +18299,7 @@ var Layout = function (_React$Component) {
 			var self = this;
 			$.ajax({
 				type: 'GET',
-				url: '../api/current_user',
+				url: '/api/current_user',
 
 				dataType: "json",
 

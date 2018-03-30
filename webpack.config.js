@@ -14,7 +14,11 @@ module.exports = {
     teacher_landing: "./src/js/teacher_landing.js",
     activitycreation: "./src/js/activitycreation.js",
     student_teacher_assign: "./src/js/student_teacher_assign.js",
+<<<<<<< HEAD
     usercreation: "./src/js/usercreation.js",
+=======
+    student_activity: "./src/js/student_activity.js",
+>>>>>>> 9cda20640a3fe4250996684ab465646352a4b85d
 },
 
   output: {
