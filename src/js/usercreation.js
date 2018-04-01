@@ -49,7 +49,10 @@ class ActivityInput extends React.Component{
 				<br/>
 
 				<br/>
-			  	<p><input type="submit" value="Create an User" onClick={(evt) => this.formSubmit(evt)}/></p>
+				<form action="/userlist">
+				  <p><input type="submit" value="Create an User" onClick={(evt) => this.formSubmit(evt)}/></p>
+				</form>
+
 		  </div>
 	  );
 	}
