@@ -60,12 +60,12 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 51);
+/******/ 	return __webpack_require__(__webpack_require__.s = 50);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 51:
+/***/ 50:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79,201 +79,144 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var ActivityView = function (_React$Component) {
-	_inherits(ActivityView, _React$Component);
+var ActivityInput = function (_React$Component) {
+	_inherits(ActivityInput, _React$Component);
 
-	function ActivityView(props) {
-		_classCallCheck(this, ActivityView);
+	function ActivityInput(props) {
+		_classCallCheck(this, ActivityInput);
 
-		var _this = _possibleConstructorReturn(this, (ActivityView.__proto__ || Object.getPrototypeOf(ActivityView)).call(this, props));
+		var _this = _possibleConstructorReturn(this, (ActivityInput.__proto__ || Object.getPrototypeOf(ActivityInput)).call(this, props));
 
 		_this.state = {
-			rows: [],
-			cols: [],
-			grid: [],
-			activity: {},
-			student: {}
+			username: "",
+			roles: "",
+			first_name: "",
+			last_name: "",
+			password: "",
+			email_address: ""
 		};
 		return _this;
 	}
 
-	_createClass(ActivityView, [{
-		key: "componentDidMount",
-		value: function componentDidMount() {
-			var self = this;
-			$.get("/api/student_activity", { student: this.props.student,
-				activity: this.props.activity,
-				student_activity_created: this.props.student_activity_created }, function (dat) {
-				var data = JSON.parse(dat);
-				console.log(data);
-				self.setState({ grid: data.data_grid, rows: data.row_titles, cols: data.column_titles });
-			});
-			$.get("/api/activity", { activity: this.props.activity }, function (data) {
-				self.setState({ activity: JSON.parse(data) });
-			});
-			$.get("/api/student", { student: this.props.student }, function (data) {
-				self.setState({ student: JSON.parse(data) });
-			});
-		}
-	}, {
+	_createClass(ActivityInput, [{
 		key: "formSubmit",
 		value: function formSubmit(event) {
-			var self = this;
-			var data = this.state.rows.map(function (row, rindex) {
-				var rowidx = rindex;
-				return self.state.grid[rindex].map(function (cell, cindex) {
-					return { data: cell.data, row_number: rowidx, column_number: cindex };
-				});
-			});
-			var flat_data = [].concat.apply([], data);
-			$.post('/api/student_activity', { student: this.props.student,
-				activity: this.props.activity,
-				student_activity_created: this.props.student_activity_created,
-				data: JSON.stringify(flat_data) }, function (returnedData) {
+			$.post('../api/user', { username: this.state.username,
+				role_label: this.state.roles,
+				first_name: this.state.first_name,
+				last_name: this.state.last_name,
+				password: this.state.password,
+				email_address: this.state.email_address
+			}, function (returnedData) {
 				console.log(returnedData);
 			});
-		}
-	}, {
-		key: "gridChange",
-		value: function gridChange(row, col, value) {
-			var grd = this.state.grid;
-			grd[row][col].data = value;
-			this.setState({ grid: grd });
 		}
 	}, {
 		key: "render",
 		value: function render() {
 			var _this2 = this;
 
-			var self = this;
-			var rows = this.state.rows.map(function (row, rindex) {
-				var rowidx = rindex;
-				var cells = self.state.grid[rindex].map(function (cell, cindex) {
-					if (cell.data_type = 'string') {
-						return React.createElement(
-							"td",
-							null,
-							React.createElement("input", { type: "text", value: cell.data,
-								onChange: function onChange(evt) {
-									return _this2.gridChange(rowidx, cindex, evt.target.value);
-								} })
-						);
-					}
-					if (cell.data_type = 'numeric') {
-						return React.createElement(
-							"td",
-							null,
-							React.createElement(
-								"input",
-								{ type: "number", step: ".0001", value: cell.data,
-									onChange: function onChange(evt) {
-										return _this2.gridChange(rowidx, cindex, evt.target.value);
-									} },
-								">"
-							)
-						);
-					}
-				});
-
-				return React.createElement(
-					"tr",
-					null,
-					React.createElement(
-						"td",
-						null,
-						row
-					),
-					cells
-				);
-			});
-
-			var head = this.state.cols.map(function (col, index) {
-
-				return React.createElement(
-					"th",
-					null,
-					col
-				);
-			});
-
 			return React.createElement(
 				"div",
 				null,
 				React.createElement(
-					"p",
+					"h2",
 					null,
-					"Title: ",
-					this.state.activity.title
+					"Create an User"
 				),
 				React.createElement(
 					"p",
 					null,
-					"Type of Activity: ",
-					this.state.activity.activity_type_label
+					"User Name: ",
+					React.createElement("input", { type: "text", name: "username", value: this.state.username,
+						onChange: function onChange(evt) {
+							return _this2.setState({ username: evt.target.value });
+						} })
 				),
 				React.createElement(
 					"p",
 					null,
-					"Instructions: ",
-					this.state.activity.instructions
-				),
-				React.createElement("br", null),
-				React.createElement(
-					"p",
-					null,
-					"Student First Name: ",
-					this.state.student.firstname
+					"Password: ",
+					React.createElement("input", { type: "text", name: "password", value: this.state.password,
+						onChange: function onChange(evt) {
+							return _this2.setState({ password: evt.target.value });
+						} })
 				),
 				React.createElement(
 					"p",
 					null,
-					"Student Last Name: ",
-					this.state.student.lastname
+					"Email: ",
+					React.createElement("input", { type: "text", name: "email_address", value: this.state.email_address,
+						onChange: function onChange(evt) {
+							return _this2.setState({ email_address: evt.target.value });
+						} })
 				),
-				React.createElement("br", null),
 				React.createElement(
 					"p",
 					null,
-					"Data Input"
-				),
-				React.createElement(
-					"table",
-					null,
+					"Type of Roles: ",
 					React.createElement(
-						"thead",
-						null,
+						"select",
+						{ name: "role_label", value: this.state.roles,
+							onChange: function onChange(evt) {
+								return _this2.setState({ roles: evt.target.value });
+							} },
 						React.createElement(
-							"tr",
-							null,
-							React.createElement("th", null),
-							" ",
-							head
+							"option",
+							{ value: "administrator" },
+							"Administrator"
+						),
+						React.createElement(
+							"option",
+							{ value: "evaluator" },
+							"Evaluator"
+						),
+						React.createElement(
+							"option",
+							{ value: "teacher" },
+							"Teacher"
 						)
-					),
-					React.createElement(
-						"tbody",
-						null,
-						rows
 					)
 				),
-				React.createElement("br", null),
 				React.createElement(
 					"p",
 					null,
-					React.createElement("input", { type: "submit", value: "Save Changes", onClick: function onClick(evt) {
-							return _this2.formSubmit(evt);
+					"First Name: ",
+					React.createElement("input", { type: "text", name: "first_name", value: this.state.first_name,
+						onChange: function onChange(evt) {
+							return _this2.setState({ first_name: evt.target.value });
 						} })
+				),
+				React.createElement(
+					"p",
+					null,
+					"Last Name: ",
+					React.createElement("input", { type: "text", name: "last_name", value: this.state.last_name,
+						onChange: function onChange(evt) {
+							return _this2.setState({ last_name: evt.target.value });
+						} })
+				),
+				React.createElement("br", null),
+				React.createElement("br", null),
+				React.createElement(
+					"form",
+					{ action: "/userlist" },
+					React.createElement(
+						"p",
+						null,
+						React.createElement("input", { type: "submit", value: "Create an User", onClick: function onClick(evt) {
+								return _this2.formSubmit(evt);
+							} })
+					)
 				)
 			);
 		}
 	}]);
 
-	return ActivityView;
+	return ActivityInput;
 }(React.Component);
 
-var student_activity = React.createElement(ActivityView, { activity: activity_id, student: student_id, student_activity_created: activity_created });
-
-ReactDOM.render(student_activity, document.getElementById('body'));
+ReactDOM.render(React.createElement(ActivityInput, null), document.getElementById('body'));
 
 /***/ })
 

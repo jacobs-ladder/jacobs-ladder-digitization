@@ -21,6 +21,7 @@ $(document).ready(function () {
 const body = (
 	  <div>
 		<h2>All Users</h2>
+		<a href='/usercreation'>Create New User</a>
 		<div id = "users_list_table"></div>
 		<form action="logout">
 		  <input type="submit" value="Logout" />

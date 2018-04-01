@@ -21716,6 +21716,11 @@ var body = _react2.default.createElement(
 		null,
 		"All Users"
 	),
+	_react2.default.createElement(
+		"a",
+		{ href: "/usercreation" },
+		"Create New User"
+	),
 	_react2.default.createElement("div", { id: "users_list_table" }),
 	_react2.default.createElement(
 		"form",

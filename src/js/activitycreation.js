@@ -2,7 +2,7 @@ class ColumnsFieldSet extends React.Component{
 	constructor(props){
 		super(props);
 
-		this.state = { 
+		this.state = {
 		  	columns: [{ title: "", type:"numeric" }]
 		}
 
@@ -38,7 +38,7 @@ class ColumnsFieldSet extends React.Component{
 			}
 		});
 	}
-  
+
   	render () {
     	const columns = this.state.columns.map((column, index) => {
 		  	return (
@@ -55,7 +55,7 @@ class ColumnsFieldSet extends React.Component{
 			  			<option value="timestamp">Time</option>
 					</select>
 					<span>  </span>
-					<button onClick={() => this.remove(index)}>Remove</button> 
+					<button onClick={() => this.remove(index)}>Remove</button>
 				</div>
 			)
     	});
@@ -73,7 +73,7 @@ class RowsFieldSet extends React.Component{
 	constructor(props){
 		super(props);
 
-		this.state = { 
+		this.state = {
 		  	rows: [""]
 		}
 
@@ -102,7 +102,7 @@ class RowsFieldSet extends React.Component{
 			}
 		});
 	}
-  
+
   	render () {
     	const rows = this.state.rows.map((row, index) => {
 		  	return (
@@ -111,7 +111,7 @@ class RowsFieldSet extends React.Component{
 					Title: <input type="text" value={row}
 							onChange={(evt) => this.titleChange(index, evt.target.value)}/>
 					<span>  </span>
-					<button onClick={() => this.remove(index)}>Remove</button> 
+					<button onClick={() => this.remove(index)}>Remove</button>
 				</div>
 			)
     	});
@@ -139,14 +139,14 @@ class ActivityInput extends React.Component{
 
 	formSubmit(event){
 		var columns_and_rows_json = JSON.stringify({
-			"columns": this.refs.columns.getColumns(), 
+			"columns": this.refs.columns.getColumns(),
 			"rows":this.refs.rows.getRows()
 		});
 		console.log(columns_and_rows_json);
-		$.post('../api/activity', { title:this.state.title, 
-									activity_type:this.state.type, 
+		$.post('../api/activity', { title:this.state.title,
+									activity_type:this.state.type,
 									instructions:this.state.instructions,
-									columns_and_rows : columns_and_rows_json}, 
+									columns_and_rows : columns_and_rows_json},
 			function(returnedData){
 				 console.log(returnedData);
 		});
@@ -156,7 +156,7 @@ class ActivityInput extends React.Component{
 		return (
 			<div>
 				<h2>Create an Activity</h2>
-			  		<p>Title: <input type="text" name="title" value={this.state.title} 
+			  		<p>Title: <input type="text" name="title" value={this.state.title}
 									onChange={(evt) => this.setState({ title:evt.target.value }) }/></p>
 			  		<p>Type of Activity: <select name="activity_type" value={this.state.type}
 									onChange={(evt) => this.setState({ type:evt.target.value }) }>
