@@ -580,15 +580,15 @@ def student_teacher():
 
 @app.errorhandler(404)
 def not_found(e):
-    return Response('<p>Error 404: Page Not Found</p>')
+    return app.send_static_file('error 404.html')
 
 @app.errorhandler(401)
 def unauthorized(e):
-    return Response('<p>Error 401: Unauthorized</p>')
+    return app.send_static_file('error 401.html')
 
 @app.errorhandler(403)
 def forbidden(e):
-    return Response('<p>Error 403: Forbidden</p>')
+    return app.send_static_file('error 403.html')
 
 
 
