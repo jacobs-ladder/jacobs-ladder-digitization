@@ -199,11 +199,15 @@ var ActivityInput = function (_React$Component) {
 				React.createElement("br", null),
 				React.createElement("br", null),
 				React.createElement(
-					"p",
-					null,
-					React.createElement("input", { type: "submit", value: "Create an User", onClick: function onClick(evt) {
-							return _this2.formSubmit(evt);
-						} })
+					"form",
+					{ action: "/userlist" },
+					React.createElement(
+						"p",
+						null,
+						React.createElement("input", { type: "submit", value: "Create an User", onClick: function onClick(evt) {
+								return _this2.formSubmit(evt);
+							} })
+					)
 				)
 			);
 		}

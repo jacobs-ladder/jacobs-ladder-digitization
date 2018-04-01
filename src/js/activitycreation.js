@@ -171,7 +171,9 @@ class ActivityInput extends React.Component{
 				<br/>
 			  	<RowsFieldSet ref="rows"/>
 				<br/>
-			  	<p><input type="submit" value="Create Activity" onClick={(evt) => this.formSubmit(evt)}/></p>
+				<form action="/activitylist">
+				  <p><input type="submit" value="Create Activity" onClick={(evt) => this.formSubmit(evt)}/></p>
+				</form>
 		  </div>
 	  );
 	}

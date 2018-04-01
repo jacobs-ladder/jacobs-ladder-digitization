@@ -21735,6 +21735,8 @@ var AssignedActivities = function (_React$Component) {
 	}, {
 		key: "render",
 		value: function render() {
+			var _this2 = this;
+
 			var columns = [{
 				Header: 'Title',
 				accessor: 'activity.title'
@@ -21747,7 +21749,7 @@ var AssignedActivities = function (_React$Component) {
 					var row = _ref.row;
 					return _react2.default.createElement(
 						"a",
-						{ href: "/student_activity/" + String(row._original.activity.id) + "/" + String(row._original.student_activity_created) },
+						{ href: "/student_activity/" + String(_this2.props.studentid) + "/" + String(row._original.activity.id) + "/" + String(row._original.student_activity_created) },
 						"View"
 					);
 				}
