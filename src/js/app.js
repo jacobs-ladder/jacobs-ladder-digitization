@@ -50,8 +50,8 @@ class Layout extends React.Component{
 				  <a href="admin" className="dropdown-toggle tab" data-toggle="dropdown" data-hover="dropdown"> Admin </a>
 				    <ul className="dropdown-menu">
 				      <li><a href="/admin">Admin Home</a></li>
-				      <li><a href="/activitylist">All Activities</a></li>
-				      <li><a href="/userlist">All Users</a></li>
+				      <li><a href="/activitylist">All activities</a></li>
+				      <li><a href="/usercreation">Add a user</a></li>
 				    </ul>
 				</div>
 			  }
@@ -73,9 +73,9 @@ class Layout extends React.Component{
 			</div>
 			<div className="row">
 			  <div className="col-md-2 col-3" id="sidebar">
-				<div className="row"><a href="/studentlist">Students</a></div>
-				<div className="row"><a href="/userlist">Users</a></div>
-				<div className="row"><a href="/activitylist">Activities</a></div>
+			  <div className="row">Links</div>
+				<div className="row"><a href="/studentlist">Student List</a></div>
+				<div className="row"><a href="/userlist">Faculty List</a></div>
 			  </div>
 			  <div className="col-md-9 col-9" id="body">
 			  </div>
@@ -84,7 +84,7 @@ class Layout extends React.Component{
 		);
 	}
 }
-			
+
 ReactDOM.render(
   <Layout />,
   document.getElementById('app')

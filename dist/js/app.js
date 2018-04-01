@@ -18367,7 +18367,7 @@ var Layout = function (_React$Component) {
 								_react2.default.createElement(
 									"a",
 									{ href: "/activitylist" },
-									"All Activities"
+									"All activities"
 								)
 							),
 							_react2.default.createElement(
@@ -18375,8 +18375,8 @@ var Layout = function (_React$Component) {
 								null,
 								_react2.default.createElement(
 									"a",
-									{ href: "/userlist" },
-									"All Users"
+									{ href: "/usercreation" },
+									"Add a user"
 								)
 							)
 						)
@@ -18435,10 +18435,15 @@ var Layout = function (_React$Component) {
 						_react2.default.createElement(
 							"div",
 							{ className: "row" },
+							"Links"
+						),
+						_react2.default.createElement(
+							"div",
+							{ className: "row" },
 							_react2.default.createElement(
 								"a",
 								{ href: "/studentlist" },
-								"Students"
+								"Student List"
 							)
 						),
 						_react2.default.createElement(
@@ -18447,16 +18452,7 @@ var Layout = function (_React$Component) {
 							_react2.default.createElement(
 								"a",
 								{ href: "/userlist" },
-								"Users"
-							)
-						),
-						_react2.default.createElement(
-							"div",
-							{ className: "row" },
-							_react2.default.createElement(
-								"a",
-								{ href: "/activitylist" },
-								"Activities"
+								"Faculty List"
 							)
 						)
 					),
