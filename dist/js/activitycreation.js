@@ -423,11 +423,15 @@ var ActivityInput = function (_React$Component3) {
 				React.createElement(RowsFieldSet, { ref: "rows" }),
 				React.createElement("br", null),
 				React.createElement(
-					"p",
-					null,
-					React.createElement("input", { type: "submit", value: "Create Activity", onClick: function onClick(evt) {
-							return _this6.formSubmit(evt);
-						} })
+					"form",
+					{ action: "/activitylist" },
+					React.createElement(
+						"p",
+						null,
+						React.createElement("input", { type: "submit", value: "Create Activity", onClick: function onClick(evt) {
+								return _this6.formSubmit(evt);
+							} })
+					)
 				)
 			);
 		}
