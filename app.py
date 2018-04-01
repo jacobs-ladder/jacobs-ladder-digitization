@@ -164,11 +164,11 @@ def teacher_profile():
 def student_profile(sid):
     return render_template('student_profile.html', sid=sid)
 
-@app.route("/student_activity/<int:activity_id>/<activity_created>")
+@app.route("/student_activity/<int:student_id>/<int:activity_id>/<activity_created>")
 @login_required
 # @role_required("administrator")
-def student_activity_page(activity_id, activity_created):
-    return render_template('student_activity.html', activity_id=activity_id, activity_created=activity_created)
+def student_activity_page(student_id, activity_id, activity_created):
+    return render_template('student_activity.html', activity_id=activity_id, activity_created=activity_created, student_id = student_id)
 
 @app.route("/student_teacher_assign/<int:sid>")
 @login_required
@@ -483,10 +483,10 @@ def student_activity():
 
         # if they pass back stuff in the data form then we create student-activity data
         # if they dont pass back anything in the data form then we assign that activity to that student
-        if request.data is None or request.data is "":
+        if request.values['data'] is None or request.values['data'] is "":
 
-            student_id  = request.args['student']
-            activity_id = request.args['activity']
+            student_id  = request.values['student']
+            activity_id = request.values['activity']
 
             created_student_activity_id = db_lib.assign_activity_to_student(db_conn, student_id, activity_id)
 
@@ -496,10 +496,12 @@ def student_activity():
 
         else:
 
-            student_id               = request.args['student']
-            activity_id              = request.args['activity']
-            student_activity_created = request.args['student_activity_created']
-            data_to_update = request.data
+            student_id               = request.values['student']
+            activity_id              = request.values['activity']
+            student_activity_created = request.values['student_activity_created']
+            data_to_update			 = request.values['data']
+
+            print(data_to_update)
 
             updated_student_activity_id = db_lib.update_student_activity_data(db_conn, student_id, activity_id, student_activity_created, data_to_update)
 
