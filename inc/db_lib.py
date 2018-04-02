@@ -984,6 +984,8 @@ def assign_activity_to_student(db_conn, student_id, activity_id):
 
     return student_activity_rows[0][0]
 
+import sys
+
 # update the student_activity data based on the parameter student, activity, and data to update
 # returns true if we were successful with updating every cell. Raises an error if something failed
 def update_student_activity_data(db_conn, student_id, activity_id, student_activity_created, data_to_update):
@@ -1014,8 +1016,8 @@ def update_student_activity_data(db_conn, student_id, activity_id, student_activ
      RETURNING ac.activity_cell
     '''
     parameters = {}
-    parameters['student']                  = student_id
-    parameters['activity']                 = activity_id
+    parameters['student']                  = int(student_id)
+    parameters['activity']                 = int(activity_id)
     parameters['student_activity_created'] = student_activity_created
 
     # update each data cell with an individual query
@@ -1025,6 +1027,9 @@ def update_student_activity_data(db_conn, student_id, activity_id, student_activ
         parameters['data']          = data_to_update_dict[x]['data']
         parameters['column_number'] = data_to_update_dict[x]['column_number']
         parameters['row_number']    = data_to_update_dict[x]['row_number']
+
+        print parameters
+        sys.stdout.flush()
 
         cursor.execute(query, parameters)
         rows = cursor.fetchall()

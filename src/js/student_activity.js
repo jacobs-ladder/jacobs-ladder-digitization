@@ -37,7 +37,7 @@ class ActivityView extends React.Component{
 		const data = this.state.rows.map((row, rindex) => {
 			var rowidx = rindex
 			 return self.state.grid[rindex].map((cell, cindex) => {
-				return { data : cell.data, row_number : rowidx, column_number : cindex };
+				return { data : cell.data, row_number : rowidx + 1, column_number : cindex + 1};
 			});
     	});
 		var flat_data = [].concat.apply([], data);

@@ -122,7 +122,7 @@ var ActivityView = function (_React$Component) {
 			var data = this.state.rows.map(function (row, rindex) {
 				var rowidx = rindex;
 				return self.state.grid[rindex].map(function (cell, cindex) {
-					return { data: cell.data, row_number: rowidx, column_number: cindex };
+					return { data: cell.data, row_number: rowidx + 1, column_number: cindex + 1 };
 				});
 			});
 			var flat_data = [].concat.apply([], data);

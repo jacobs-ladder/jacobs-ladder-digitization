@@ -126,7 +126,13 @@ def admin_home():
 @login_required
 # @role_required("administrator")
 def activity_creation():
-	return app.send_static_file('activitycreation.html')
+	return render_template('activitycreation.html', activity_id=-1)
+
+@app.route("/activityedit/<int:activity_id>")
+@login_required
+# @role_required("administrator")
+def activity_edit(activity_id):
+	return render_template('activitycreation.html', activity_id=activity_id)
 
 @app.route("/activitylist")
 @login_required
@@ -248,9 +254,9 @@ def activity():
         activity_id = request.args['activity']
 
         attributes = {
-            "title":         request.args['title']         if 'title'         in request.args.keys() else None,
-            "activity_type": request.args['activity_type'] if 'activity_type' in request.args.keys() else None,
-            "instructions":  request.args['instructions']  if 'instructions'  in request.args.keys() else None
+            "title":         request.values['title']         if 'title'         in request.values.keys() else None,
+            "activity_type": request.values['activity_type'] if 'activity_type' in request.values.keys() else None,
+            "instructions":  request.valuse['instructions']  if 'instructions'  in request.values.keys() else None
         }
 
         updated_activity_id = db_lib.update_activity(db_conn, activity_id, attributes)

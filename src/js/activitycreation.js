@@ -39,6 +39,17 @@ class ColumnsFieldSet extends React.Component{
 		});
 	}
 
+    componentDidMount(){
+		if(this.props.activity != -1){
+        	var self = this;
+			$.get( "/api/activity", {activity : this.props.activity}
+			, function( data ) {
+				var activity = JSON.parse(data);
+				self.setState({columns:activity.columns.map(col => { return {title:col[0], type:col[1]}; })});
+			});
+		}
+    }
+
   	render () {
     	const columns = this.state.columns.map((column, index) => {
 		  	return (
@@ -102,6 +113,16 @@ class RowsFieldSet extends React.Component{
 			}
 		});
 	}
+    componentDidMount(){
+		if(this.props.activity != -1){
+        	var self = this;
+			$.get( "/api/activity", {activity : this.props.activity}
+			, function( data ) {
+				var activity = JSON.parse(data);
+				self.setState({rows:activity.rows});
+			});
+		}
+    }
 
   	render () {
     	const rows = this.state.rows.map((row, index) => {
@@ -137,6 +158,17 @@ class ActivityInput extends React.Component{
 		}
 	}
 
+    componentDidMount(){
+		if(this.props.activity != -1){
+        	var self = this;
+			$.get( "/api/activity", {activity : this.props.activity}
+			, function( data ) {
+				var activity = JSON.parse(data);
+				self.setState({ title : activity.title, type : activity.activity_type_label, instructions : activity.instructions });
+			});
+		}
+    }
+
 	formSubmit(event){
 		var columns_and_rows_json = JSON.stringify({
 			"columns": this.refs.columns.getColumns(),
@@ -152,10 +184,14 @@ class ActivityInput extends React.Component{
 		});
 	}
 
+	formSave(event){
+		console.log("Not supported yet");
+	}
+
 	render() {
 		return (
 			<div>
-				<h2>Create an Activity</h2>
+				<h2>{this.props.activity == -1 ? "Create" : "Edit"} an Activity</h2>
 			  		<p>Title: <input type="text" name="title" value={this.state.title}
 									onChange={(evt) => this.setState({ title:evt.target.value }) }/></p>
 			  		<p>Type of Activity: <select name="activity_type" value={this.state.type}
@@ -167,12 +203,17 @@ class ActivityInput extends React.Component{
 					</select></p>
 			  	<p>Instructions: <textarea name="instructions"rows="10" cols="50" value={this.state.instructions}
 									onChange={(evt) => this.setState({ instructions:evt.target.value }) }></textarea></p>
-			  	<ColumnsFieldSet ref="columns"/>
+			  	<ColumnsFieldSet ref="columns" activity={this.props.activity}/>
 				<br/>
-			  	<RowsFieldSet ref="rows"/>
+			  	<RowsFieldSet ref="rows" activity={this.props.activity}/>
 				<br/>
 				<form action="/activitylist">
-				  <p><input type="submit" value="Create Activity" onClick={(evt) => this.formSubmit(evt)}/></p>
+				  <p><input type="submit" value="Save Activity" onClick={(evt) => {
+																if(this.props.activity == -1){
+																	this.formSubmit(evt);
+																} else {
+																	this.formSave(evt);
+																}}}/></p>
 				</form>
 		  </div>
 	  );
@@ -180,6 +221,6 @@ class ActivityInput extends React.Component{
 }
 
 ReactDOM.render(
-  <ActivityInput />,
+  <ActivityInput activity={activity_id}/>,
   document.getElementById('body')
 );

@@ -133,6 +133,19 @@ var ColumnsFieldSet = function (_React$Component) {
 			});
 		}
 	}, {
+		key: "componentDidMount",
+		value: function componentDidMount() {
+			if (this.props.activity != -1) {
+				var self = this;
+				$.get("/api/activity", { activity: this.props.activity }, function (data) {
+					var activity = JSON.parse(data);
+					self.setState({ columns: activity.columns.map(function (col) {
+							return { title: col[0], type: col[1] };
+						}) });
+				});
+			}
+		}
+	}, {
 		key: "render",
 		value: function render() {
 			var _this2 = this;
@@ -268,6 +281,17 @@ var RowsFieldSet = function (_React$Component2) {
 			});
 		}
 	}, {
+		key: "componentDidMount",
+		value: function componentDidMount() {
+			if (this.props.activity != -1) {
+				var self = this;
+				$.get("/api/activity", { activity: this.props.activity }, function (data) {
+					var activity = JSON.parse(data);
+					self.setState({ rows: activity.rows });
+				});
+			}
+		}
+	}, {
 		key: "render",
 		value: function render() {
 			var _this4 = this;
@@ -341,6 +365,17 @@ var ActivityInput = function (_React$Component3) {
 	}
 
 	_createClass(ActivityInput, [{
+		key: "componentDidMount",
+		value: function componentDidMount() {
+			if (this.props.activity != -1) {
+				var self = this;
+				$.get("/api/activity", { activity: this.props.activity }, function (data) {
+					var activity = JSON.parse(data);
+					self.setState({ title: activity.title, type: activity.activity_type_label, instructions: activity.instructions });
+				});
+			}
+		}
+	}, {
 		key: "formSubmit",
 		value: function formSubmit(event) {
 			var columns_and_rows_json = JSON.stringify({
@@ -356,6 +391,11 @@ var ActivityInput = function (_React$Component3) {
 			});
 		}
 	}, {
+		key: "formSave",
+		value: function formSave(event) {
+			console.log("Not supported yet");
+		}
+	}, {
 		key: "render",
 		value: function render() {
 			var _this6 = this;
@@ -366,7 +406,8 @@ var ActivityInput = function (_React$Component3) {
 				React.createElement(
 					"h2",
 					null,
-					"Create an Activity"
+					this.props.activity == -1 ? "Create" : "Edit",
+					" an Activity"
 				),
 				React.createElement(
 					"p",
@@ -418,9 +459,9 @@ var ActivityInput = function (_React$Component3) {
 							return _this6.setState({ instructions: evt.target.value });
 						} })
 				),
-				React.createElement(ColumnsFieldSet, { ref: "columns" }),
+				React.createElement(ColumnsFieldSet, { ref: "columns", activity: this.props.activity }),
 				React.createElement("br", null),
-				React.createElement(RowsFieldSet, { ref: "rows" }),
+				React.createElement(RowsFieldSet, { ref: "rows", activity: this.props.activity }),
 				React.createElement("br", null),
 				React.createElement(
 					"form",
@@ -428,8 +469,12 @@ var ActivityInput = function (_React$Component3) {
 					React.createElement(
 						"p",
 						null,
-						React.createElement("input", { type: "submit", value: "Create Activity", onClick: function onClick(evt) {
-								return _this6.formSubmit(evt);
+						React.createElement("input", { type: "submit", value: "Save Activity", onClick: function onClick(evt) {
+								if (_this6.props.activity == -1) {
+									_this6.formSubmit(evt);
+								} else {
+									_this6.formSave(evt);
+								}
 							} })
 					)
 				)
@@ -440,7 +485,7 @@ var ActivityInput = function (_React$Component3) {
 	return ActivityInput;
 }(React.Component);
 
-ReactDOM.render(React.createElement(ActivityInput, null), document.getElementById('body'));
+ReactDOM.render(React.createElement(ActivityInput, { activity: activity_id }), document.getElementById('body'));
 
 /***/ })
 
