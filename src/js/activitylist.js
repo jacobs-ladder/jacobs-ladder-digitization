@@ -46,6 +46,10 @@ function render_activity_table(data){
       }, {
 		Header: 'Type',
 		accessor: 'activity_type_label',
+	  }, {
+		Header: '',
+		accessor: 'id',
+		Cell: ({ value }) => (<a href={"activityedit/" + String(value)}>Edit</a>),
 	  }];
 	const activity_list_table = <ReactTable data={data} defaultPageSize={10} columns={columns} filterable defaultFilterMethod= { (filter, row, column) => String(row[filter.id]).toLowerCase().startsWith(filter.value.toLowerCase())}/>
 

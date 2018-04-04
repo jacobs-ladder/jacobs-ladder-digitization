@@ -256,7 +256,7 @@ def activity():
         attributes = {
             "title":            request.values['title']            if 'title'            in request.values.keys() else None,
             "activity_type":    request.values['activity_type']    if 'activity_type'    in request.values.keys() else None,
-            "instructions":     request.valuse['instructions']     if 'instructions'     in request.values.keys() else None,
+            "instructions":     request.values['instructions']     if 'instructions'     in request.values.keys() else None,
             "columns_and_rows": request.values['columns_and_rows'] if 'columns_and_rows' in request.values.keys() else None
         }
 

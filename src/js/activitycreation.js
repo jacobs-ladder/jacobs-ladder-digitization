@@ -198,7 +198,7 @@ class ActivityInput extends React.Component{
 									instructions:this.state.instructions,
 									columns_and_rows : columns_and_rows_json},
 			function(returnedData){
-				 console.log(returnedData);
+                window.location.href = '/activitylist'
 		});
 	}
 
@@ -214,7 +214,8 @@ class ActivityInput extends React.Component{
 									instructions:this.state.instructions,
 									columns_and_rows : columns_and_rows_json},
 			function(returnedData){
-				 console.log(returnedData);
+				console.log(returnedData);
+                window.location.href = '/activitylist'
 		});
 	}
 
@@ -237,14 +238,12 @@ class ActivityInput extends React.Component{
 				<br/>
 			  	<RowsFieldSet ref="rows" activity={this.props.activity}/>
 				<br/>
-				<form action="/activitylist">
-				  <p><input type="submit" value="Save Activity" onClick={(evt) => {
-																if(this.props.activity == -1){
-																	this.formSubmit(evt);
-																} else {
-																	this.formSave(evt);
-																}}}/></p>
-				</form>
+			    <p><input type="submit" value="Save Activity" onClick={(evt) => {
+															if(this.props.activity == -1){
+																this.formSubmit(evt);
+															} else {
+																this.formSave(evt);
+															}}}/></p>
 		  </div>
 	  );
 	}
