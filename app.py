@@ -158,11 +158,11 @@ def teacher():
 def eval():
     return app.send_static_file('eval.html')
 
-@app.route("/teacher_profile")
+@app.route("/teacher_profile/<int:uid>")
 @login_required
 # @role_required("administrator")
-def teacher_profile():
-    return app.send_static_file('teacher_profile.html')
+def teacher_profile(uid):
+    return render_template('teacher_profile.html', uid=uid)
 
 @app.route("/student_profile/<int:sid>")
 @login_required
