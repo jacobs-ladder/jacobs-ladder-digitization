@@ -21777,6 +21777,7 @@ $(document).ready(function () {
 		dataType: "json",
 
 		success: function success(data) {
+			get_assigned_students(data);
 			render_student_view(data);
 		},
 		error: function error(request, status, _error2) {
@@ -21819,6 +21820,11 @@ function render_student_view(data) {
 			data.lastname
 		),
 		_react2.default.createElement(
+			"div",
+			{ id: "student_info" },
+			" "
+		),
+		_react2.default.createElement(
 			"h3",
 			null,
 			"Assigned Activities"
@@ -21827,6 +21833,53 @@ function render_student_view(data) {
 	);
 
 	_reactDom2.default.render(student_view, document.getElementById('student_view'));
+}
+
+function get_assigned_students(data) {
+	// render_student_view(data);
+
+	$.ajax({
+		type: 'GET',
+		url: '../api/student_teacher?student=' + String(data.id),
+
+		dataType: "json",
+
+		success: function success(data) {
+			render_student_table(data);
+		},
+		error: function error(request, status, _error3) {
+			alert(_error3);
+		}
+	});
+}
+
+function render_student_table(data) {
+
+	var student_info = _react2.default.createElement(
+		"div",
+		null,
+		_react2.default.createElement(
+			"p",
+			null,
+			"Primary Teacher:   ",
+			data[0] != null ? data[0].first_name : "",
+			" ",
+			data[0] != null ? data[0].last_name : ""
+		),
+		_react2.default.createElement(
+			"p",
+			null,
+			"Evaluator: "
+		),
+		_react2.default.createElement(
+			"p",
+			null,
+			"Temps: "
+		),
+		_react2.default.createElement("p", null),
+		_react2.default.createElement("p", null)
+	);
+	_reactDom2.default.render(student_info, document.getElementById('student_info'));
 }
 
 /***/ })

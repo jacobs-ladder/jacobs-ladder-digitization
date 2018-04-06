@@ -34,7 +34,7 @@ document.getElementById('body')
 
 
 function get_assigned_students(data){
-		render_student_view(data);
+		// render_student_view(data);
 
 		$.ajax({
 	    	type: 'GET',
