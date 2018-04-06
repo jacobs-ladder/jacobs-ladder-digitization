@@ -18288,7 +18288,8 @@ var Layout = function (_React$Component) {
 		_this.state = {
 			username: "",
 			isadmin: false,
-			iseval: false
+			iseval: false,
+			students: []
 		};
 		return _this;
 	}
@@ -18308,6 +18309,10 @@ var Layout = function (_React$Component) {
 						var admin = data.role_label == 'administrator';
 						var evalu = admin || data.role_label == 'evaluator';
 						self.setState({ username: data.username, isadmin: admin, iseval: evalu });
+						$.get("/api/student_teacher", { teacher: data.id }, function (data) {
+							self.setState({ students: JSON.parse(data) });
+							console.log(data); //TODO TEMP
+						});
 					}
 				},
 				error: function error(request, status, _error) {
@@ -18358,7 +18363,7 @@ var Layout = function (_React$Component) {
 								_react2.default.createElement(
 									"a",
 									{ href: "/admin" },
-									"Admin Home"
+									"Admin home"
 								)
 							),
 							_react2.default.createElement(
@@ -18398,7 +18403,7 @@ var Layout = function (_React$Component) {
 								_react2.default.createElement(
 									"a",
 									{ href: "/eval_landing" },
-									"Evaluator Home"
+									"Evaluator home"
 								)
 							)
 						)
@@ -18420,7 +18425,7 @@ var Layout = function (_React$Component) {
 								_react2.default.createElement(
 									"a",
 									{ href: "/teacher_landing" },
-									"Teacher Home"
+									"Teacher home"
 								)
 							)
 						)
@@ -18432,6 +18437,16 @@ var Layout = function (_React$Component) {
 					_react2.default.createElement(
 						"div",
 						{ className: "col-md-2 col-3", id: "sidebar" },
+						this.state.students.length != 0 && _react2.default.createElement(
+							"div",
+							{ className: "row" },
+							"Your Students"
+						),
+						_react2.default.createElement(
+							"div",
+							{ className: "row" },
+							this.state.students
+						),
 						_react2.default.createElement(
 							"div",
 							{ className: "row" },
