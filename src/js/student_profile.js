@@ -38,6 +38,10 @@ class AssignedActivities extends React.Component{
 			Header: 'Type',
 			accessor: 'activity.activity_type_label',
 		}, {
+			Header: 'Created',
+			accessor: 'student_activity_created',
+			Cell: ({ value }) => (<div>{value.substring(0,10)}</div>),
+		}, {
 			Header: 'View',
 			Cell: ({ row }) => (<a href={"/student_activity/" + String(this.props.studentid) + "/"+ String(row._original.activity.id) + "/" + String(row._original.student_activity_created)}>View</a>),
 		}];
