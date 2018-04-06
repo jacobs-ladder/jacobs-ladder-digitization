@@ -7,7 +7,8 @@ class Layout extends React.Component{
         this.state = {
             username : "",
 			isadmin  : false,
-			iseval   : false
+			iseval   : false,
+			students : []
         };
     }
 
@@ -24,12 +25,18 @@ class Layout extends React.Component{
 					var admin = (data.role_label == 'administrator');
 					var evalu = admin || (data.role_label == 'evaluator')
                     self.setState({ username : data.username, isadmin: admin, iseval : evalu});
+          $.get( "/api/student_teacher", {teacher : data.id}
+					, function( data ) {
+					self.setState({ students : JSON.parse(data) });
+					console.log(data);  //TODO TEMP
+					});
                 }
 		    },
 		    error: function (request, status, error) {
 		        alert(error);
 		    }
 		});
+
     }
 
 	render(){
@@ -49,7 +56,7 @@ class Layout extends React.Component{
 				<div className="col-md-2 col-3">
 				  <a href="admin" className="dropdown-toggle tab" data-toggle="dropdown" data-hover="dropdown"> Admin </a>
 				    <ul className="dropdown-menu">
-				      <li><a href="/admin">Admin Home</a></li>
+				      <li><a href="/admin">Admin home</a></li>
 				      <li><a href="/activitylist">All activities</a></li>
 				      <li><a href="/usercreation">Add a user</a></li>
 				    </ul>
@@ -59,7 +66,7 @@ class Layout extends React.Component{
 				<div className="col-md-2 col-3">
 				  <a href="/eval_landing" className="dropdown-toggle tab" data-toggle="dropdown" data-hover="dropdown"> Evaluator </a>
 				    <ul className="dropdown-menu">
-				      <li><a href="/eval_landing">Evaluator Home</a></li>
+				      <li><a href="/eval_landing">Evaluator home</a></li>
 				    </ul>
 				</div>
 			  }
@@ -67,12 +74,19 @@ class Layout extends React.Component{
 			  <div className="col-md-2 col-3">
 				<a href="/teacher_landing" className="dropdown-toggle tab" data-toggle="dropdown" data-hover="dropdown"> Teacher </a>
 				  <ul className="dropdown-menu">
-				      <li><a href="/teacher_landing">Teacher Home</a></li>
+				      <li><a href="/teacher_landing">Teacher home</a></li>
 				    </ul>
 			  </div>
 			</div>
 			<div className="row">
 			  <div className="col-md-2 col-3" id="sidebar">
+			  {
+			  	this.state.students.length != 0 &&
+			  	<div className="row">Your Students</div>
+			  }
+			  <div className="row">{this.state.students}</div>
+
+
 			  <div className="row">Links</div>
 				<div className="row"><a href="/studentlist">Student List</a></div>
 				<div className="row"><a href="/userlist">Faculty List</a></div>

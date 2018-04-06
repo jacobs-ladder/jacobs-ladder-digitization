@@ -65,6 +65,7 @@ $(document).ready(function () {
         dataType: "json",
 
         success: function(data){
+			get_assigned_students(data);
 			render_student_view(data);
         },
         error: function (request, status, error) {
@@ -94,6 +95,7 @@ function render_student_view(data){
 		<div>
 		   	<p>First Name: {data.firstname}</p>
 		   	<p>Last Name: {data.lastname}</p>
+			<div id='student_info'> </div>
 			<h3>Assigned Activities</h3>
 			<AssignedActivities studentid={data.id} />
 		</div>
@@ -102,5 +104,38 @@ function render_student_view(data){
 	ReactDOM.render(
 	student_view,
 	document.getElementById('student_view'),
+	);
+}
+
+function get_assigned_students(data){
+		// render_student_view(data);
+
+		$.ajax({
+	    	type: 'GET',
+	        url: '../api/student_teacher?student=' + String(data.id),
+
+	        dataType: "json",
+
+	        success: function(data){
+				render_student_table(data);
+	        },
+	        error: function (request, status, error) {
+	            alert(error);
+	        }
+	    });
+}
+
+function render_student_table(data) {
+
+	const student_info = <div>
+		<p>Primary Teacher:   {data[0] != null ? data[0].first_name : ""} {data[0] != null ? data[0].last_name : ""}</p>
+		<p>Evaluator: </p>
+		<p>Temps: </p>
+		<p></p>
+		<p></p>
+		</div>
+	ReactDOM.render(
+	student_info,
+	document.getElementById('student_info'),
 	);
 }
