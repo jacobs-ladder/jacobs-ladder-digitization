@@ -79,6 +79,21 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+$.put = function (url, data, callback, type) {
+
+	if ($.isFunction(data)) {
+		type = type || callback, callback = data, data = {};
+	}
+
+	return $.ajax({
+		url: url,
+		type: 'PUT',
+		success: callback,
+		data: data,
+		contentType: type
+	});
+};
+
 var ColumnsFieldSet = function (_React$Component) {
 	_inherits(ColumnsFieldSet, _React$Component);
 
@@ -387,13 +402,25 @@ var ActivityInput = function (_React$Component3) {
 				activity_type: this.state.type,
 				instructions: this.state.instructions,
 				columns_and_rows: columns_and_rows_json }, function (returnedData) {
-				console.log(returnedData);
+				window.location.href = '/activitylist';
 			});
 		}
 	}, {
 		key: "formSave",
 		value: function formSave(event) {
-			console.log("Not supported yet");
+			var columns_and_rows_json = JSON.stringify({
+				"columns": this.refs.columns.getColumns(),
+				"rows": this.refs.rows.getRows()
+			});
+			console.log(columns_and_rows_json);
+			$.put('../api/activity', { activity: this.props.activity,
+				title: this.state.title,
+				activity_type: this.state.type,
+				instructions: this.state.instructions,
+				columns_and_rows: columns_and_rows_json }, function (returnedData) {
+				console.log(returnedData);
+				window.location.href = '/activitylist';
+			});
 		}
 	}, {
 		key: "render",
@@ -464,19 +491,15 @@ var ActivityInput = function (_React$Component3) {
 				React.createElement(RowsFieldSet, { ref: "rows", activity: this.props.activity }),
 				React.createElement("br", null),
 				React.createElement(
-					"form",
-					{ action: "/activitylist" },
-					React.createElement(
-						"p",
-						null,
-						React.createElement("input", { type: "submit", value: "Save Activity", onClick: function onClick(evt) {
-								if (_this6.props.activity == -1) {
-									_this6.formSubmit(evt);
-								} else {
-									_this6.formSave(evt);
-								}
-							} })
-					)
+					"p",
+					null,
+					React.createElement("input", { type: "submit", value: "Save Activity", onClick: function onClick(evt) {
+							if (_this6.props.activity == -1) {
+								_this6.formSubmit(evt);
+							} else {
+								_this6.formSave(evt);
+							}
+						} })
 				)
 			);
 		}

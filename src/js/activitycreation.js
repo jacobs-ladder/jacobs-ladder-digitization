@@ -1,3 +1,21 @@
+$.put = function(url, data, callback, type){
+ 
+  if ( $.isFunction(data) ){
+    type = type || callback,
+    callback = data,
+    data = {}
+  }
+ 
+  return $.ajax({
+    url: url,
+    type: 'PUT',
+    success: callback,
+    data: data,
+    contentType: type
+  });
+}
+
+
 class ColumnsFieldSet extends React.Component{
 	constructor(props){
 		super(props);
@@ -180,12 +198,25 @@ class ActivityInput extends React.Component{
 									instructions:this.state.instructions,
 									columns_and_rows : columns_and_rows_json},
 			function(returnedData){
-				 console.log(returnedData);
+                window.location.href = '/activitylist'
 		});
 	}
 
 	formSave(event){
-		console.log("Not supported yet");
+		var columns_and_rows_json = JSON.stringify({
+			"columns": this.refs.columns.getColumns(),
+			"rows":this.refs.rows.getRows()
+		});
+		console.log(columns_and_rows_json);
+		$.put('../api/activity', { activity:this.props.activity,
+                                    title:this.state.title,
+									activity_type:this.state.type,
+									instructions:this.state.instructions,
+									columns_and_rows : columns_and_rows_json},
+			function(returnedData){
+				console.log(returnedData);
+                window.location.href = '/activitylist'
+		});
 	}
 
 	render() {
@@ -207,14 +238,12 @@ class ActivityInput extends React.Component{
 				<br/>
 			  	<RowsFieldSet ref="rows" activity={this.props.activity}/>
 				<br/>
-				<form action="/activitylist">
-				  <p><input type="submit" value="Save Activity" onClick={(evt) => {
-																if(this.props.activity == -1){
-																	this.formSubmit(evt);
-																} else {
-																	this.formSave(evt);
-																}}}/></p>
-				</form>
+			    <p><input type="submit" value="Save Activity" onClick={(evt) => {
+															if(this.props.activity == -1){
+																this.formSubmit(evt);
+															} else {
+																this.formSave(evt);
+															}}}/></p>
 		  </div>
 	  );
 	}

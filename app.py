@@ -213,7 +213,7 @@ def usercreation():
 ##### API Routes (Data) #####
 #############################
 
-@app.route("/api/activity", methods=["GET", "POST", "PATCH", "DELETE"])
+@app.route("/api/activity", methods=["GET", "POST", "PUT", "DELETE"])
 @login_required
 def activity():
 
@@ -250,13 +250,14 @@ def activity():
         db_conn.close()
         return Response('{created_activity:' + str(created_activity_id) + '}')
 
-    elif request.method == 'PATCH':
-        activity_id = request.args['activity']
+    elif request.method == 'PUT':
+        activity_id = request.values['activity']
 
         attributes = {
-            "title":         request.values['title']         if 'title'         in request.values.keys() else None,
-            "activity_type": request.values['activity_type'] if 'activity_type' in request.values.keys() else None,
-            "instructions":  request.valuse['instructions']  if 'instructions'  in request.values.keys() else None
+            "title":            request.values['title']            if 'title'            in request.values.keys() else None,
+            "activity_type":    request.values['activity_type']    if 'activity_type'    in request.values.keys() else None,
+            "instructions":     request.values['instructions']     if 'instructions'     in request.values.keys() else None,
+            "columns_and_rows": request.values['columns_and_rows'] if 'columns_and_rows' in request.values.keys() else None
         }
 
         updated_activity_id = db_lib.update_activity(db_conn, activity_id, attributes)
