@@ -21808,15 +21808,10 @@ function render_student_view(data) {
 		"div",
 		null,
 		_react2.default.createElement(
-			"p",
+			"h1",
 			null,
-			"First Name: ",
-			data.firstname
-		),
-		_react2.default.createElement(
-			"p",
-			null,
-			"Last Name: ",
+			data.firstname,
+			" ",
 			data.lastname
 		),
 		_react2.default.createElement(
