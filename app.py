@@ -206,6 +206,12 @@ def teacher_landing():
 def usercreation():
 	return app.send_static_file('usercreation.html')
 
+@app.route("/studentcreation")
+@login_required
+# @role_required("administrator")
+def studentcreation():
+	return app.send_static_file('studentcreation.html')
+
 
 
 
@@ -425,8 +431,8 @@ def student():
 
     elif request.method == 'POST':
 
-        first_name = request.args['first_name']
-        last_name  = request.args['last_name']
+        first_name = request.values['first_name']
+        last_name  = request.values['last_name']
 
         created_student_id = db_lib.create_student(db_conn, first_name, last_name)
 

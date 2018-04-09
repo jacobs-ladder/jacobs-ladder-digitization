@@ -1,4 +1,4 @@
-class ActivityInput extends React.Component{
+class UserInput extends React.Component{
 
 	constructor(props){
 		super(props)
