@@ -1,11 +1,11 @@
 $.put = function(url, data, callback, type){
- 
+
   if ( $.isFunction(data) ){
     type = type || callback,
     callback = data,
     data = {}
   }
- 
+
   return $.ajax({
     url: url,
     type: 'PUT',
@@ -203,10 +203,16 @@ class ActivityInput extends React.Component{
 	}
 
 	formSave(event){
+		var columns_and_rows_json = JSON.stringify({
+			"columns": this.refs.columns.getColumns(),
+			"rows":this.refs.rows.getRows()
+		});
+		console.log(columns_and_rows_json);
 		$.put('../api/activity', { activity:this.props.activity,
                                     title:this.state.title,
 									activity_type:this.state.type,
-									instructions:this.state.instructions},
+									instructions:this.state.instructions,
+									columns_and_rows : columns_and_rows_json},
 			function(returnedData){
 				console.log(returnedData);
                 window.location.href = '/activitylist'
@@ -228,15 +234,10 @@ class ActivityInput extends React.Component{
 					</select></p>
 			  	<p>Instructions: <textarea name="instructions"rows="10" cols="50" value={this.state.instructions}
 									onChange={(evt) => this.setState({ instructions:evt.target.value }) }></textarea></p>
-				{(this.props.activity == -1) &&
-					<div>
-					<p>Columns and Rows cannot be edited once saved</p>
-				  	<ColumnsFieldSet ref="columns" activity={this.props.activity}/>
-					<br/>
-				  	<RowsFieldSet ref="rows" activity={this.props.activity}/>
-					<br/>
-					</div>
-				}
+			  	<ColumnsFieldSet ref="columns" activity={this.props.activity}/>
+				<br/>
+			  	<RowsFieldSet ref="rows" activity={this.props.activity}/>
+				<br/>
 			    <p><input type="submit" value="Save Activity" onClick={(evt) => {
 															if(this.props.activity == -1){
 																this.formSubmit(evt);

@@ -158,11 +158,11 @@ def teacher():
 def eval():
     return app.send_static_file('eval.html')
 
-@app.route("/teacher_profile")
+@app.route("/teacher_profile/<int:uid>")
 @login_required
 # @role_required("administrator")
-def teacher_profile():
-    return app.send_static_file('teacher_profile.html')
+def teacher_profile(uid):
+    return render_template('teacher_profile.html', uid=uid)
 
 @app.route("/student_profile/<int:sid>")
 @login_required
@@ -205,6 +205,20 @@ def teacher_landing():
 # @role_required("administrator")
 def usercreation():
 	return app.send_static_file('usercreation.html')
+
+<<<<<<< HEAD
+@app.route("/assign_activity_student")
+@login_required
+# @role_required("administrator")
+def assign_activity_student():
+	return render_template('assign_activity_student.html', student_id=-1)
+=======
+@app.route("/studentcreation")
+@login_required
+# @role_required("administrator")
+def studentcreation():
+	return app.send_static_file('studentcreation.html')
+>>>>>>> 619800fceb47e1efc876a3322b1be1526f7fdfe7
 
 
 
@@ -425,8 +439,8 @@ def student():
 
     elif request.method == 'POST':
 
-        first_name = request.args['first_name']
-        last_name  = request.args['last_name']
+        first_name = request.values['first_name']
+        last_name  = request.values['last_name']
 
         created_student_id = db_lib.create_student(db_conn, first_name, last_name)
 

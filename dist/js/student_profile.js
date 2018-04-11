@@ -21744,9 +21744,20 @@ var AssignedActivities = function (_React$Component) {
 				Header: 'Type',
 				accessor: 'activity.activity_type_label'
 			}, {
-				Header: 'View',
+				Header: 'Created',
+				accessor: 'student_activity_created',
 				Cell: function Cell(_ref) {
-					var row = _ref.row;
+					var value = _ref.value;
+					return _react2.default.createElement(
+						"div",
+						null,
+						value.substring(0, 10)
+					);
+				}
+			}, {
+				Header: 'View',
+				Cell: function Cell(_ref2) {
+					var row = _ref2.row;
 					return _react2.default.createElement(
 						"a",
 						{ href: "/student_activity/" + String(_this2.props.studentid) + "/" + String(row._original.activity.id) + "/" + String(row._original.student_activity_created) },
@@ -21808,15 +21819,10 @@ function render_student_view(data) {
 		"div",
 		null,
 		_react2.default.createElement(
-			"p",
+			"h1",
 			null,
-			"First Name: ",
-			data.firstname
-		),
-		_react2.default.createElement(
-			"p",
-			null,
-			"Last Name: ",
+			data.firstname,
+			" ",
 			data.lastname
 		),
 		_react2.default.createElement(

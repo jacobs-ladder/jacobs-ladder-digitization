@@ -38,6 +38,10 @@ class AssignedActivities extends React.Component{
 			Header: 'Type',
 			accessor: 'activity.activity_type_label',
 		}, {
+			Header: 'Created',
+			accessor: 'student_activity_created',
+			Cell: ({ value }) => (<div>{value.substring(0,10)}</div>),
+		}, {
 			Header: 'View',
 			Cell: ({ row }) => (<a href={"/student_activity/" + String(this.props.studentid) + "/"+ String(row._original.activity.id) + "/" + String(row._original.student_activity_created)}>View</a>),
 		}];
@@ -89,8 +93,8 @@ document.getElementById('body')
 function render_student_view(data){
 	const student_view = (
 		<div>
-		   	<p>First Name: {data.firstname}</p>
-		   	<p>Last Name: {data.lastname}</p>
+		   	<h1>{data.firstname} {data.lastname}</h1>
+
 			<div id='student_info'> </div>
 			<h3>Assigned Activities</h3>
 			<AssignedActivities studentid={data.id} />

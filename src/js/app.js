@@ -59,6 +59,7 @@ class Layout extends React.Component{
 				      <li><a href="/admin">Admin home</a></li>
 				      <li><a href="/activitylist">All activities</a></li>
 				      <li><a href="/usercreation">Add a user</a></li>
+				      <li><a href="/studentcreation">Add a student</a></li>
 				    </ul>
 				</div>
 			  }
