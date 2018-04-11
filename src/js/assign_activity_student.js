@@ -4,23 +4,16 @@ class assign_activity_student_Input extends React.Component{
 		super(props)
 		this.state = {
 			student_id:"",
-            activity_id:""
+            activity_id:"",
+			activities:[]
 		}
 	}
     componentDidMount() {
-    	$.ajax({
-        	type: 'GET',
-            url: '../api/activity',
-
-            dataType: "json",
-
-            success: function(data){
-    			render_activity(data);
-            },
-            error: function (request, status, error) {
-                alert(error);
-            }
-        });
+		$.get( "/api/activity"
+		, function( data ) {
+			var activity = JSON.parse(data);
+			self.setState({activities:activity});
+		});
     });
 
 	formSubmit(event){
@@ -34,6 +27,12 @@ class assign_activity_student_Input extends React.Component{
 	}
 
 	render() {
+
+		var options = this.state.activites.map((activity) => {
+		  	return (
+				<option value={activity.id}>{activity.title}</option>
+			)
+    	});
 		return (
 			<div>
 				<h2>Create a new Student</h2>
@@ -45,6 +44,9 @@ class assign_activity_student_Input extends React.Component{
 				<form action="/studentlist">
 				  <p><input type="submit" value="Create" onClick={(evt) => this.formSubmit(evt)}/></p>
 				</form>
+
+
+				<select > {options} </select>
 
 		  </div>
 	  );
