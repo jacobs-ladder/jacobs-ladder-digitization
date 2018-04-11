@@ -59,6 +59,6 @@ class UserInput extends React.Component{
 }
 
 ReactDOM.render(
-  <ActivityInput />,
+  <UserInput />,
   document.getElementById('body')
 );

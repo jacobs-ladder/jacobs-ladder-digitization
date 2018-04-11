@@ -216,7 +216,7 @@ var UserInput = function (_React$Component) {
 	return UserInput;
 }(React.Component);
 
-ReactDOM.render(React.createElement(ActivityInput, null), document.getElementById('body'));
+ReactDOM.render(React.createElement(UserInput, null), document.getElementById('body'));
 
 /***/ })
 
