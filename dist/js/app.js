@@ -18383,6 +18383,15 @@ var Layout = function (_React$Component) {
 									{ href: "/usercreation" },
 									"Add a user"
 								)
+							),
+							_react2.default.createElement(
+								"li",
+								null,
+								_react2.default.createElement(
+									"a",
+									{ href: "/studentcreation" },
+									"Add a student"
+								)
 							)
 						)
 					),

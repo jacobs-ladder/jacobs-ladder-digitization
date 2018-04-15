@@ -207,6 +207,20 @@ def usercreation():
 	return app.send_static_file('usercreation.html')
 
 
+@app.route("/assign_activity_student")
+@login_required
+# @role_required("administrator")
+def assign_activity_student():
+	return render_template('assign_activity_student.html', student_id=-1)
+
+@app.route("/studentcreation")
+@login_required
+# @role_required("administrator")
+def studentcreation():
+	return app.send_static_file('studentcreation.html')
+
+
+
 
 
 #############################
@@ -425,8 +439,8 @@ def student():
 
     elif request.method == 'POST':
 
-        first_name = request.args['first_name']
-        last_name  = request.args['last_name']
+        first_name = request.values['first_name']
+        last_name  = request.values['last_name']
 
         created_student_id = db_lib.create_student(db_conn, first_name, last_name)
 

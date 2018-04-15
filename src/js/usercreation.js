@@ -1,4 +1,4 @@
-class ActivityInput extends React.Component{
+class UserInput extends React.Component{
 
 	constructor(props){
 		super(props)
@@ -59,6 +59,6 @@ class ActivityInput extends React.Component{
 }
 
 ReactDOM.render(
-  <ActivityInput />,
+  <UserInput />,
   document.getElementById('body')
 );

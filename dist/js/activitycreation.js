@@ -408,16 +408,10 @@ var ActivityInput = function (_React$Component3) {
 	}, {
 		key: "formSave",
 		value: function formSave(event) {
-			var columns_and_rows_json = JSON.stringify({
-				"columns": this.refs.columns.getColumns(),
-				"rows": this.refs.rows.getRows()
-			});
-			console.log(columns_and_rows_json);
 			$.put('../api/activity', { activity: this.props.activity,
 				title: this.state.title,
 				activity_type: this.state.type,
-				instructions: this.state.instructions,
-				columns_and_rows: columns_and_rows_json }, function (returnedData) {
+				instructions: this.state.instructions }, function (returnedData) {
 				console.log(returnedData);
 				window.location.href = '/activitylist';
 			});
@@ -486,10 +480,19 @@ var ActivityInput = function (_React$Component3) {
 							return _this6.setState({ instructions: evt.target.value });
 						} })
 				),
-				React.createElement(ColumnsFieldSet, { ref: "columns", activity: this.props.activity }),
-				React.createElement("br", null),
-				React.createElement(RowsFieldSet, { ref: "rows", activity: this.props.activity }),
-				React.createElement("br", null),
+				this.props.activity == -1 && React.createElement(
+					"div",
+					null,
+					React.createElement(
+						"p",
+						null,
+						"Columns and Rows cannot be edited once saved"
+					),
+					React.createElement(ColumnsFieldSet, { ref: "columns", activity: this.props.activity }),
+					React.createElement("br", null),
+					React.createElement(RowsFieldSet, { ref: "rows", activity: this.props.activity }),
+					React.createElement("br", null)
+				),
 				React.createElement(
 					"p",
 					null,

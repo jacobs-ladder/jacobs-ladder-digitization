@@ -60,12 +60,12 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 50);
+/******/ 	return __webpack_require__(__webpack_require__.s = 52);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 50:
+/***/ 52:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79,34 +79,27 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var UserInput = function (_React$Component) {
-	_inherits(UserInput, _React$Component);
+var StudentInput = function (_React$Component) {
+	_inherits(StudentInput, _React$Component);
 
-	function UserInput(props) {
-		_classCallCheck(this, UserInput);
+	function StudentInput(props) {
+		_classCallCheck(this, StudentInput);
 
-		var _this = _possibleConstructorReturn(this, (UserInput.__proto__ || Object.getPrototypeOf(UserInput)).call(this, props));
+		var _this = _possibleConstructorReturn(this, (StudentInput.__proto__ || Object.getPrototypeOf(StudentInput)).call(this, props));
 
 		_this.state = {
-			username: "",
-			roles: "",
 			first_name: "",
-			last_name: "",
-			password: "",
-			email_address: ""
+			last_name: ""
 		};
 		return _this;
 	}
 
-	_createClass(UserInput, [{
+	_createClass(StudentInput, [{
 		key: "formSubmit",
 		value: function formSubmit(event) {
-			$.post('../api/user', { username: this.state.username,
-				role_label: this.state.roles,
+			$.post('/api/student', {
 				first_name: this.state.first_name,
-				last_name: this.state.last_name,
-				password: this.state.password,
-				email_address: this.state.email_address
+				last_name: this.state.last_name
 			}, function (returnedData) {
 				console.log(returnedData);
 			});
@@ -122,61 +115,7 @@ var UserInput = function (_React$Component) {
 				React.createElement(
 					"h2",
 					null,
-					"Create an User"
-				),
-				React.createElement(
-					"p",
-					null,
-					"User Name: ",
-					React.createElement("input", { type: "text", name: "username", value: this.state.username,
-						onChange: function onChange(evt) {
-							return _this2.setState({ username: evt.target.value });
-						} })
-				),
-				React.createElement(
-					"p",
-					null,
-					"Password: ",
-					React.createElement("input", { type: "text", name: "password", value: this.state.password,
-						onChange: function onChange(evt) {
-							return _this2.setState({ password: evt.target.value });
-						} })
-				),
-				React.createElement(
-					"p",
-					null,
-					"Email: ",
-					React.createElement("input", { type: "text", name: "email_address", value: this.state.email_address,
-						onChange: function onChange(evt) {
-							return _this2.setState({ email_address: evt.target.value });
-						} })
-				),
-				React.createElement(
-					"p",
-					null,
-					"Type of Roles: ",
-					React.createElement(
-						"select",
-						{ name: "role_label", value: this.state.roles,
-							onChange: function onChange(evt) {
-								return _this2.setState({ roles: evt.target.value });
-							} },
-						React.createElement(
-							"option",
-							{ value: "administrator" },
-							"Administrator"
-						),
-						React.createElement(
-							"option",
-							{ value: "evaluator" },
-							"Evaluator"
-						),
-						React.createElement(
-							"option",
-							{ value: "teacher" },
-							"Teacher"
-						)
-					)
+					"Create a new Student"
 				),
 				React.createElement(
 					"p",
@@ -197,14 +136,13 @@ var UserInput = function (_React$Component) {
 						} })
 				),
 				React.createElement("br", null),
-				React.createElement("br", null),
 				React.createElement(
 					"form",
-					{ action: "/userlist" },
+					{ action: "/studentlist" },
 					React.createElement(
 						"p",
 						null,
-						React.createElement("input", { type: "submit", value: "Create an User", onClick: function onClick(evt) {
+						React.createElement("input", { type: "submit", value: "Create", onClick: function onClick(evt) {
 								return _this2.formSubmit(evt);
 							} })
 					)
@@ -213,10 +151,10 @@ var UserInput = function (_React$Component) {
 		}
 	}]);
 
-	return UserInput;
+	return StudentInput;
 }(React.Component);
 
-ReactDOM.render(React.createElement(UserInput, null), document.getElementById('body'));
+ReactDOM.render(React.createElement(StudentInput, null), document.getElementById('body'));
 
 /***/ })
 
