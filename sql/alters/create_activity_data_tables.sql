@@ -6,8 +6,7 @@ CREATE TABLE tb_student_activity -- an activity page in a student's binder
     student          INTEGER REFERENCES tb_student  NOT NULL,
     activity         INTEGER REFERENCES tb_activity NOT NULL,
     created          TIMESTAMP NOT NULL DEFAULT now(),
-    disabled         BOOLEAN NOT NULL DEFAULT FALSE,
-    UNIQUE(student, activity)
+    disabled         BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 
