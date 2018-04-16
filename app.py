@@ -207,11 +207,11 @@ def usercreation():
 	return app.send_static_file('usercreation.html')
 
 
-@app.route("/assign_activity_student")
+@app.route("/assign_activity_student/<int:student_id>")
 @login_required
 # @role_required("administrator")
-def assign_activity_student():
-	return render_template('assign_activity_student.html', student_id=-1)
+def assign_activity_student(student_id):
+	return render_template('assign_activity_student.html', student_id=student_id)
 
 @app.route("/studentcreation")
 @login_required
