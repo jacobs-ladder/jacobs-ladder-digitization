@@ -47,5 +47,5 @@ CREATE TABLE tb_activity_cell
     -- the data itself, stored in string form because we could have multiple data types
     data             VARCHAR,
     disabled         BOOLEAN NOT NULL DEFAULT FALSE,
-    UNIQUE(activity_row, activity_column)
+    UNIQUE(activity_row, activity_column, student_activity)
 );
