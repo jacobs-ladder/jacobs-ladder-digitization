@@ -26,10 +26,11 @@ class ActivityAssignInput extends React.Component{
 	formSubmit(event){
 		$.post('/api/student_activity', {
 								student:this.props.student,
-                                activity:this.state.activity_id,
+                                activity:this.state.activity_id
 								},
 			function(returnedData){
 				 console.log(returnedData);
+				 window.location.replace("/studentlist");
 		});
 	}
 
@@ -50,9 +51,7 @@ class ActivityAssignInput extends React.Component{
 							   onChange={(evt) => this.setState({ activity_id:evt.target.value })}> 
 									<option value={-1}></option>
 									{options} </select> </p>
-				<form action="/studentlist">
-				  <p><input type="submit" value="Create" onClick={(evt) => this.formSubmit(evt)}/></p>
-				</form>
+			    <p><input type="submit" value="Assign" onClick={(evt) => this.formSubmit(evt)}/></p>
 
 		  </div>
 	  );

@@ -117,6 +117,7 @@ var ActivityAssignInput = function (_React$Component) {
 				activity: this.state.activity_id
 			}, function (returnedData) {
 				console.log(returnedData);
+				window.location.replace("/studentlist");
 			});
 		}
 	}, {
@@ -171,15 +172,11 @@ var ActivityAssignInput = function (_React$Component) {
 					" "
 				),
 				React.createElement(
-					"form",
-					{ action: "/studentlist" },
-					React.createElement(
-						"p",
-						null,
-						React.createElement("input", { type: "submit", value: "Create", onClick: function onClick(evt) {
-								return _this2.formSubmit(evt);
-							} })
-					)
+					"p",
+					null,
+					React.createElement("input", { type: "submit", value: "Assign", onClick: function onClick(evt) {
+							return _this2.formSubmit(evt);
+						} })
 				)
 			);
 		}

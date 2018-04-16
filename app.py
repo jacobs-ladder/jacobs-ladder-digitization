@@ -507,10 +507,16 @@ def student_activity():
             return Response(get_student_activities_json(student_activity_list))
 
     elif request.method == 'POST':
+        import sys
+        print "asdf"
+        print request.values['student']
+        sys.stdout.flush()
 
         # if they pass back stuff in the data form then we create student-activity data
         # if they dont pass back anything in the data form then we assign that activity to that student
-        if request.values['data'] is None or request.values['data'] is "":
+        if 'data' not in request.values or request.values['data'] is None or request.values['data'] is "":
+            print "asdf"
+            sys.stdout.flush()
 
             student_id  = request.values['student']
             activity_id = request.values['activity']
