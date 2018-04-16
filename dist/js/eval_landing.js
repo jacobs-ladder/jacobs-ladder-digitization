@@ -21748,7 +21748,7 @@ var body = _react2.default.createElement(
 		null,
 		_react2.default.createElement(
 			"a",
-			{ href: "/studentlist", className: "fake-button" },
+			{ href: "/assign_activity_student", className: "fake-button" },
 			"Assign it is temporary"
 		)
 	),

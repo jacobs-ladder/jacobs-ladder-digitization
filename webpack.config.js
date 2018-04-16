@@ -17,6 +17,7 @@ module.exports = {
     usercreation: "./src/js/usercreation.js",
     student_activity: "./src/js/student_activity.js",
     studentcreation: "./src/js/studentcreation.js",
+    assign_activity_student: "./src/js/assign_activity_student.js",
 
 },
 

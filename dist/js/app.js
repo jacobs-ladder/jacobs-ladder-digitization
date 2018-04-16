@@ -18454,11 +18454,6 @@ var Layout = function (_React$Component) {
 						_react2.default.createElement(
 							"div",
 							{ className: "row" },
-							this.state.students
-						),
-						_react2.default.createElement(
-							"div",
-							{ className: "row" },
 							"Links"
 						),
 						_react2.default.createElement(

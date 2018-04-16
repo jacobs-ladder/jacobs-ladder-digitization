@@ -85,7 +85,6 @@ class Layout extends React.Component{
 			  	this.state.students.length != 0 &&
 			  	<div className="row">Your Students</div>
 			  }
-			  <div className="row">{this.state.students}</div>
 
 
 			  <div className="row">Links</div>

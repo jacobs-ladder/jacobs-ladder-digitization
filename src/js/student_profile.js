@@ -97,6 +97,7 @@ function render_student_view(data){
 
 			<div id='student_info'> </div>
 			<h3>Assigned Activities</h3>
+			<a href={'/assign_activity_student/' + String(sid)}>Assign New Activity</a>
 			<AssignedActivities studentid={data.id} />
 		</div>
 	);
