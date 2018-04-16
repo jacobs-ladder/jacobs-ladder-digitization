@@ -21835,6 +21835,11 @@ function render_student_view(data) {
 			null,
 			"Assigned Activities"
 		),
+		_react2.default.createElement(
+			"a",
+			{ href: '/assign_activity_student/' + String(sid) },
+			"Assign New Activity"
+		),
 		_react2.default.createElement(AssignedActivities, { studentid: data.id })
 	);
 

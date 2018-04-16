@@ -112,12 +112,13 @@ var ActivityAssignInput = function (_React$Component) {
 	}, {
 		key: "formSubmit",
 		value: function formSubmit(event) {
+			var self = this;
 			$.post('/api/student_activity', {
 				student: this.props.student,
 				activity: this.state.activity_id
 			}, function (returnedData) {
 				console.log(returnedData);
-				window.location.replace("/studentlist");
+				window.location.replace("/student_profile/" + String(self.props.student));
 			});
 		}
 	}, {
