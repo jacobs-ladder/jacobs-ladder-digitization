@@ -1,6 +1,29 @@
-# 7301_junior_design_project
+# 7301_junior_design_project - Jacobs Ladder Digitization
 
-# Python
+# Release Notes
+
+### New Features in this release
+
+- Creation/management of users (employees)
+- Creation/management of students
+- Creation/management of activities
+- Assignment of students to teachers
+- Assignment of activities to students
+- Input and retrieval of student data on their activity performance
+
+### Bug Fixes since last release
+
+- Changed teacher landing page to actually show up when a teacher logs in
+- Allowed evaluators to access the page where they can assign students to teachers
+
+### Known Bugs and Defects
+
+- Text boxes at the top of most tables in the system look kind of like you can use them to input new data, but they are actually just there to allow the user to filter the contents of the table
+- Users cannot edit their own data, such as password or username etc.
+
+# Install Guide
+
+### Python
 
 List of python libraries to install with pip:
 flask
@@ -12,7 +35,7 @@ python app.py
 go to http://127.0.0.1:5000/ in your browser
 
 
-# Local Database:
+### Local Database:
 
 Postgres version: 9.6.5
 
@@ -30,7 +53,7 @@ Running `./update_schema_local_safe.sh` will take the most recent schema changes
 See Ryan to get a db instance set up on your local machine.
 
 
-# Remote Database:
+### Remote Database:
 
 Postgres Version 9.6.5
 
@@ -40,8 +63,13 @@ Layout:       postgres://username:password@host:port/db_name
 
 Running `./update_schema_remote.sh` will take the most recent schema changes and update the heroku db instance. It will also repopulate the database with the default test data. Running this script is dangerous if the alters are not guaranteed to run correctly because the database will be empty and without any tables if the alters do not apply correctly. The latest schema should be tested locally before it is applied to the remote database.
 
+### Setting up a new Heroku Instance
 
-# Getting Heroku Working
+This article will walk you through creating a new heroku instance if you need to move the hosting and want to continue to use heroku: https://devcenter.heroku.com/articles/getting-started-with-python
+
+I have included additional information about how we used heroku so that it can be ported to whatever hosting service is chosen for future use.
+
+### Getting Heroku Working
 
 You should have this installed on your local machine: heroku-cli/6.14.37
 
@@ -58,7 +86,7 @@ After that point, you can push to the heroku remote using `git push heroku` and 
 You can also run a local instance of the application by running `heroku local`. This will set up the application to run on http://0.0.0.0:5000/
 
 
-# How Heroku Works
+### How Heroku Works
 
 Heroku knows that our application is a python application
 
