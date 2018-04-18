@@ -18323,6 +18323,19 @@ var Layout = function (_React$Component) {
 	}, {
 		key: "render",
 		value: function render() {
+
+			var student_links = this.state.students.map(function (student, key) {
+				console.log(student);
+				return _react2.default.createElement(
+					"a",
+					{ href: "/student/" + String(student.id) },
+					student.firstname,
+					" ",
+					student.lastname,
+					" ",
+					_react2.default.createElement("br", null)
+				);
+			});
 			return _react2.default.createElement(
 				"div",
 				{ className: "container-fluid" },
@@ -18450,6 +18463,11 @@ var Layout = function (_React$Component) {
 							"div",
 							{ className: "row" },
 							"Your Students"
+						),
+						_react2.default.createElement(
+							"div",
+							{ className: "row" },
+							student_links
 						),
 						_react2.default.createElement(
 							"div",

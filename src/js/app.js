@@ -40,6 +40,11 @@ class Layout extends React.Component{
     }
 
 	render(){
+
+  	var student_links = this.state.students.map((student, key) => {
+  		console.log(student);
+	  	return (<a href={"/student/" + String(student.id)}>{student.firstname} {student.lastname} <br/></a>)
+  	});
 		return (
 		  <div className="container-fluid">
 			<div className="row">
@@ -81,12 +86,9 @@ class Layout extends React.Component{
 			</div>
 			<div className="row">
 			  <div className="col-md-2 col-3" id="sidebar">
-			  {
-			  	this.state.students.length != 0 &&
-			  	<div className="row">Your Students</div>
-			  }
-
-
+			  {this.state.students.length != 0 &&
+			  	<div className="row">Your Students</div>}
+			  <div className="row">{student_links}</div>
 			  <div className="row">Links</div>
 				<div className="row"><a href="/studentlist">Student List</a></div>
 				<div className="row"><a href="/userlist">Faculty List</a></div>
