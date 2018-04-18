@@ -23,6 +23,8 @@
 
 # Install Guide
 
+This project only needs to run on a hosting service somewhere in the cloud, such as heroku or amazon aws. It requires no local installation.
+
 ### Python
 
 List of python libraries to install with pip:
@@ -36,6 +38,8 @@ go to http://127.0.0.1:5000/ in your browser
 
 
 ### Local Database:
+
+Not necessary for the project to function. Just useful for development purposes.
 
 Postgres version: 9.6.5
 
