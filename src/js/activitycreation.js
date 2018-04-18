@@ -1,11 +1,11 @@
 $.put = function(url, data, callback, type){
- 
+
   if ( $.isFunction(data) ){
     type = type || callback,
     callback = data,
     data = {}
   }
- 
+
   return $.ajax({
     url: url,
     type: 'PUT',
@@ -198,7 +198,8 @@ class ActivityInput extends React.Component{
 									instructions:this.state.instructions,
 									columns_and_rows : columns_and_rows_json},
 			function(returnedData){
-                window.location.href = '/activitylist'
+                // window.location.href = '/activitylist'
+                window.location.replace("/activitylist");
 		});
 	}
 

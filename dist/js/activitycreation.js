@@ -402,7 +402,8 @@ var ActivityInput = function (_React$Component3) {
 				activity_type: this.state.type,
 				instructions: this.state.instructions,
 				columns_and_rows: columns_and_rows_json }, function (returnedData) {
-				window.location.href = '/activitylist';
+				// window.location.href = '/activitylist'
+				window.location.replace("/activitylist");
 			});
 		}
 	}, {
