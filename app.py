@@ -219,6 +219,12 @@ def assign_activity_student(student_id):
 def studentcreation():
 	return app.send_static_file('studentcreation.html')
 
+@app.route("/activity_type_creation")
+@login_required
+# @role_required("administrator")
+def activity_type_creation():
+	return app.send_static_file('activity_type_creation.html')
+
 
 
 
@@ -321,7 +327,10 @@ def activity_type():
 
     elif request.method == 'POST':
 
-        label = request.args['label']
+        import sys
+        print request.values
+        sys.stdout.flush()
+        label = request.values['label']
 
         created_activity_type_id = db_lib.create_activity_type(db_conn, label)
 

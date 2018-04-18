@@ -23,6 +23,8 @@ const body = (
 	  <div>
 		<h2>Activity List</h2>
         <a href='/activitycreation'>Add New Activity</a>
+		<p></p>
+		<a href='/activity_type_creation'>Add New Activity Type</a>
 		<div id = "activity_list_table"></div>
 		<form action="logout">
 		  <input type="submit" value="Logout" />
