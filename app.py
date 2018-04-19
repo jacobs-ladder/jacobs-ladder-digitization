@@ -225,6 +225,12 @@ def studentcreation():
 def activity_type_creation():
 	return app.send_static_file('activity_type_creation.html')
 
+@app.route("/assign_student_teacher_creation")
+@login_required
+# @role_required("administrator")
+def assign_student_teacher_creation():
+	return app.send_static_file('assign_student_teacher_creation.html')
+
 
 
 
