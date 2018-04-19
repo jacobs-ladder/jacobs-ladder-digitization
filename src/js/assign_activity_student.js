@@ -21,7 +21,7 @@ class ActivityAssignInput extends React.Component{
 			console.log(data)
 			self.setState({student:student});
 		});
-    } 
+    }
 
 	formSubmit(event){
 		var self = this;
@@ -49,7 +49,7 @@ class ActivityAssignInput extends React.Component{
                 <p>Last Name: {this.state.student.lastname} </p>
 				<br/>
 				<p>Activity: <select value={this.state.activity_id}
-							   onChange={(evt) => this.setState({ activity_id:evt.target.value })}> 
+							   onChange={(evt) => this.setState({ activity_id:evt.target.value })}>
 									<option value={-1}></option>
 									{options} </select> </p>
 			    <p><input type="submit" value="Assign" onClick={(evt) => this.formSubmit(evt)}/></p>

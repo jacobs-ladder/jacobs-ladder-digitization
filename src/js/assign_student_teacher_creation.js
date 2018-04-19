@@ -4,8 +4,8 @@ class Assign_student_teacher_Input extends React.Component{
 		super(props)
 		this.state = {
 			student:{},
-            user_id:"",
-			users:[]
+            teacher_id:"",
+			users:[],
 		}
 	}
     componentDidMount() {
@@ -39,7 +39,7 @@ class Assign_student_teacher_Input extends React.Component{
 
 		var options = this.state.users.map((user) => {
 		  	return (
-				<option value={user.id}>{user.title}</option>
+				<option value={user.id}>{user.first_name}{" "}{user.last_name}</option>
 			)
     	});
 		return (
@@ -48,12 +48,11 @@ class Assign_student_teacher_Input extends React.Component{
 			  	<p>First Name: {this.state.student.firstname} </p>
                 <p>Last Name: {this.state.student.lastname} </p>
 				<br/>
-				<p>Teachers: <select value={this.state.user_id}
-							   onChange={(evt) => this.setState({ user_id:evt.target.value })}>
+				<p>Teachers: <select value={this.state.teacher_id}
+							   onChange={(evt) => this.setState({ teacher_id:evt.target.value })}>
 									<option value={-1}></option>
 									{options} </select> </p>
 			    <p><input type="submit" value="Assign" onClick={(evt) => this.formSubmit(evt)}/></p>
-
 		  </div>
 	  );
 	}

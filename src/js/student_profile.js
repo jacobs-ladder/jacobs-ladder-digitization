@@ -94,7 +94,7 @@ function render_student_view(data){
 	const student_view = (
 		<div>
 		   	<h1>{data.firstname} {data.lastname}</h1>
-
+			<a href= {'/assign_student_teacher_creation/' + String(sid)}>Assign a Teacher</a>
 			<div id='student_info'> </div>
 			<h3>Assigned Activities</h3>
 			<a href={'/assign_activity_student/' + String(sid)}>Assign New Activity</a>

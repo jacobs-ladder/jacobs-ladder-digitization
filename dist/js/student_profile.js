@@ -21826,6 +21826,11 @@ function render_student_view(data) {
 			data.lastname
 		),
 		_react2.default.createElement(
+			"a",
+			{ href: '/assign_student_teacher_creation/' + String(sid) },
+			"Assign a Teacher"
+		),
+		_react2.default.createElement(
 			"div",
 			{ id: "student_info" },
 			" "

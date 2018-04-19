@@ -225,11 +225,11 @@ def studentcreation():
 def activity_type_creation():
 	return app.send_static_file('activity_type_creation.html')
 
-@app.route("/assign_student_teacher_creation")
+@app.route("/assign_student_teacher_creation/<int:student_id>")
 @login_required
 # @role_required("administrator")
-def assign_student_teacher_creation():
-	return app.send_static_file('assign_student_teacher_creation.html')
+def assign_student_teacher_creation(student_id):
+	return render_template('assign_student_teacher_creation.html', student_id=student_id)
 
 
 
@@ -592,8 +592,8 @@ def student_teacher():
     elif request.method == 'POST':
 
         # Assign student to teacher and vice versa
-        student_id = request.args['student']
-        teacher_id = request.args['teacher']
+        student_id = request.values['student']
+        teacher_id = request.values['teacher']
 
         student_teacher_assignment = db_lib.assign_student_to_teacher(db_conn, student_id, teacher_id)
 

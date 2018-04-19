@@ -89,7 +89,7 @@ var Assign_student_teacher_Input = function (_React$Component) {
 
 		_this.state = {
 			student: {},
-			user_id: "",
+			teacher_id: "",
 			users: []
 		};
 		return _this;
@@ -130,7 +130,9 @@ var Assign_student_teacher_Input = function (_React$Component) {
 				return React.createElement(
 					"option",
 					{ value: user.id },
-					user.title
+					user.first_name,
+					" ",
+					user.last_name
 				);
 			});
 			return React.createElement(
@@ -162,9 +164,9 @@ var Assign_student_teacher_Input = function (_React$Component) {
 					"Teachers: ",
 					React.createElement(
 						"select",
-						{ value: this.state.user_id,
+						{ value: this.state.teacher_id,
 							onChange: function onChange(evt) {
-								return _this2.setState({ user_id: evt.target.value });
+								return _this2.setState({ teacher_id: evt.target.value });
 							} },
 						React.createElement("option", { value: -1 }),
 						options,
