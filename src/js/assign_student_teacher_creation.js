@@ -3,86 +3,63 @@ class Assign_student_teacher_Input extends React.Component{
 	constructor(props){
 		super(props)
 		this.state = {
-			title:"",
-			type:"numbers",
-			instructions:""
+			student:{},
+            user_id:"",
+			users:[]
 		}
 	}
-
-    componentDidMount(){
-		if(this.props.activity != -1){
-        	var self = this;
-			$.get( "/api/activity", {activity : this.props.activity}
-			, function( data ) {
-				var activity = JSON.parse(data);
-				self.setState({ title : activity.title, type : activity.activity_type_label, instructions : activity.instructions });
-			});
-		}
+    componentDidMount() {
+		var self = this;
+		$.get( "/api/user"
+		, function( data ) {
+			var user = JSON.parse(data);
+			self.setState({users:user});
+		});
+		$.get( "/api/student?student=" + String(this.props.student)
+		, function( data ) {
+			var student = JSON.parse(data);
+			console.log(data)
+			self.setState({student:student});
+		});
     }
 
 	formSubmit(event){
-		var columns_and_rows_json = JSON.stringify({
-			"columns": this.refs.columns.getColumns(),
-			"rows":this.refs.rows.getRows()
-		});
-		console.log(columns_and_rows_json);
-		$.post('../api/activity', { title:this.state.title,
-									activity_type:this.state.type,
-									instructions:this.state.instructions,
-									columns_and_rows : columns_and_rows_json},
+		var self = this;
+		$.post('/api/student_teacher', {
+								student:this.props.student,
+                                teacher:this.state.teacher_id
+								},
 			function(returnedData){
-                // window.location.href = '/activitylist'
-                window.location.replace("/activitylist");
-		});
-	}
-
-	formSave(event){
-		$.put('../api/activity', { activity:this.props.activity,
-                                    title:this.state.title,
-									activity_type:this.state.type,
-									instructions:this.state.instructions},
-			function(returnedData){
-				console.log(returnedData);
-                window.location.href = '/activitylist'
+				 console.log(returnedData);
+				 window.location.replace("/student_profile/" + String(self.props.student));
 		});
 	}
 
 	render() {
+
+		var options = this.state.users.map((user) => {
+		  	return (
+				<option value={user.id}>{user.title}</option>
+			)
+    	});
 		return (
 			<div>
-				<h2>{this.props.activity == -1 ? "Create" : "Edit"} an Activity</h2>
-			  		<p>Title: <input type="text" name="title" value={this.state.title}
-									onChange={(evt) => this.setState({ title:evt.target.value }) }/></p>
-			  		<p>Type of Activity: <select name="activity_type" value={this.state.type}
-									onChange={(evt) => this.setState({ type:evt.target.value }) }>
-				  		<option value="numbers">Numbers</option>
-				  		<option value="reading">Reading</option>
-				  		<option value="motor">Motor</option>
-				  		<option value="visual">Visual</option>
-					</select></p>
-			  	<p>Instructions: <textarea name="instructions"rows="10" cols="50" value={this.state.instructions}
-									onChange={(evt) => this.setState({ instructions:evt.target.value }) }></textarea></p>
-				{(this.props.activity == -1) &&
-					<div>
-					<p>Columns and Rows cannot be edited once saved</p>
-				  	<ColumnsFieldSet ref="columns" activity={this.props.activity}/>
-					<br/>
-				  	<RowsFieldSet ref="rows" activity={this.props.activity}/>
-					<br/>
-					</div>
-				}
-			    <p><input type="submit" value="Save Activity" onClick={(evt) => {
-															if(this.props.activity == -1){
-																this.formSubmit(evt);
-															} else {
-																this.formSave(evt);
-															}}}/></p>
+				<h2>Assign Teacher to Student</h2>
+			  	<p>First Name: {this.state.student.firstname} </p>
+                <p>Last Name: {this.state.student.lastname} </p>
+				<br/>
+				<p>Teachers: <select value={this.state.user_id}
+							   onChange={(evt) => this.setState({ user_id:evt.target.value })}>
+									<option value={-1}></option>
+									{options} </select> </p>
+			    <p><input type="submit" value="Assign" onClick={(evt) => this.formSubmit(evt)}/></p>
+
 		  </div>
 	  );
 	}
 }
 
 ReactDOM.render(
-  <Assign_student_teacher_Input/>,
+  <Assign_student_teacher_Input student={student_id}/>,
   document.getElementById('body')
 );

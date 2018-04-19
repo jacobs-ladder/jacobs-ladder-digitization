@@ -88,9 +88,9 @@ var Assign_student_teacher_Input = function (_React$Component) {
 		var _this = _possibleConstructorReturn(this, (Assign_student_teacher_Input.__proto__ || Object.getPrototypeOf(Assign_student_teacher_Input)).call(this, props));
 
 		_this.state = {
-			title: "",
-			type: "numbers",
-			instructions: ""
+			student: {},
+			user_id: "",
+			users: []
 		};
 		return _this;
 	}
@@ -98,39 +98,27 @@ var Assign_student_teacher_Input = function (_React$Component) {
 	_createClass(Assign_student_teacher_Input, [{
 		key: "componentDidMount",
 		value: function componentDidMount() {
-			if (this.props.activity != -1) {
-				var self = this;
-				$.get("/api/activity", { activity: this.props.activity }, function (data) {
-					var activity = JSON.parse(data);
-					self.setState({ title: activity.title, type: activity.activity_type_label, instructions: activity.instructions });
-				});
-			}
+			var self = this;
+			$.get("/api/user", function (data) {
+				var user = JSON.parse(data);
+				self.setState({ users: user });
+			});
+			$.get("/api/student?student=" + String(this.props.student), function (data) {
+				var student = JSON.parse(data);
+				console.log(data);
+				self.setState({ student: student });
+			});
 		}
 	}, {
 		key: "formSubmit",
 		value: function formSubmit(event) {
-			var columns_and_rows_json = JSON.stringify({
-				"columns": this.refs.columns.getColumns(),
-				"rows": this.refs.rows.getRows()
-			});
-			console.log(columns_and_rows_json);
-			$.post('../api/activity', { title: this.state.title,
-				activity_type: this.state.type,
-				instructions: this.state.instructions,
-				columns_and_rows: columns_and_rows_json }, function (returnedData) {
-				// window.location.href = '/activitylist'
-				window.location.replace("/activitylist");
-			});
-		}
-	}, {
-		key: "formSave",
-		value: function formSave(event) {
-			$.put('../api/activity', { activity: this.props.activity,
-				title: this.state.title,
-				activity_type: this.state.type,
-				instructions: this.state.instructions }, function (returnedData) {
+			var self = this;
+			$.post('/api/student_teacher', {
+				student: this.props.student,
+				teacher: this.state.teacher_id
+			}, function (returnedData) {
 				console.log(returnedData);
-				window.location.href = '/activitylist';
+				window.location.replace("/student_profile/" + String(self.props.student));
 			});
 		}
 	}, {
@@ -138,87 +126,57 @@ var Assign_student_teacher_Input = function (_React$Component) {
 		value: function render() {
 			var _this2 = this;
 
+			var options = this.state.users.map(function (user) {
+				return React.createElement(
+					"option",
+					{ value: user.id },
+					user.title
+				);
+			});
 			return React.createElement(
 				"div",
 				null,
 				React.createElement(
 					"h2",
 					null,
-					this.props.activity == -1 ? "Create" : "Edit",
-					" an Activity"
+					"Assign Teacher to Student"
 				),
 				React.createElement(
 					"p",
 					null,
-					"Title: ",
-					React.createElement("input", { type: "text", name: "title", value: this.state.title,
-						onChange: function onChange(evt) {
-							return _this2.setState({ title: evt.target.value });
-						} })
+					"First Name: ",
+					this.state.student.firstname,
+					" "
 				),
 				React.createElement(
 					"p",
 					null,
-					"Type of Activity: ",
+					"Last Name: ",
+					this.state.student.lastname,
+					" "
+				),
+				React.createElement("br", null),
+				React.createElement(
+					"p",
+					null,
+					"Teachers: ",
 					React.createElement(
 						"select",
-						{ name: "activity_type", value: this.state.type,
+						{ value: this.state.user_id,
 							onChange: function onChange(evt) {
-								return _this2.setState({ type: evt.target.value });
+								return _this2.setState({ user_id: evt.target.value });
 							} },
-						React.createElement(
-							"option",
-							{ value: "numbers" },
-							"Numbers"
-						),
-						React.createElement(
-							"option",
-							{ value: "reading" },
-							"Reading"
-						),
-						React.createElement(
-							"option",
-							{ value: "motor" },
-							"Motor"
-						),
-						React.createElement(
-							"option",
-							{ value: "visual" },
-							"Visual"
-						)
-					)
-				),
-				React.createElement(
-					"p",
-					null,
-					"Instructions: ",
-					React.createElement("textarea", { name: "instructions", rows: "10", cols: "50", value: this.state.instructions,
-						onChange: function onChange(evt) {
-							return _this2.setState({ instructions: evt.target.value });
-						} })
-				),
-				this.props.activity == -1 && React.createElement(
-					"div",
-					null,
-					React.createElement(
-						"p",
-						null,
-						"Columns and Rows cannot be edited once saved"
+						React.createElement("option", { value: -1 }),
+						options,
+						" "
 					),
-					React.createElement(ColumnsFieldSet, { ref: "columns", activity: this.props.activity }),
-					React.createElement("br", null),
-					React.createElement(RowsFieldSet, { ref: "rows", activity: this.props.activity }),
-					React.createElement("br", null)
+					" "
 				),
 				React.createElement(
 					"p",
 					null,
-					React.createElement("input", { type: "submit", value: "Save Activity", onClick: function onClick(evt) {
-							if (_this2.props.activity == -1) {
-								_this2.formSubmit(evt);
-							} else {
-								_this2.formSave(evt);
-							}
+					React.createElement("input", { type: "submit", value: "Assign", onClick: function onClick(evt) {
+							return _this2.formSubmit(evt);
 						} })
 				)
 			);
@@ -228,7 +186,7 @@ var Assign_student_teacher_Input = function (_React$Component) {
 	return Assign_student_teacher_Input;
 }(React.Component);
 
-ReactDOM.render(React.createElement(Assign_student_teacher_Input, null), document.getElementById('body'));
+ReactDOM.render(React.createElement(Assign_student_teacher_Input, { student: student_id }), document.getElementById('body'));
 
 /***/ })
 
