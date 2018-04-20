@@ -20,6 +20,11 @@
 
 - Text boxes at the top of most tables in the system look kind of like you can use them to input new data, but they are actually just there to allow the user to filter the contents of the table
 - Users cannot edit their own data, such as password or username etc.
+- Administrators adding a user to the system causes and error and the new user is not stored
+- The shortcut links for assigned students in the sidebar lead to an error page, although student pages can still be accessed through other links
+- Editing an existing activity in the system causes and error and does not save the edits
+- There is an extra link on the evaluator landing page that leads to an error page
+- There is no link to the add student page on the student list page, although the add student page can still be accessed through other links
 
 # Install Guide
 
